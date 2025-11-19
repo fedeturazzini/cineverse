@@ -1,6 +1,5 @@
 package com.ft.architectcoders.ui.screens.home
 
-import android.Manifest
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -14,15 +13,12 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,10 +26,7 @@ import com.ft.architectcoders.R
 import com.ft.architectcoders.domain.model.Movie
 import com.ft.architectcoders.ui.MovieItem
 import com.ft.architectcoders.ui.common.LoadingIndicator
-import com.ft.architectcoders.ui.common.PermissionRequestEffect
-import com.ft.architectcoders.ui.common.getRegion
 import com.ft.architectcoders.ui.common.toFlagEmoji
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,17 +35,12 @@ fun HomeScreen(
     onMovieClick: (Movie) -> Unit,
     viewModel: HomeViewModel = koinViewModel(),
 ) {
-    val ctx = LocalContext.current.applicationContext
-    val coroutineScope = rememberCoroutineScope()
+    val homeState = rememberHomeState()
 
-    PermissionRequestEffect(permission = Manifest.permission.ACCESS_COARSE_LOCATION) { granted ->
-        coroutineScope.launch {
-            val region = if (granted) ctx.getRegion() else "US"
-            viewModel.init(region)
-        }
+    homeState.AskRegionEffect {
+        viewModel.init(region = it)
     }
 
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val state by viewModel.state.collectAsState()
 
     Scaffold(
@@ -72,10 +60,10 @@ fun HomeScreen(
                         )
                     }
                 },
-                scrollBehavior = scrollBehavior,
+                scrollBehavior = homeState.scrollBehavior,
             )
         },
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = Modifier.nestedScroll(homeState.scrollBehavior.nestedScrollConnection),
         contentWindowInsets = WindowInsets.safeDrawing,
     ) { padding ->
 

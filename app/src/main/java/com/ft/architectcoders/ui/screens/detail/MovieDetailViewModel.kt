@@ -10,15 +10,21 @@ import com.ft.architectcoders.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class MovieDetailUiState(
     val movie: Movie? = null,
     val isLoadingMovie: Boolean = false,
     val isLoadingAiReview: Boolean = false,
+    val message: String? = null,
     val aiReview: AiReview? = null,
     val error: String? = null,
 )
+
+sealed interface MovieDetailUiEvent {
+    data class ShowMessage(val message: String) : MovieDetailUiEvent
+}
 
 class MovieDetailViewModel(
     private val movieId: Int,
@@ -27,6 +33,9 @@ class MovieDetailViewModel(
 ) : ViewModel() {
     private val _state = MutableStateFlow(MovieDetailUiState())
     val state: StateFlow<MovieDetailUiState> = _state.asStateFlow()
+
+    private val _event = MutableStateFlow<MovieDetailUiEvent?>(null)
+
 
     init {
         loadMovie()
@@ -69,6 +78,18 @@ class MovieDetailViewModel(
             } finally {
                 _state.value = _state.value.copy(isLoadingAiReview = false)
             }
+        }
+    }
+
+    fun onFavoriteClick() {
+        _state.update {
+            it.copy(message = "Agregaste la pelicula favoritos")
+        }
+    }
+
+    fun onMessageShown() {
+        _state.update {
+            it.copy(message = null)
         }
     }
 }

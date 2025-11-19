@@ -16,11 +16,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -55,6 +57,12 @@ fun MovieDetailScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
+    val movieDetailState = rememberMovieDetailState()
+
+    movieDetailState.ShowMessageEffect(message = state.message) {
+        viewModel.onMessageShown()
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -74,6 +82,19 @@ fun MovieDetailScreen(
                     ),
             )
         },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+                viewModel.onFavoriteClick()
+            }) {
+                Icon(
+                    imageVector = Icons.Default.FavoriteBorder,
+                    contentDescription = "Fav button"
+                )
+            }
+        },
+        snackbarHost = {
+            androidx.compose.material3.SnackbarHost(hostState = movieDetailState.snackbarHostState)
+        }
     ) { padding ->
         Column(
             modifier =
@@ -92,7 +113,7 @@ fun MovieDetailScreen(
             } else {
                 state.movie?.let {
                     AsyncImage(
-                        model = it.poster,
+                        model = it.backdrop,
                         contentDescription = state.movie?.title,
                         contentScale = ContentScale.Crop,
                         modifier =
@@ -106,9 +127,14 @@ fun MovieDetailScreen(
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
                         Text(
-                            text = it.title,
+                            text = it.originalTitle,
                             style = MaterialTheme.typography.headlineMedium,
                             fontWeight = FontWeight.Bold,
+                        )
+
+                        Text(
+                            text = "Release date: ${it.releaseDate}",
+                            style = MaterialTheme.typography.titleSmall,
                         )
 
                         Text(
