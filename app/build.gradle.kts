@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.spotless)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -94,6 +95,13 @@ dependencies {
 
     // Material Icons Extended
     implementation(libs.androidx.material.icons.extended)
+
+    // Haze - Glassmorphism effect
+    implementation(libs.haze)
+
+    // Room
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
