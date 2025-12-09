@@ -1,3 +1,90 @@
 <resources>
     <string name="app_name">CineVerse</string>
+    
+    <!-- Home Screen -->
+    <string name="retry">Reintentar</string>
+    <string name="error_load_movies">Error al cargar las películas</string>
+    
+    <!-- Profile Screen -->
+    <string name="my_profile">Mi Perfil</string>
+    <string name="save">Guardar</string>
+    <string name="edit">Editar</string>
+    <string name="name">Nombre</string>
+    <string name="region">Región</string>
+    <string name="change_region">Cambiar región</string>
+    <string name="favorite_genres">Géneros Favoritos</string>
+    <string name="my_statistics">Mis Estadísticas</string>
+    <string name="favorites">Favoritas</string>
+    <string name="watched">Vistas</string>
+    <string name="reviews">Reseñas</string>
+    <string name="my_favorite_movies">Mis Películas Favoritas</string>
+    <string name="no_favorites_yet">Aún no tienes favoritas</string>
+    <string name="explore_and_mark_favorites">Explora películas y marca tus favoritas</string>
+    <string name="profile_photo">Foto de perfil</string>
+    <string name="change_photo">Cambiar foto</string>
+    
+    <!-- Profile Errors -->
+    <string name="error_save_name">Error al guardar el nombre</string>
+    <string name="error_save_region">Error al guardar la región</string>
+    <string name="error_save_genres">Error al guardar los géneros</string>
+    <string name="error_save_image">Error al guardar la imagen</string>
+    <string name="error_process_image">Error al procesar la imagen</string>
+    <string name="error_unknown">Error desconocido</string>
+    
+    <!-- Photo Dialog -->
+    <string name="select_photo">Seleccionar foto</string>
+    <string name="take_photo">Tomar foto</string>
+    <string name="choose_from_gallery">Elegir de galería</string>
+    <string name="cancel">Cancelar</string>
+    
+    <!-- Movie Detail Screen -->
+    <string name="fav_button">Fav button</string>
+    <string name="release_date">Release date: %1$s</string>
+    <string name="synopsis">Sinopsis</string>
+    <string name="ai_review">Reseña AI</string>
+    <string name="ai_review_premium">Reseña AI Premium</string>
+    <string name="ai_review_premium_description">Desbloquea reseñas generadas con IA para todas las películas. Suscríbete a Premium y disfruta de análisis detallados.</string>
+    <string name="view_premium_plans">Ver planes Premium →</string>
+    <string name="generating_ai_review">Generando reseña con IA…</string>
+    <string name="error_generate_ai_review">No se pudo generar la reseña con IA</string>
+    
+    <!-- Cast Section -->
+    <string name="main_cast">Reparto Principal</string>
+    <string name="actors_count">%1$d actores</string>
+    <string name="play">Play</string>
+    
+    <!-- Trailers Section -->
+    <string name="trailers_and_videos">Tráilers y Videos</string>
+    <string name="videos_available">%1$d videos disponibles</string>
+    
+    <!-- Error Messages - Network -->
+    <string name="error_no_internet">Sin conexión a internet</string>
+    <string name="error_timeout">Tiempo de espera agotado</string>
+    <string name="error_connection">Error de conexión</string>
+    <string name="error_connection_gemini">Error de conexión con Gemini</string>
+    
+    <!-- Error Messages - HTTP -->
+    <string name="error_invalid_request">Solicitud inválida</string>
+    <string name="error_unauthorized">No autorizado</string>
+    <string name="error_forbidden">Acceso prohibido</string>
+    <string name="error_not_found">Recurso no encontrado</string>
+    <string name="error_server">Error del servidor</string>
+    <string name="error_http_code">Error HTTP %1$d</string>
+    
+    <!-- Error Messages - Gemini API -->
+    <string name="error_gemini_invalid_request">Solicitud inválida a Gemini</string>
+    <string name="error_gemini_invalid_key">API key de Gemini inválida</string>
+    <string name="error_gemini_forbidden">Acceso prohibido a Gemini</string>
+    <string name="error_gemini_rate_limit">Límite de solicitudes de Gemini excedido</string>
+    <string name="error_gemini_server">Error del servidor de Gemini</string>
+    <string name="error_gemini_code">Error de Gemini: %1$d</string>
+    <string name="error_gemini_api">Error de la API de Gemini</string>
+    <string name="error_gemini_unknown">Error desconocido de Gemini</string>
+    
+    <!-- Error Messages - General -->
+    <string name="error_parsing">Error al procesar la respuesta</string>
+    <string name="error_unknown_general">Error desconocido</string>
+    
+    <!-- Content Descriptions -->
+    <string name="cd_icon_fav">Icon fav</string>
 </resources>

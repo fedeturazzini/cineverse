@@ -39,10 +39,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.ft.architectcoders.R
 import com.ft.architectcoders.domain.model.AiReview
 import com.ft.architectcoders.ui.common.LoadingIndicator
 import com.ft.architectcoders.ui.theme.CinemaOrange
@@ -87,7 +89,7 @@ fun MovieDetailScreen(
             }) {
                 Icon(
                     imageVector = if (favorite) Icons.Filled.Favorite else Icons.Default.FavoriteBorder,
-                    contentDescription = "Fav button",
+                    contentDescription = stringResource(R.string.fav_button),
                 )
             }
         },
@@ -132,12 +134,12 @@ fun MovieDetailScreen(
                         )
 
                         Text(
-                            text = "Release date: ${it.releaseDate}",
+                            text = stringResource(R.string.release_date, it.releaseDate),
                             style = MaterialTheme.typography.titleSmall,
                         )
 
                         Text(
-                            text = "Sinopsis",
+                            text = stringResource(R.string.synopsis),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.primary,
                         )
@@ -224,7 +226,7 @@ fun AiReviewCard(
                     }
 
                     Text(
-                        text = "Reseña AI",
+                        text = stringResource(R.string.ai_review),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface,
@@ -286,7 +288,7 @@ fun AiReviewErrorCard(modifier: Modifier = Modifier) {
                 }
 
                 Text(
-                    text = "Reseña AI Premium",
+                    text = stringResource(R.string.ai_review_premium),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface,
@@ -294,14 +296,14 @@ fun AiReviewErrorCard(modifier: Modifier = Modifier) {
             }
 
             Text(
-                text = "Desbloquea reseñas generadas con IA para todas las películas. Suscríbete a Premium y disfruta de análisis detallados.",
+                text = stringResource(R.string.ai_review_premium_description),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
             )
 
             // TODO: ver que hacer con esto
             Text(
-                text = "Ver planes Premium →",
+                text = stringResource(R.string.view_premium_plans),
                 style = MaterialTheme.typography.labelLarge,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary,
@@ -331,7 +333,7 @@ fun AiReviewLoadingCard() {
         ) {
             LoadingIndicator(modifier = Modifier.size(24.dp))
             Text(
-                text = "Generando reseña con IA...",
+                text = stringResource(R.string.generating_ai_review),
                 style = MaterialTheme.typography.bodyMedium,
             )
         }

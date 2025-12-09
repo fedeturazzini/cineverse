@@ -59,12 +59,7 @@ class MovieDetailViewModel(
                                 videos = movieVideos,
                                 isLoadingMovie = false,
                                 aiReview = aiReview,
-                                error =
-                                    if (aiReview == null) {
-                                        MovieDetailError(aiError = "No se pudo generar la reseña con IA")
-                                    } else {
-                                        null
-                                    },
+                                error = null,
                             )
                             is Result.Error -> MovieDetailUiState(
                                 isLoadingMovie = false,

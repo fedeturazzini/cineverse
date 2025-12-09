@@ -7,7 +7,9 @@ import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ft.architectcoders.R
 
 @Composable
 fun PhotoDialog(
@@ -17,7 +19,7 @@ fun PhotoDialog(
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Seleccionar foto") },
+        title = { Text(stringResource(R.string.select_photo)) },
         text = {
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -31,7 +33,7 @@ fun PhotoDialog(
                 ) {
                     Icon(Icons.Default.Camera, contentDescription = null)
                     Spacer(Modifier.width(8.dp))
-                    Text("Tomar foto")
+                    Text(stringResource(R.string.take_photo))
                 }
 
                 FilledTonalButton(
@@ -43,7 +45,7 @@ fun PhotoDialog(
                 ) {
                     Icon(Icons.Default.PhotoLibrary, contentDescription = null)
                     Spacer(Modifier.width(8.dp))
-                    Text("Elegir de galería")
+                    Text(stringResource(R.string.choose_from_gallery))
                 }
             }
         },
@@ -52,7 +54,7 @@ fun PhotoDialog(
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancelar")
+                Text(stringResource(R.string.cancel))
             }
         }
     )

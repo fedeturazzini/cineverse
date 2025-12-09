@@ -80,11 +80,8 @@ class ProfileViewModel(
             } catch (e: Exception) {
                 _uiFlags.update { currentFlags ->
                     val errorMessage = when (val result = e.toResult<Nothing>()) {
-                        is Result.Error -> when (result.error.source) {
-                            ErrorSource.LOCAL_DB -> "Error al guardar el nombre"
-                            else -> result.error.message
-                        }
-                        else -> "Error desconocido"
+                        is Result.Error -> result.error.message
+                        else -> null
                     }
                     currentFlags.copy(error = errorMessage)
                 }
@@ -130,11 +127,8 @@ class ProfileViewModel(
             } catch (e: Exception) {
                 _uiFlags.update { currentFlags ->
                     val errorMessage = when (val result = e.toResult<Nothing>()) {
-                        is Result.Error -> when (result.error.source) {
-                            ErrorSource.LOCAL_DB -> "Error al guardar los géneros"
-                            else -> result.error.message
-                        }
-                        else -> "Error desconocido"
+                        is Result.Error -> result.error.message
+                        else -> null
                     }
                     currentFlags.copy(error = errorMessage)
                 }
@@ -154,11 +148,8 @@ class ProfileViewModel(
             } catch (e: Exception) {
                 _uiFlags.update { currentFlags ->
                     val errorMessage = when (val result = e.toResult<Nothing>()) {
-                        is Result.Error -> when (result.error.source) {
-                            ErrorSource.LOCAL_DB -> "Error al guardar la imagen"
-                            else -> result.error.message
-                        }
-                        else -> "Error al procesar la imagen"
+                        is Result.Error -> result.error.message
+                        else -> null
                     }
                     currentFlags.copy(error = errorMessage, isLoading = false)
                 }

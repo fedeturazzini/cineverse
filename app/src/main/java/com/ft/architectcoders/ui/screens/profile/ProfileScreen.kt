@@ -31,9 +31,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.ft.architectcoders.R
 import com.ft.architectcoders.domain.model.Movie
 import com.ft.architectcoders.ui.common.photo.*
 import com.ft.architectcoders.ui.common.toFlagEmoji
@@ -76,7 +78,7 @@ fun ProfileScreen(
             TopAppBar(
                 title = {
                     Text(
-                        "Mi Perfil",
+                        stringResource(R.string.my_profile),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold
                     )
@@ -95,7 +97,7 @@ fun ProfileScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Check,
-                                    contentDescription = "Guardar"
+                                    contentDescription = stringResource(R.string.save)
                                 )
                             }
                         } else {
@@ -105,7 +107,7 @@ fun ProfileScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Edit,
-                                    contentDescription = "Editar"
+                                    contentDescription = stringResource(R.string.edit)
                                 )
                             }
                         }
@@ -171,7 +173,7 @@ fun ProfileScreen(
                                     modifier = Modifier.size(20.dp)
                                 )
                                 Spacer(Modifier.width(8.dp))
-                                Text("Nombre")
+                                Text(stringResource(R.string.name))
                             }
                         },
                         enabled = state.uiFlags.isEditing,
@@ -216,7 +218,7 @@ fun ProfileScreen(
                             }
                             Column {
                                 Text(
-                                    text = "Región",
+                                    text = stringResource(R.string.region),
                                     style = MaterialTheme.typography.labelMedium,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -247,7 +249,7 @@ fun ProfileScreen(
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             Text(
-                                text = "Géneros Favoritos",
+                                text = stringResource(R.string.favorite_genres),
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.Bold
                             )
@@ -335,7 +337,7 @@ private fun ProfilePhotoSection(
                             .crossfade(true)
                             .build(),
                     ),
-                    contentDescription = "Foto de perfil",
+                    contentDescription = stringResource(R.string.profile_photo),
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(CircleShape)
@@ -372,7 +374,7 @@ private fun ProfilePhotoSection(
             ) {
                 Icon(
                     imageVector = Icons.Default.CameraAlt,
-                    contentDescription = "Cambiar foto",
+                    contentDescription = stringResource(R.string.change_photo),
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
@@ -418,7 +420,7 @@ private fun ProfileStatsCard(
                         )
                     }
                     Text(
-                        text = "Mis Estadísticas",
+                        text = stringResource(R.string.my_statistics),
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold
                     )
@@ -431,19 +433,19 @@ private fun ProfileStatsCard(
                     ModernStatItem(
                         icon = Icons.Default.Favorite,
                         value = favoriteMovies.size.toString(),
-                        label = "Favoritas",
+                        label = stringResource(R.string.favorites),
                         color = Color(0xFFE91E63) // Rosa/Rojo moderno
                     )
                     ModernStatItem(
                         icon = Icons.Default.Movie,
                         value = "0",
-                        label = "Vistas",
+                        label = stringResource(R.string.watched),
                         color = MaterialTheme.colorScheme.primary
                     )
                     ModernStatItem(
                         icon = Icons.Default.Star,
                         value = "0",
-                        label = "Reseñas",
+                        label = stringResource(R.string.reviews),
                         color = Color(0xFFFFC107)
                     )
                 }
@@ -456,7 +458,7 @@ private fun ProfileStatsCard(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
-                    text = "Mis Películas Favoritas",
+                    text = stringResource(R.string.my_favorite_movies),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(horizontal = 4.dp)
@@ -616,13 +618,13 @@ private fun EmptyFavoritesState() {
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = "Aún no tienes favoritas",
+                text = stringResource(R.string.no_favorites_yet),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontWeight = FontWeight.Medium
             )
             Text(
-                text = "Explora películas y marca tus favoritas",
+                text = stringResource(R.string.explore_and_mark_favorites),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
             )

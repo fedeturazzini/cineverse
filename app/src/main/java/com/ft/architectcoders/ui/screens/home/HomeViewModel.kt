@@ -54,10 +54,7 @@ class HomeViewModel(
                     )
                     is Result.Error -> UiState(
                         isLoading = false,
-                        error = when (result.error.source) {
-                            ErrorSource.TMDB_API -> "Error al cargar las películas"
-                            else -> result.error.message
-                        }
+                        error = result.error.message
                     )
                     is Result.Loading -> UiState(isLoading = true)
                 }

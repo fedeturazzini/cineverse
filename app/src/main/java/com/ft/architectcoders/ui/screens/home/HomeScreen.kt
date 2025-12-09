@@ -104,7 +104,7 @@ fun HomeScreen(
                             style = MaterialTheme.typography.bodyLarge
                         )
                         Button(onClick = { viewModel.permissionGranted() }) {
-                            Text("Reintentar")
+                            Text(stringResource(R.string.retry))
                         }
                     }
                 }

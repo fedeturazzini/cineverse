@@ -34,8 +34,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.ft.architectcoders.R
 import com.ft.architectcoders.domain.model.MovieVideo
 import androidx.core.net.toUri
 
@@ -59,13 +61,13 @@ fun TrailersSection(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = "Tráilers y Videos",
+                    text = stringResource(R.string.trailers_and_videos),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = "${trailers.size} videos disponibles",
+                    text = stringResource(R.string.videos_available, trailers.size),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )
@@ -128,7 +130,7 @@ fun VideoThumbnail(video: MovieVideo) {
                     ) {
                         Icon(
                             imageVector = Icons.Default.PlayArrow,
-                            contentDescription = "Play",
+                            contentDescription = stringResource(R.string.play),
                             tint = Color.White,
                             modifier = Modifier.size(40.dp)
                         )
