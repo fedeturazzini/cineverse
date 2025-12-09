@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Star
@@ -59,9 +60,6 @@ fun MovieDetailScreen(
 
     val movieDetailState = rememberMovieDetailState()
 
-    movieDetailState.ShowMessageEffect(message = state.message) {
-        viewModel.onMessageShown()
-    }
 
     Scaffold(
         topBar = {
@@ -83,34 +81,35 @@ fun MovieDetailScreen(
             )
         },
         floatingActionButton = {
+            val favorite = state.movie?.favorite ?: false
             FloatingActionButton(onClick = {
                 viewModel.onFavoriteClick()
             }) {
                 Icon(
-                    imageVector = Icons.Default.FavoriteBorder,
-                    contentDescription = "Fav button"
+                    imageVector = if (favorite) Icons.Filled.Favorite else Icons.Default.FavoriteBorder,
+                    contentDescription = "Fav button",
                 )
             }
         },
         snackbarHost = {
             androidx.compose.material3.SnackbarHost(hostState = movieDetailState.snackbarHostState)
-        }
+        },
     ) { padding ->
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-                    .verticalScroll(rememberScrollState()),
-        ) {
-            if (state.isLoadingMovie) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    LoadingIndicator()
-                }
-            } else {
+        if (state.isLoadingMovie) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                LoadingIndicator()
+            }
+        } else {
+            Column(
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(padding)
+                        .verticalScroll(rememberScrollState()),
+            ) {
                 state.movie?.let {
                     AsyncImage(
                         model = it.backdrop,
@@ -147,12 +146,26 @@ fun MovieDetailScreen(
                             text = it.overview,
                             style = MaterialTheme.typography.bodyLarge,
                         )
+
+                        if (state.cast.isNotEmpty()) {
+                            CastCarousel(cast = state.cast)
+                        }
+
                         state.aiReview?.let { aiReview ->
                             AiReviewCard(aiReview = aiReview)
                         } ?: run {
-                            if (state.isLoadingAiReview) {
-                                AiReviewLoadingCard()
+                            when {
+                                state.isLoadingAiReview -> {
+                                    AiReviewLoadingCard()
+                                }
+                                state.error?.aiError != null -> {
+                                    AiReviewErrorCard()
+                                }
                             }
+                        }
+
+                        if (state.videos.isNotEmpty()) {
+                            TrailersSection(videos = state.videos)
                         }
                     }
                 }
@@ -226,6 +239,73 @@ fun AiReviewCard(
                 style = MaterialTheme.typography.bodyLarge,
                 fontStyle = FontStyle.Italic,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.9f),
+            )
+        }
+    }
+}
+
+@Composable
+fun AiReviewErrorCard(modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors =
+            CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.3f),
+            ),
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Box(
+                    modifier =
+                        Modifier
+                            .size(32.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(
+                                brush =
+                                    Brush.linearGradient(
+                                        colors =
+                                            listOf(
+                                                IndigoDark80,
+                                                CinemaOrange,
+                                            ),
+                                    ),
+                            ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = "✨",
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                }
+
+                Text(
+                    text = "Reseña AI Premium",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+            }
+
+            Text(
+                text = "Desbloquea reseñas generadas con IA para todas las películas. Suscríbete a Premium y disfruta de análisis detallados.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
+            )
+
+            // TODO: ver que hacer con esto
+            Text(
+                text = "Ver planes Premium →",
+                style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(top = 4.dp),
             )
         }
     }

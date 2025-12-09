@@ -2,44 +2,73 @@ package com.ft.architectcoders.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ft.architectcoders.Result
+import com.ft.architectcoders.data.error.ErrorMapper
+import com.ft.architectcoders.domain.error.ErrorSource
 import com.ft.architectcoders.domain.model.Movie
-import com.ft.architectcoders.domain.repository.MovieRepository
+import com.ft.architectcoders.data.repository.movie.MovieRepository
+import com.ft.architectcoders.data.repository.region.RegionRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 data class UiState(
     val isLoading: Boolean = false,
     val movies: List<Movie> = emptyList(),
     val region: String = "",
+    val error: String? = null,
 )
 
 class HomeViewModel(
-    private val movieRepository: MovieRepository,
+    movieRepository: MovieRepository,
+    private val regionRepository: RegionRepository,
 ) : ViewModel() {
-    private val _state = MutableStateFlow(UiState())
-    val state: StateFlow<UiState> = _state.asStateFlow()
+    private val permissionGranted = MutableStateFlow(false)
 
-    fun init(region: String) = loadMovies(region)
-
-    private fun loadMovies(region: String) {
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true, region = region) }
-
-            try {
-                val movies = movieRepository.fetchPopularMovies(region)
-
-                _state.update {
-                    it.copy(
-                        isLoading = false,
-                        movies = movies,
-                    )
-                }
-            } catch (e: Exception) {
-                // Todo: manejar errores mas adelante
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val state: StateFlow<UiState> =
+        permissionGranted
+            .filter { it }
+            .flatMapLatest {
+                movieRepository.movies
+                    .map<List<Movie>, Result<List<Movie>>> { movies ->
+                        Result.Success(movies)
+                    }
+                    .catch { e ->
+                        emit(Result.Error(ErrorMapper.mapTmdbError(e)))
+                    }
             }
-        }
+            .map { result ->
+                when (result) {
+                    is Result.Success -> UiState(
+                        movies = result.data,
+                        region = regionRepository.findLastRegion(),
+                        isLoading = false,
+                        error = null
+                    )
+                    is Result.Error -> UiState(
+                        isLoading = false,
+                        error = when (result.error.source) {
+                            ErrorSource.TMDB_API -> "Error al cargar las películas"
+                            else -> result.error.message
+                        }
+                    )
+                    is Result.Loading -> UiState(isLoading = true)
+                }
+            }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = UiState(isLoading = true),
+            )
+
+    fun permissionGranted() {
+        permissionGranted.value = true
     }
 }

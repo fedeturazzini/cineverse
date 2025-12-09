@@ -1,4 +1,4 @@
-package com.ft.architectcoders.data.remote.tmdb
+package com.ft.architectcoders.data.datasource.remote.tmdb
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json

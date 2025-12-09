@@ -1,6 +1,6 @@
-package com.ft.architectcoders.data.remote.tmdb.mapper
+package com.ft.architectcoders.data.datasource.remote.tmdb.mapper
 
-import com.ft.architectcoders.data.remote.tmdb.dto.RemoteMovie
+import com.ft.architectcoders.data.datasource.remote.tmdb.dto.RemoteMovie
 import com.ft.architectcoders.domain.model.Movie
 
 fun RemoteMovie.toDomain() =
@@ -12,4 +12,7 @@ fun RemoteMovie.toDomain() =
         releaseDate = releaseDate,
         backdrop = backdropPath?.let { "https://image.tmdb.org/t/p/w780/$it" },
         overview = overview,
+        favorite = false,
+        aiRating = null,
+        aiQuote = null,
     )

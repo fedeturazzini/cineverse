@@ -1,5 +1,7 @@
-package com.ft.architectcoders.data.remote.gemini
+package com.ft.architectcoders.data.datasource.remote.gemini
 
+import com.ft.architectcoders.Result
+import com.ft.architectcoders.data.error.toGeminiResult
 import com.ft.architectcoders.domain.model.AiReview
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.generationConfig
@@ -27,7 +29,7 @@ class GeminiAiServiceImpl(private val apiKey: String) : GeminiAiService {
     override suspend fun generateMovieReview(
         title: String,
         overview: String,
-    ): AiReview {
+    ): Result<AiReview> {
         return withContext(Dispatchers.IO) {
             try {
                 val prompt =
@@ -47,36 +49,31 @@ class GeminiAiServiceImpl(private val apiKey: String) : GeminiAiService {
                 val response = model.generateContent(prompt)
                 val text = response.text ?: throw Exception("No response from AI")
 
-                parseAiResponse(text)
+                Result.Success(parseAiResponse(text))
             } catch (e: Exception) {
-                throw e
+                e.toGeminiResult()
             }
         }
     }
 
     private fun parseAiResponse(response: String): AiReview {
-        try {
-            val lines = response.lines()
-            val rating =
-                lines
-                    .find { it.startsWith("RATING:") }
-                    ?.substringAfter("RATING:")
-                    ?.trim()
-                    ?.toFloatOrNull() ?: 4.0f
+        val lines = response.lines()
+        val rating =
+            lines
+                .find { it.startsWith("RATING:") }
+                ?.substringAfter("RATING:")
+                ?.trim()
+                ?.toFloatOrNull() ?: 4.0f
 
-            val quote =
-                lines
-                    .find { it.startsWith("QUOTE:") }
-                    ?.substringAfter("QUOTE:")
-                    ?.trim() ?: "Una película fascinante"
+        val quote =
+            lines
+                .find { it.startsWith("QUOTE:") }
+                ?.substringAfter("QUOTE:")
+                ?.trim() ?: "Una película fascinante"
 
-            return AiReview(
-                rating = rating.coerceIn(0f, 5f),
-                quote = quote.take(100),
-            )
-        } catch (e: Exception) {
-            // Manejar mas adelante los errores
-            throw e
-        }
+        return AiReview(
+            rating = rating.coerceIn(0f, 5f),
+            quote = quote.take(100),
+        )
     }
 }

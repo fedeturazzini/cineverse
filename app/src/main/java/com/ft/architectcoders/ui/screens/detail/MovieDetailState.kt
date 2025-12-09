@@ -6,11 +6,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 
 class MovieDetailState(
-    val snackbarHostState: SnackbarHostState
+    val snackbarHostState: SnackbarHostState,
 ) {
-
     @Composable
-    fun ShowMessageEffect(message: String?, onMessageShown: () -> Unit) {
+    fun ShowMessageEffect(
+        message: String?,
+        onMessageShown: () -> Unit,
+    ) {
         LaunchedEffect(message) {
             message?.let {
                 snackbarHostState.currentSnackbarData?.dismiss()
@@ -21,11 +23,8 @@ class MovieDetailState(
     }
 }
 
-
 @Composable
-fun rememberMovieDetailState(
-    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
-): MovieDetailState {
+fun rememberMovieDetailState(snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }): MovieDetailState {
     return remember {
         MovieDetailState(snackbarHostState)
     }

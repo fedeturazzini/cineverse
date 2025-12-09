@@ -9,9 +9,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -51,7 +55,6 @@ fun MovieItem(
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),
             )
-
             Box(
                 modifier =
                     Modifier
@@ -68,6 +71,19 @@ fun MovieItem(
                                 ),
                         ),
             )
+
+            if (movie.favorite) {
+                Icon(
+                    imageVector = Icons.Filled.Favorite,
+                    contentDescription = "Icon fav",
+                    tint = Color(0xFFFFD700),
+                    modifier =
+                        Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(12.dp)
+                            .size(28.dp),
+                )
+            }
 
             Column(
                 modifier =

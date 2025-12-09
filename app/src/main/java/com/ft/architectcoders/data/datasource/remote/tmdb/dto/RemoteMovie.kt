@@ -1,4 +1,4 @@
-package com.ft.architectcoders.data.remote.tmdb.dto
+package com.ft.architectcoders.data.datasource.remote.tmdb.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
