@@ -45,6 +45,7 @@ class ProfileViewModel(
     private val movieRepository: MovieRepository,
 ) : ViewModel() {
     private val _uiFlags = MutableStateFlow(ProfileUiFlags(isLoading = true))
+    private val _localName = MutableStateFlow<String?>(null)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val state: StateFlow<ProfileState> = combine(
@@ -52,10 +53,11 @@ class ProfileViewModel(
         movieRepository.movies.map { movies ->
             movies.filter { it.favorite }
         },
-        _uiFlags
-    ) { profile, favoriteMovies, uiFlags ->
+        _uiFlags,
+        _localName
+    ) { profile, favoriteMovies, uiFlags, localName ->
         ProfileState(
-            name = profile.name,
+            name = localName ?: profile.name,
             profilePhotoPath = profile.profilePhotoPath,
             region = profile.region,
             selectedGenres = profile.favoriteGenres,
@@ -70,6 +72,8 @@ class ProfileViewModel(
         )
 
     fun onNameChanged(name: String) {
+        _localName.value = name
+
         viewModelScope.launch {
             try {
                 val currentProfile = profileRepository.profile.first()
@@ -172,6 +176,7 @@ class ProfileViewModel(
     }
 
     fun saveProfile() {
+        _localName.value = null
         _uiFlags.update { it.copy(isEditing = false) }
     }
 

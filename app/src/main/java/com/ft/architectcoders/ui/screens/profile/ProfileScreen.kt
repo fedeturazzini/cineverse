@@ -166,15 +166,14 @@ fun ProfileScreen(
                         value = state.name,
                         onValueChange = viewModel::onNameChanged,
                         label = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(
-                                    Icons.Default.Person,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                                Spacer(Modifier.width(8.dp))
-                                Text(stringResource(R.string.name))
-                            }
+                            Text(stringResource(R.string.name))
+                        },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Default.Person,
+                                contentDescription = null,
+                                modifier = Modifier.size(20.dp)
+                            )
                         },
                         enabled = state.uiFlags.isEditing,
                         modifier = Modifier
