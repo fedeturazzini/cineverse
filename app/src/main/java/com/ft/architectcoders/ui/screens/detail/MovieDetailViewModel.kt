@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -40,14 +41,21 @@ class MovieDetailViewModel(
     private val movieRepository: MovieRepository,
     private val geminiRepository: GeminiRepository,
 ) : ViewModel() {
-    
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    val state: StateFlow<MovieDetailUiState> =
-        movieRepository.findMovieById(movieId)
+    val state: StateFlow<MovieDetailUiState> = run {
+        val movieFlow = movieRepository.findMovieById(movieId)
+            .shareIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                replay = 1
+            )
+
+        movieFlow
             .flatMapLatest { movieResult ->
                 when (movieResult) {
                     is Result.Success -> combine(
-                        movieRepository.findMovieById(movieId),
+                        movieFlow,
                         movieRepository.getMovieCredits(movieId),
                         geminiRepository.getMovieReview(movieId, movieResult.data.title, movieResult.data.overview).asNullable(),
                         movieRepository.getMovieVideos(movieId),
@@ -84,6 +92,7 @@ class MovieDetailViewModel(
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = MovieDetailUiState(isLoadingMovie = true),
             )
+    }
 
     fun onFavoriteClick() {
         state.value.movie?.let { movie ->
