@@ -153,16 +153,18 @@ fun MovieDetailScreen(
                             CastCarousel(cast = state.cast)
                         }
 
-                        state.aiReview?.let { aiReview ->
-                            AiReviewCard(aiReview = aiReview)
-                        } ?: run {
-                            when {
-                                state.isLoadingAiReview -> {
-                                    AiReviewLoadingCard()
-                                }
-                                state.error?.aiError != null -> {
-                                    AiReviewErrorCard()
-                                }
+                        when (val aiState = state.aiReviewState) {
+                            is AiReviewUiState.Success -> {
+                                AiReviewCard(aiReview = aiState.aiReview)
+                            }
+                            is AiReviewUiState.Loading -> {
+                                AiReviewLoadingCard()
+                            }
+                            is AiReviewUiState.Error -> {
+                                AiReviewErrorCard()
+                            }
+                            is AiReviewUiState.NotRequested -> {
+                                // do nothing por ahora
                             }
                         }
 

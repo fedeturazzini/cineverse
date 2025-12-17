@@ -27,10 +27,24 @@ data class MovieDetailUiState(
     val isLoadingMovie: Boolean = false,
     val isLoadingAiReview: Boolean = false,
     val message: String? = null,
-    val aiReview: AiReview? = null,
+    val aiReviewState: AiReviewUiState = AiReviewUiState.NotRequested,
     val error: MovieDetailError? = null,
 )
 
+sealed interface AiReviewUiState {
+    data object Loading : AiReviewUiState
+    data class Success(val aiReview: AiReview) : AiReviewUiState
+    data class Error(val message: String) : AiReviewUiState
+    data object NotRequested : AiReviewUiState
+}
+
+private fun Result<AiReview>.toAiReviewUiState(): AiReviewUiState {
+    return when (this) {
+        is Result.Success -> AiReviewUiState.Success(this.data)
+        is Result.Error -> AiReviewUiState.Error(this.error.message)
+        is Result.Loading -> AiReviewUiState.Loading
+    }
+}
 data class MovieDetailError(
     val genericError: String? = null,
     val aiError: String? = null,
@@ -57,18 +71,20 @@ class MovieDetailViewModel(
                     is Result.Success -> combine(
                         movieFlow,
                         movieRepository.getMovieCredits(movieId),
-                        geminiRepository.getMovieReview(movieId, movieResult.data.title, movieResult.data.overview).asNullable(),
+                        geminiRepository.getMovieReview(movieId, movieResult.data.title, movieResult.data.overview),
                         movieRepository.getMovieVideos(movieId),
                     ) { currentMovieResult, cast, aiReview, movieVideos ->
                         when (currentMovieResult) {
-                            is Result.Success -> MovieDetailUiState(
-                                movie = currentMovieResult.data,
-                                cast = cast,
-                                videos = movieVideos,
-                                isLoadingMovie = false,
-                                aiReview = aiReview,
-                                error = null,
-                            )
+                            is Result.Success ->  {
+                                MovieDetailUiState(
+                                    movie = currentMovieResult.data,
+                                    cast = cast,
+                                    videos = movieVideos,
+                                    isLoadingMovie = false,
+                                    aiReviewState = aiReview.toAiReviewUiState(),
+                                    error = null,
+                                )
+                            }
                             is Result.Error -> MovieDetailUiState(
                                 isLoadingMovie = false,
                                 error = MovieDetailError(genericError = currentMovieResult.error.message)
