@@ -15,21 +15,21 @@ import com.ft.architectcoders.R
 fun PhotoDialog(
     onDismiss: () -> Unit,
     onCameraClick: () -> Unit,
-    onGalleryClick: () -> Unit
+    onGalleryClick: () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.select_photo)) },
         text = {
             Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 FilledTonalButton(
                     onClick = {
                         onCameraClick()
                         onDismiss()
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     Icon(Icons.Default.Camera, contentDescription = null)
                     Spacer(Modifier.width(8.dp))
@@ -41,7 +41,7 @@ fun PhotoDialog(
                         onGalleryClick()
                         onDismiss()
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     Icon(Icons.Default.PhotoLibrary, contentDescription = null)
                     Spacer(Modifier.width(8.dp))
@@ -56,6 +56,6 @@ fun PhotoDialog(
             TextButton(onClick = onDismiss) {
                 Text(stringResource(R.string.cancel))
             }
-        }
+        },
     )
 }

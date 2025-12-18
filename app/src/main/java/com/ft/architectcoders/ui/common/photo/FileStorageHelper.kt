@@ -11,7 +11,10 @@ object FileStorageHelper {
     private const val PROFILE_IMAGE_NAME = "profile_photo.jpg"
     private const val PROFILE_IMAGE_DIR = "profile_images"
 
-    suspend fun saveProfileImage(context: Context, uri: Uri): String? =
+    suspend fun saveProfileImage(
+        context: Context,
+        uri: Uri,
+    ): String? =
         withContext(Dispatchers.IO) {
             try {
                 val imageDir = File(context.filesDir, PROFILE_IMAGE_DIR)
@@ -39,14 +42,15 @@ object FileStorageHelper {
         return if (imageFile.exists()) imageFile.absolutePath else null
     }
 
-    suspend fun deleteProfileImage(context: Context) = withContext(Dispatchers.IO) {
-        try {
-            val imageFile = File(context.filesDir, "$PROFILE_IMAGE_DIR/$PROFILE_IMAGE_NAME")
-            if (imageFile.exists()) {
-                imageFile.delete()
+    suspend fun deleteProfileImage(context: Context) =
+        withContext(Dispatchers.IO) {
+            try {
+                val imageFile = File(context.filesDir, "$PROFILE_IMAGE_DIR/$PROFILE_IMAGE_NAME")
+                if (imageFile.exists()) {
+                    imageFile.delete()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
-    }
 }

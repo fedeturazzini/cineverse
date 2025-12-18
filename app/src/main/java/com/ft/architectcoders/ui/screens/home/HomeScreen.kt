@@ -84,7 +84,7 @@ fun HomeScreen(
             state.isLoading -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     LoadingIndicator()
                 }
@@ -92,16 +92,16 @@ fun HomeScreen(
             state.error != null -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(16.dp),
-                        modifier = Modifier.padding(16.dp)
+                        modifier = Modifier.padding(16.dp),
                     ) {
                         Text(
                             text = state.error ?: "",
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyLarge,
                         )
                         Button(onClick = { viewModel.permissionGranted() }) {
                             Text(stringResource(R.string.retry))

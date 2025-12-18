@@ -8,9 +8,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
     val movies: Flow<List<Movie>>
+
     fun findMovieById(id: Int): Flow<Result<Movie>>
+
     fun getMovieCredits(movieId: Int): Flow<List<Cast>>
+
     suspend fun toggleFavorite(movie: Movie)
+
     fun getMovieVideos(movieId: Int): Flow<List<MovieVideo>>
+
     suspend fun searchMovies(query: String): List<Movie>
 }

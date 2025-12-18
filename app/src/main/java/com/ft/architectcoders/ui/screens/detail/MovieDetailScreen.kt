@@ -62,7 +62,6 @@ fun MovieDetailScreen(
 
     val movieDetailState = rememberMovieDetailState()
 
-
     Scaffold(
         topBar = {
             TopAppBar(

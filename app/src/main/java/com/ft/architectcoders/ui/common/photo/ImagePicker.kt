@@ -10,11 +10,12 @@ import androidx.compose.ui.platform.LocalContext
 fun rememberImagePicker(onImageSelected: (Uri) -> Unit): () -> Unit {
     val context = LocalContext.current
 
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let { onImageSelected(it) }
-    }
+    val launcher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent(),
+        ) { uri: Uri? ->
+            uri?.let { onImageSelected(it) }
+        }
 
     return {
         launcher.launch("image/*")

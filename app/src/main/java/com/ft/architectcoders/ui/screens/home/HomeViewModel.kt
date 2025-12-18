@@ -8,6 +8,7 @@ import com.ft.architectcoders.domain.error.ErrorSource
 import com.ft.architectcoders.domain.model.Movie
 import com.ft.architectcoders.data.repository.movie.MovieRepository
 import com.ft.architectcoders.data.repository.region.RegionRepository
+import com.ft.architectcoders.usecases.FetchMoviesUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -26,7 +27,7 @@ data class UiState(
 )
 
 class HomeViewModel(
-    movieRepository: MovieRepository,
+    fetchMoviesUseCase: FetchMoviesUseCase,
     private val regionRepository: RegionRepository,
 ) : ViewModel() {
     private val permissionGranted = MutableStateFlow(false)
@@ -36,7 +37,7 @@ class HomeViewModel(
         permissionGranted
             .filter { it }
             .flatMapLatest {
-                movieRepository.movies
+                fetchMoviesUseCase()
                     .map<List<Movie>, Result<List<Movie>>> { movies ->
                         Result.Success(movies)
                     }
@@ -46,16 +47,18 @@ class HomeViewModel(
             }
             .map { result ->
                 when (result) {
-                    is Result.Success -> UiState(
-                        movies = result.data,
-                        region = regionRepository.findLastRegion(),
-                        isLoading = false,
-                        error = null
-                    )
-                    is Result.Error -> UiState(
-                        isLoading = false,
-                        error = result.error.message
-                    )
+                    is Result.Success ->
+                        UiState(
+                            movies = result.data,
+                            region = regionRepository.findLastRegion(),
+                            isLoading = false,
+                            error = null,
+                        )
+                    is Result.Error ->
+                        UiState(
+                            isLoading = false,
+                            error = result.error.message,
+                        )
                     is Result.Loading -> UiState(isLoading = true)
                 }
             }
