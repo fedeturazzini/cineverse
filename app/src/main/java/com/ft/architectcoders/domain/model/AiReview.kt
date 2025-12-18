@@ -4,3 +4,5 @@ data class AiReview(
     val rating: Float,
     val quote: String,
 )
+
+

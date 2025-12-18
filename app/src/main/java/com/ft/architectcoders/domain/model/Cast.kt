@@ -4,5 +4,5 @@ data class Cast(
     val id: Int,
     val name: String,
     val character: String,
-    val profilePhoto: String?
+    val profilePhoto: String?,
 )

@@ -1,6 +1,6 @@
-package com.ft.architectcoders.data.datasource.remote.tmdb.mapper
+package com.ft.architectcoders.framework.remote.tmdb.mapper
 
-import com.ft.architectcoders.data.datasource.remote.tmdb.dto.RemoteMovie
+import com.ft.architectcoders.framework.remote.tmdb.dto.RemoteMovie
 import com.ft.architectcoders.domain.model.Movie
 
 fun RemoteMovie.toDomain() =

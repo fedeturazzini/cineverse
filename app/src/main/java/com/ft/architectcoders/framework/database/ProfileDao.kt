@@ -1,11 +1,10 @@
-package com.ft.architectcoders.data.datasource.database
+package com.ft.architectcoders.framework.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ft.architectcoders.domain.model.Profile
-import com.ft.architectcoders.domain.model.UserProfile
 import kotlinx.coroutines.flow.Flow
 
 @Dao

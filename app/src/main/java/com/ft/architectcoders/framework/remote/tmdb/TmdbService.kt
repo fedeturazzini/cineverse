@@ -1,9 +1,9 @@
-package com.ft.architectcoders.data.datasource.remote.tmdb
+package com.ft.architectcoders.framework.remote.tmdb
 
-import com.ft.architectcoders.data.datasource.remote.tmdb.dto.RemoteCredits
-import com.ft.architectcoders.data.datasource.remote.tmdb.dto.RemoteMovie
-import com.ft.architectcoders.data.datasource.remote.tmdb.dto.RemoteResult
-import com.ft.architectcoders.data.datasource.remote.tmdb.dto.RemoteVideos
+import com.ft.architectcoders.framework.remote.tmdb.dto.RemoteCredits
+import com.ft.architectcoders.framework.remote.tmdb.dto.RemoteMovie
+import com.ft.architectcoders.framework.remote.tmdb.dto.RemoteResult
+import com.ft.architectcoders.framework.remote.tmdb.dto.RemoteVideos
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -33,6 +33,6 @@ interface TmdbService {
     suspend fun searchMovies(
         @Query("query") query: String,
         @Query("region") region: String,
-        @Query("page") page: Int = 1
+        @Query("page") page: Int = 1,
     ): RemoteResult
 }

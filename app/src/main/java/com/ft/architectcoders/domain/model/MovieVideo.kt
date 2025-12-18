@@ -6,7 +6,7 @@ data class MovieVideo(
     val name: String,
     val site: String,
     val type: String,
-    val thumbnailUrl: String
+    val thumbnailUrl: String,
 ) {
     val isYouTube: Boolean
         get() = site.equals("YouTube", ignoreCase = true)

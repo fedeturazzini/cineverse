@@ -7,11 +7,9 @@ import com.ft.architectcoders.domain.model.Cast
 import com.ft.architectcoders.domain.model.Movie
 import com.ft.architectcoders.domain.model.MovieVideo
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.transform
 
 class MovieRepositoryImpl(
     private val remoteDataSource: MovieRemoteDataSource,
@@ -28,47 +26,50 @@ class MovieRepositoryImpl(
             }
         }
 
-    override fun findMovieById(id: Int): Flow<Result<Movie>> = flow {
-        val localMovie = localDataSource.findMovieById(id).firstOrNull()
+    override fun findMovieById(id: Int): Flow<Result<Movie>> =
+        flow {
+            val localMovie = localDataSource.findMovieById(id).firstOrNull()
 
-        if (localMovie != null) {
-            localDataSource.findMovieById(id).collect { movie ->
-                emit(Result.Success(movie))
-            }
-        } else {
-            val remoteResult = remoteDataSource.findMovieById(id)
-            when (remoteResult) {
-                is Result.Success -> {
-                    localDataSource.saveMovies(listOf(remoteResult.data))
-                    localDataSource.findMovieById(id).collect { movie ->
-                        emit(Result.Success(movie))
-                    }
+            if (localMovie != null) {
+                localDataSource.findMovieById(id).collect { movie ->
+                    emit(Result.Success(movie))
                 }
-                is Result.Error -> emit(remoteResult)
-                is Result.Loading -> emit(remoteResult)
+            } else {
+                val remoteResult = remoteDataSource.findMovieById(id)
+                when (remoteResult) {
+                    is Result.Success -> {
+                        localDataSource.saveMovies(listOf(remoteResult.data))
+                        localDataSource.findMovieById(id).collect { movie ->
+                            emit(Result.Success(movie))
+                        }
+                    }
+                    is Result.Error -> emit(remoteResult)
+                    is Result.Loading -> emit(remoteResult)
+                }
             }
         }
-    }
 
-    override fun getMovieCredits(movieId: Int): Flow<List<Cast>> = flow {
-        when (val result = remoteDataSource.fetchMovieCredits(movieId)) {
-            is Result.Success -> emit(result.data)
-            else -> emit(emptyList())
+    override fun getMovieCredits(movieId: Int): Flow<List<Cast>> =
+        flow {
+            when (val result = remoteDataSource.fetchMovieCredits(movieId)) {
+                is Result.Success -> emit(result.data)
+                else -> emit(emptyList())
+            }
         }
-    }
 
     override suspend fun toggleFavorite(movie: Movie) {
         localDataSource.saveMovies(
-            listOf(movie.copy(favorite = !movie.favorite))
+            listOf(movie.copy(favorite = !movie.favorite)),
         )
     }
 
-    override fun getMovieVideos(movieId: Int): Flow<List<MovieVideo>> = flow {
-        when (val result = remoteDataSource.fetchMovieVideos(movieId)) {
-            is Result.Success -> emit(result.data)
-            else -> emit(emptyList())
+    override fun getMovieVideos(movieId: Int): Flow<List<MovieVideo>> =
+        flow {
+            when (val result = remoteDataSource.fetchMovieVideos(movieId)) {
+                is Result.Success -> emit(result.data)
+                else -> emit(emptyList())
+            }
         }
-    }
 
     override suspend fun searchMovies(query: String): List<Movie> {
         return when (val result = remoteDataSource.searchMovies(query)) {

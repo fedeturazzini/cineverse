@@ -2,9 +2,9 @@ package com.ft.architectcoders.di
 
 import android.app.Application
 import androidx.room.Room
-import com.ft.architectcoders.data.datasource.database.MoviesDao
-import com.ft.architectcoders.data.datasource.database.CineVerseDatabase
-import com.ft.architectcoders.data.datasource.database.ProfileDao
+import com.ft.architectcoders.framework.database.CineVerseDatabase
+import com.ft.architectcoders.framework.database.MoviesDao
+import com.ft.architectcoders.framework.database.ProfileDao
 import org.koin.dsl.module
 
 val databaseModule =

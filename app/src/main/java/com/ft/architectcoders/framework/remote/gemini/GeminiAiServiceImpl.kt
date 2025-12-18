@@ -1,4 +1,4 @@
-package com.ft.architectcoders.data.datasource.remote.gemini
+package com.ft.architectcoders.framework.remote.gemini
 
 import com.ft.architectcoders.Result
 import com.ft.architectcoders.data.error.toGeminiResult

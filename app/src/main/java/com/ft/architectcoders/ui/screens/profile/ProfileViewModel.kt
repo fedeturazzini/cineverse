@@ -6,11 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ft.architectcoders.Result
 import com.ft.architectcoders.data.error.toResult
-import com.ft.architectcoders.data.repository.movie.MovieRepository
 import com.ft.architectcoders.data.repository.profile.ProfileRepository
-import com.ft.architectcoders.domain.error.ErrorSource
 import com.ft.architectcoders.domain.model.Movie
 import com.ft.architectcoders.ui.common.photo.FileStorageHelper
+import com.ft.architectcoders.usecases.FetchMoviesUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -21,7 +20,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
 
 data class ProfileUiFlags(
     val isEditing: Boolean = false,
@@ -42,7 +40,7 @@ data class ProfileState(
 
 class ProfileViewModel(
     private val profileRepository: ProfileRepository,
-    private val movieRepository: MovieRepository,
+    fetchMoviesUseCase: FetchMoviesUseCase,
 ) : ViewModel() {
     private val _uiFlags = MutableStateFlow(ProfileUiFlags(isLoading = true))
     private val _localName = MutableStateFlow<String?>(null)
@@ -50,7 +48,7 @@ class ProfileViewModel(
     @OptIn(ExperimentalCoroutinesApi::class)
     val state: StateFlow<ProfileState> = combine(
         profileRepository.profile,
-        movieRepository.movies.map { movies ->
+        fetchMoviesUseCase().map { movies ->
             movies.filter { it.favorite }
         },
         _uiFlags,

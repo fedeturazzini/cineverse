@@ -14,11 +14,12 @@ data class Profile(
 )
 
 fun Profile.toDomain(): UserProfile {
-    val genres = if (favoriteGenres.isNotEmpty()) {
-        favoriteGenres.split(",").filter { it.isNotBlank() }
-    } else {
-        emptyList()
-    }
+    val genres =
+        if (favoriteGenres.isNotEmpty()) {
+            favoriteGenres.split(",").filter { it.isNotBlank() }
+        } else {
+            emptyList()
+        }
     return UserProfile(
         id = id,
         name = name,

@@ -11,20 +11,3 @@ import kotlin.coroutines.resume
 interface LocationDataSource {
     suspend fun findLastLocation(): Location?
 }
-
-class LocationDataSourceImpl(app: Application) : LocationDataSource {
-    private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(app)
-
-    override suspend fun findLastLocation() = fusedLocationClient.lastLocation()
-
-    @SuppressLint("MissingPermission")
-    private suspend fun FusedLocationProviderClient.lastLocation(): Location? {
-        return suspendCancellableCoroutine { continuation ->
-            lastLocation.addOnSuccessListener { location ->
-                continuation.resume(location)
-            }.addOnFailureListener {
-                continuation.resume(null)
-            }
-        }
-    }
-}

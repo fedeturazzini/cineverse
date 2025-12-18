@@ -14,7 +14,10 @@ val viewModelModule =
         viewModel { params ->
             MovieDetailViewModel(
                 movieId = params.get(),
-                movieRepository = get(),
+                findMovieByIdUseCase = get(),
+                getMovieCreditsUseCase = get(),
+                getMovieVideosUseCase = get(),
+                toggleFavoriteMovieUseCase = get(),
                 geminiRepository = get(),
             )
         }
@@ -22,7 +25,7 @@ val viewModelModule =
         viewModel {
             ProfileViewModel(
                 profileRepository = get(),
-                movieRepository = get()
+                fetchMoviesUseCase = get(),
             )
         }
     }

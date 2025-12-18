@@ -1,6 +1,11 @@
-package com.ft.architectcoders.domain.model
+package com.ft.architectcoders.framework.database
 
-data class Movie(
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class DbMovie(
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
     val title: String,
     val originalTitle: String,
@@ -12,5 +17,3 @@ data class Movie(
     val aiRating: Float?,
     val aiQuote: String?,
 )
-
-
