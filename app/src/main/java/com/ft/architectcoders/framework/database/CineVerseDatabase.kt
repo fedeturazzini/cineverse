@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.ft.architectcoders.domain.model.Profile
 
 @Database(
-    entities = [DbMovie::class, Profile::class],
+    entities = [DbMovie::class, DbProfile::class],
     version = 1,
     exportSchema = false,
 )

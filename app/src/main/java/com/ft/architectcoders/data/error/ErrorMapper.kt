@@ -1,5 +1,6 @@
 package com.ft.architectcoders.data.error
 
+import com.ft.architectcoders.ui.common.Result
 import com.ft.architectcoders.domain.error.AppError
 import com.ft.architectcoders.domain.error.ErrorSource
 import java.io.IOException
@@ -126,8 +127,8 @@ object ErrorMapper {
     }
 }
 
-fun <T> Throwable.toTmdbResult(): com.ft.architectcoders.Result<T> = com.ft.architectcoders.Result.Error(ErrorMapper.mapTmdbError(this))
+fun <T> Throwable.toTmdbResult(): Result<T> = Result.Error(ErrorMapper.mapTmdbError(this))
 
-fun <T> Throwable.toGeminiResult(): com.ft.architectcoders.Result<T> = com.ft.architectcoders.Result.Error(ErrorMapper.mapGeminiError(this))
+fun <T> Throwable.toGeminiResult(): Result<T> = Result.Error(ErrorMapper.mapGeminiError(this))
 
-fun <T> Throwable.toResult(): com.ft.architectcoders.Result<T> = com.ft.architectcoders.Result.Error(ErrorMapper.mapTmdbError(this))
+fun <T> Throwable.toResult(): Result<T> = Result.Error(ErrorMapper.mapTmdbError(this))

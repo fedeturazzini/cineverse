@@ -2,12 +2,11 @@ package com.ft.architectcoders.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ft.architectcoders.Result
+import com.ft.architectcoders.ui.common.Result
 import com.ft.architectcoders.data.error.ErrorMapper
-import com.ft.architectcoders.domain.error.ErrorSource
 import com.ft.architectcoders.domain.model.Movie
-import com.ft.architectcoders.data.repository.movie.MovieRepository
 import com.ft.architectcoders.data.repository.region.RegionRepository
+import com.ft.architectcoders.ui.common.asResult
 import com.ft.architectcoders.usecases.FetchMoviesUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,13 +36,7 @@ class HomeViewModel(
         permissionGranted
             .filter { it }
             .flatMapLatest {
-                fetchMoviesUseCase()
-                    .map<List<Movie>, Result<List<Movie>>> { movies ->
-                        Result.Success(movies)
-                    }
-                    .catch { e ->
-                        emit(Result.Error(ErrorMapper.mapTmdbError(e)))
-                    }
+                fetchMoviesUseCase().asResult()
             }
             .map { result ->
                 when (result) {

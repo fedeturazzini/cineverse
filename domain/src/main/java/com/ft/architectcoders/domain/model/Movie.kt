@@ -12,5 +12,3 @@ data class Movie(
     val aiRating: Float?,
     val aiQuote: String?,
 )
-
-

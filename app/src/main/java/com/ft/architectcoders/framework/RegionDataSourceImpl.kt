@@ -11,7 +11,6 @@ class RegionDataSourceImpl(
     private val geocoder: Geocoder,
     private val locationDataSource: LocationDataSource,
 ) : RegionDataSource {
-
     override suspend fun findLastRegion(): String = locationDataSource.findLastLocation()?.toRegion() ?: DEFAULT_REGION
 
     override suspend fun Location.toRegion(): String {

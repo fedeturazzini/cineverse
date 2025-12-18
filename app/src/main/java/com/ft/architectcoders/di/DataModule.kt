@@ -1,7 +1,7 @@
 package com.ft.architectcoders.di
 
 import android.location.Geocoder
-import com.ft.architectcoders.BuildConfig
+import com.ft.architectcoders.BuildConfig.*
 import com.ft.architectcoders.data.datasource.LocationDataSource
 import com.ft.architectcoders.data.datasource.MovieLocalDataSource
 import com.ft.architectcoders.data.datasource.MovieRemoteDataSource
@@ -34,6 +34,7 @@ import com.ft.architectcoders.usecases.GetMovieVideosUseCase
 import com.ft.architectcoders.usecases.GetMovieVideosUseCaseImpl
 import com.ft.architectcoders.usecases.ToggleFavoriteMovieUseCase
 import com.ft.architectcoders.usecases.ToggleFavoriteMovieUseCaseImpl
+import com.google.ai.client.generativeai.BuildConfig
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import org.koin.android.ext.koin.androidApplication
@@ -43,7 +44,7 @@ val dataModule =
     module {
 
         single<TmdbService> {
-            TmdbApiClient.build(apiKey = BuildConfig.TMDB_API_KEY)
+            TmdbApiClient.build(apiKey = TMDB_API_KEY)
         }
 
         single<MovieRemoteDataSource> {
@@ -88,7 +89,7 @@ val dataModule =
         }
 
         single<GeminiAiService> {
-            GeminiAiServiceImpl(apiKey = BuildConfig.GEMINI_API_KEY)
+            GeminiAiServiceImpl(apiKey = GEMINI_API_KEY)
         }
 
         single<GeminiRepository> {

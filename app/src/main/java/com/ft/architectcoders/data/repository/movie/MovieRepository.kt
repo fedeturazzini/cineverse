@@ -1,6 +1,6 @@
 package com.ft.architectcoders.data.repository.movie
 
-import com.ft.architectcoders.Result
+import com.ft.architectcoders.ui.common.Result
 import com.ft.architectcoders.domain.model.Cast
 import com.ft.architectcoders.domain.model.Movie
 import com.ft.architectcoders.domain.model.MovieVideo

@@ -9,7 +9,6 @@ import kotlin.coroutines.resume
 
 class LocationDataSourceImpl(private val fusedLocationClient: FusedLocationProviderClient) :
     LocationDataSource {
-
     override suspend fun findLastLocation() = fusedLocationClient.lastLocation()
 
     @SuppressLint("MissingPermission")

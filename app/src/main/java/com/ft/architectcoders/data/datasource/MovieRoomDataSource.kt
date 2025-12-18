@@ -10,8 +10,11 @@ interface MovieLocalDataSource {
     fun findMovieById(id: Int): Flow<Movie>
 
     suspend fun countMovies(): Int
+
     suspend fun saveMovies(movies: List<Movie>)
+
     suspend fun isEmpty(): Boolean
+
     suspend fun clearMovies()
 
     suspend fun updateAiReview(
@@ -19,4 +22,3 @@ interface MovieLocalDataSource {
         review: AiReview,
     )
 }
-

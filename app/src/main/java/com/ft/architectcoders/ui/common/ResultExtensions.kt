@@ -1,7 +1,6 @@
-package com.ft.architectcoders.domain.error
+package com.ft.architectcoders.ui.common
 
-import com.ft.architectcoders.Result
-import com.ft.architectcoders.data.error.toResult
+import com.ft.architectcoders.data.error.ErrorMapper
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -10,7 +9,7 @@ import kotlinx.coroutines.flow.onStart
 fun <T> Flow<T>.asResult(): Flow<Result<T>> =
     this
         .map<T, Result<T>> { Result.Success(it) }
-        .catch { emit(it.toResult()) }
+        .catch { emit(Result.Error(ErrorMapper.mapTmdbError(it))) }
         .onStart { emit(Result.Loading) }
 
 fun <T> Flow<Result<T>>.asNullable(): Flow<T?> =

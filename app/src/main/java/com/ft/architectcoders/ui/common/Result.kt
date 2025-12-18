@@ -1,4 +1,4 @@
-package com.ft.architectcoders
+package com.ft.architectcoders.ui.common
 
 import com.ft.architectcoders.domain.error.AppError
 

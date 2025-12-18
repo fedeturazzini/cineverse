@@ -4,10 +4,11 @@ import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ft.architectcoders.Result
+import com.ft.architectcoders.ui.common.Result
 import com.ft.architectcoders.data.error.toResult
 import com.ft.architectcoders.data.repository.profile.ProfileRepository
 import com.ft.architectcoders.domain.model.Movie
+import com.ft.architectcoders.ui.common.asResult
 import com.ft.architectcoders.ui.common.photo.FileStorageHelper
 import com.ft.architectcoders.usecases.FetchMoviesUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -48,9 +49,14 @@ class ProfileViewModel(
     @OptIn(ExperimentalCoroutinesApi::class)
     val state: StateFlow<ProfileState> = combine(
         profileRepository.profile,
-        fetchMoviesUseCase().map { movies ->
-            movies.filter { it.favorite }
-        },
+        fetchMoviesUseCase()
+            .asResult()
+            .map { result ->
+                when (result) {
+                    is Result.Success -> result.data.filter { it.favorite }
+                    else -> emptyList()
+                }
+            },
         _uiFlags,
         _localName
     ) { profile, favoriteMovies, uiFlags, localName ->

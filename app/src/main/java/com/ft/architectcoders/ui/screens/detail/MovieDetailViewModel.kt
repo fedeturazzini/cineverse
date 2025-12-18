@@ -2,9 +2,8 @@ package com.ft.architectcoders.ui.screens.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ft.architectcoders.Result
+import com.ft.architectcoders.ui.common.Result
 import com.ft.architectcoders.data.repository.gemini.GeminiRepository
-import com.ft.architectcoders.domain.error.asNullable
 import com.ft.architectcoders.domain.model.AiReview
 import com.ft.architectcoders.domain.model.Cast
 import com.ft.architectcoders.domain.model.Movie
@@ -36,8 +35,11 @@ data class MovieDetailUiState(
 
 sealed interface AiReviewUiState {
     data object Loading : AiReviewUiState
+
     data class Success(val aiReview: AiReview) : AiReviewUiState
+
     data class Error(val message: String) : AiReviewUiState
+
     data object NotRequested : AiReviewUiState
 }
 
@@ -48,6 +50,7 @@ private fun Result<AiReview>.toAiReviewUiState(): AiReviewUiState {
         is Result.Loading -> AiReviewUiState.Loading
     }
 }
+
 data class MovieDetailError(
     val genericError: String? = null,
     val aiError: String? = null,

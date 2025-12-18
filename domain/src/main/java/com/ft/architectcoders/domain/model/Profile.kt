@@ -1,6 +1,6 @@
 package com.ft.architectcoders.domain.model
 
-data class UserProfile(
+data class Profile(
     val id: Int = 1,
     val name: String = "",
     val profilePhotoPath: String? = null,
