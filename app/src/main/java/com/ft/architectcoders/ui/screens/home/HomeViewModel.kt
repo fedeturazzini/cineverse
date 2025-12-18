@@ -2,17 +2,15 @@ package com.ft.architectcoders.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ft.architectcoders.ui.common.Result
-import com.ft.architectcoders.data.error.ErrorMapper
+import com.ft.architectcoders.data.asResult
+import com.ft.architectcoders.domain.Result
 import com.ft.architectcoders.domain.model.Movie
 import com.ft.architectcoders.data.repository.region.RegionRepository
-import com.ft.architectcoders.ui.common.asResult
 import com.ft.architectcoders.usecases.FetchMoviesUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map

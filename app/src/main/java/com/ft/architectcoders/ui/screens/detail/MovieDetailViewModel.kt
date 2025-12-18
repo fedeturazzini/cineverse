@@ -2,7 +2,7 @@ package com.ft.architectcoders.ui.screens.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ft.architectcoders.ui.common.Result
+import com.ft.architectcoders.domain.Result
 import com.ft.architectcoders.data.repository.gemini.GeminiRepository
 import com.ft.architectcoders.domain.model.AiReview
 import com.ft.architectcoders.domain.model.Cast

@@ -61,9 +61,10 @@ android {
 }
 
 dependencies {
-
     // Project implementation
     implementation(project(":domain"))
+    implementation(project(":data"))
+    implementation(project(":framework"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -74,15 +75,8 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    // Gemini API
-    implementation(libs.google.generativeai)
-
     // Geolocalización
     implementation(libs.play.services.location)
-
-    // Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.kotlinx.serialization.converter)
 
     // Kotlinx Serialization
     implementation(libs.kotlinx.serialization.json)
