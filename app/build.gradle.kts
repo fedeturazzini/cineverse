@@ -27,14 +27,21 @@ android {
         }
 
         val properties = Properties()
-        properties.load(project.rootProject.file("local.properties").readText().byteInputStream())
+        val localPropertiesFile = project.rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            properties.load(localPropertiesFile.readText().byteInputStream())
+        }
 
         // TMDB API KEY
-        val tmdbApiKey = properties.getProperty("TMDB_API_KEY", "")
+        val tmdbApiKey = properties.getProperty("TMDB_API_KEY")
+            ?: System.getenv("TMDB_API_KEY")
+            ?: ""
         buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
 
         // GEMINI API KEY
-        val geminiApiKey = properties.getProperty("GEMINI_API_KEY", "")
+        val geminiApiKey = properties.getProperty("GEMINI_API_KEY")
+            ?: System.getenv("GEMINI_API_KEY")
+            ?: ""
         buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
     }
 

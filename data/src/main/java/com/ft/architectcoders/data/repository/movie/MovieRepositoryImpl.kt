@@ -37,8 +37,7 @@ class MovieRepositoryImpl(
                     emit(Result.Success(movie))
                 }
             } else {
-                val remoteResult = remoteDataSource.findMovieById(id)
-                when (remoteResult) {
+                when (val remoteResult = remoteDataSource.findMovieById(id)) {
                     is Result.Success -> {
                         localDataSource.saveMovies(listOf(remoteResult.data))
                         localDataSource.findMovieById(id).collect { movie ->
