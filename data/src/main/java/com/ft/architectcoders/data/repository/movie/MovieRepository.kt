@@ -11,11 +11,11 @@ interface MovieRepository {
 
     fun findMovieById(id: Int): Flow<Result<Movie>>
 
-    fun getMovieCredits(movieId: Int): Flow<List<Cast>>
+    fun getMovieCredits(movieId: Int): Flow<Result<List<Cast>>>
 
     suspend fun toggleFavorite(movie: Movie)
 
-    fun getMovieVideos(movieId: Int): Flow<List<MovieVideo>>
+    fun getMovieVideos(movieId: Int): Flow<Result<List<MovieVideo>>>
 
     suspend fun searchMovies(query: String): List<Movie>
 }

@@ -1,7 +1,6 @@
 package com.ft.architectcoders.data.repository.movie
 
 import com.ft.architectcoders.domain.Result
-import com.ft.architectcoders.data.asNullable
 import com.ft.architectcoders.data.datasource.MovieLocalDataSource
 import com.ft.architectcoders.data.datasource.MovieRemoteDataSource
 import com.ft.architectcoders.domain.model.Cast
@@ -10,7 +9,6 @@ import com.ft.architectcoders.domain.model.MovieVideo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 
 class MovieRepositoryImpl(
@@ -50,10 +48,10 @@ class MovieRepositoryImpl(
             }
         }
 
-    override fun getMovieCredits(movieId: Int): Flow<List<Cast>> =
+    override fun getMovieCredits(movieId: Int): Flow<Result<List<Cast>>> =
         flow {
             emit(remoteDataSource.fetchMovieCredits(movieId))
-        }.asNullable().map { it ?: emptyList() }
+        }
 
     override suspend fun toggleFavorite(movie: Movie) {
         localDataSource.saveMovies(
@@ -61,11 +59,10 @@ class MovieRepositoryImpl(
         )
     }
 
-    override fun getMovieVideos(movieId: Int): Flow<List<MovieVideo>> =
+    override fun getMovieVideos(movieId: Int): Flow<Result<List<MovieVideo>>> =
         flow {
-            val result = remoteDataSource.fetchMovieVideos(movieId)
-            emit(result)
-        }.asNullable().map { it ?: emptyList() }
+            emit(remoteDataSource.fetchMovieVideos(movieId))
+        }
 
     override suspend fun searchMovies(query: String): List<Movie> {
         return when (val result = remoteDataSource.searchMovies(query)) {

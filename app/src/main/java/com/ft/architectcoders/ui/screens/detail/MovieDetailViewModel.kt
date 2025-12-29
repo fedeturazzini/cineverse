@@ -54,6 +54,8 @@ private fun Result<AiReview>.toAiReviewUiState(): AiReviewUiState {
 data class MovieDetailError(
     val genericError: String? = null,
     val aiError: String? = null,
+    val castError: String? = null,
+    val videosError: String? = null,
 )
 
 class MovieDetailViewModel(
@@ -78,14 +80,29 @@ class MovieDetailViewModel(
                                 movieResult.data.overview
                             ),
                             getMovieVideosUseCase(movieId),
-                        ) { cast, aiReview, movieVideos ->
+                        ) { castResult, aiReview, videosResult ->
+                            val cast = when (castResult) {
+                                is Result.Success -> castResult.data
+                                else -> emptyList()
+                            }
+                            val videos = when (videosResult) {
+                                is Result.Success -> videosResult.data
+                                else -> emptyList()
+                            }
+                            val castError = (castResult as? Result.Error)?.error?.message
+                            val videosError = (videosResult as? Result.Error)?.error?.message
+
+                            val error = if (castError != null || videosError != null) {
+                                MovieDetailError(castError = castError, videosError = videosError)
+                            } else null
+
                             MovieDetailUiState(
                                 movie = movieResult.data,
                                 cast = cast,
-                                videos = movieVideos,
+                                videos = videos,
                                 isLoadingMovie = false,
                                 aiReviewState = aiReview.toAiReviewUiState(),
-                                error = null,
+                                error = error,
                             )
                         }
                     }
