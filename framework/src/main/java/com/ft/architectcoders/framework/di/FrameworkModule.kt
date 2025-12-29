@@ -9,7 +9,7 @@ import com.ft.architectcoders.data.datasource.ProfileLocalDataSource
 import com.ft.architectcoders.data.datasource.RegionDataSource
 import com.ft.architectcoders.framework.LocationDataSourceImpl
 import com.ft.architectcoders.framework.MovieRoomDataSource
-import com.ft.architectcoders.framework.MovieServerDataSourceImpl
+import com.ft.architectcoders.framework.MovieRemoteDataSourceImpl
 import com.ft.architectcoders.framework.ProfileLocalDataSourceImpl
 import com.ft.architectcoders.framework.RegionDataSourceImpl
 import com.ft.architectcoders.framework.remote.gemini.GeminiAiServiceImpl
@@ -45,7 +45,7 @@ val frameworkModule = module {
 
     singleOf(::LocationDataSourceImpl) { bind<LocationDataSource>() }
     singleOf(::RegionDataSourceImpl) { bind<RegionDataSource>() }
-    singleOf(::MovieServerDataSourceImpl) { bind<MovieRemoteDataSource>() }
+    singleOf(::MovieRemoteDataSourceImpl) { bind<MovieRemoteDataSource>() }
     singleOf(::MovieRoomDataSource) { bind<MovieLocalDataSource>() }
     singleOf(::ProfileLocalDataSourceImpl) { bind<ProfileLocalDataSource>() }
 }
