@@ -66,63 +66,45 @@ class MovieDetailViewModel(
 ) : ViewModel() {
     @OptIn(ExperimentalCoroutinesApi::class)
     val state: StateFlow<MovieDetailUiState> =
-        run {
-            val movieFlow =
-                findMovieByIdUseCase(movieId)
-                    .shareIn(
-                        scope = viewModelScope,
-                        started = SharingStarted.WhileSubscribed(5000),
-                        replay = 1,
-                    )
-
-            movieFlow
-                .flatMapLatest { movieResult ->
-                    when (movieResult) {
-                        is Result.Success ->
-                            combine(
-                                movieFlow,
-                                getMovieCreditsUseCase(movieId),
-                                geminiRepository.getMovieReview(movieId, movieResult.data.title, movieResult.data.overview),
-                                getMovieVideosUseCase(movieId),
-                            ) { currentMovieResult, cast, aiReview, movieVideos ->
-                                when (currentMovieResult) {
-                                    is Result.Success -> {
-                                        MovieDetailUiState(
-                                            movie = currentMovieResult.data,
-                                            cast = cast,
-                                            videos = movieVideos,
-                                            isLoadingMovie = false,
-                                            aiReviewState = aiReview.toAiReviewUiState(),
-                                            error = null,
-                                        )
-                                    }
-                                    is Result.Error ->
-                                        MovieDetailUiState(
-                                            isLoadingMovie = false,
-                                            error = MovieDetailError(genericError = currentMovieResult.error.message),
-                                        )
-                                    is Result.Loading -> MovieDetailUiState(isLoadingMovie = true)
-                                }
-                            }
-                        is Result.Error ->
-                            flowOf(
-                                MovieDetailUiState(
-                                    isLoadingMovie = false,
-                                    error = MovieDetailError(genericError = movieResult.error.message),
-                                ),
+        findMovieByIdUseCase(movieId)
+            .flatMapLatest { movieResult ->
+                when (movieResult) {
+                    is Result.Success -> {
+                        combine(
+                            getMovieCreditsUseCase(movieId),
+                            geminiRepository.getMovieReview(
+                                movieId,
+                                movieResult.data.title,
+                                movieResult.data.overview
+                            ),
+                            getMovieVideosUseCase(movieId),
+                        ) { cast, aiReview, movieVideos ->
+                            MovieDetailUiState(
+                                movie = movieResult.data,
+                                cast = cast,
+                                videos = movieVideos,
+                                isLoadingMovie = false,
+                                aiReviewState = aiReview.toAiReviewUiState(),
+                                error = null,
                             )
-                        is Result.Loading ->
-                            flowOf(
-                                MovieDetailUiState(isLoadingMovie = true),
-                            )
+                        }
                     }
+                    is Result.Error ->
+                        flowOf(
+                            MovieDetailUiState(
+                                isLoadingMovie = false,
+                                error = MovieDetailError(genericError = movieResult.error.message),
+                            )
+                        )
+                    is Result.Loading ->
+                        flowOf(MovieDetailUiState(isLoadingMovie = true))
                 }
-                .stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = MovieDetailUiState(isLoadingMovie = true),
-                )
-        }
+            }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = MovieDetailUiState(isLoadingMovie = true),
+            )
 
     fun onFavoriteClick() {
         state.value.movie?.let { movie ->
