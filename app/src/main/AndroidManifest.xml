@@ -29,16 +29,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ArchitectCoders">
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.ArchitectCoders">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.ArchitectCoders" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

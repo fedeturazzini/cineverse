@@ -104,6 +104,9 @@ dependencies {
     // Haze - Glassmorphism effect
     implementation(libs.haze)
 
+    // Lottie
+    implementation(libs.lottie.compose)
+
     // Room
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
