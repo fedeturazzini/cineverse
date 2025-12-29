@@ -19,4 +19,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.retrofit)
     implementation(libs.kotlinx.serialization.json)
+
+    // Koin
+    api(libs.koin.core)
 }

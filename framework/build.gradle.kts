@@ -44,4 +44,8 @@ dependencies {
 
     // Gemini API
     implementation(libs.google.generativeai)
+
+    // Koin
+    api(libs.koin.android)
+    api(libs.koin.core)
 }

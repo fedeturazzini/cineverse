@@ -1,8 +1,13 @@
 package com.ft.architectcoders.di
 
-val appModules =
-    listOf(
-        databaseModule,
-        dataModule,
-        viewModelModule,
-    )
+import com.ft.architectcoders.data.di.dataModule
+import com.ft.architectcoders.framework.di.frameworkModules
+import com.ft.architectcoders.usecases.di.useCasesModule
+
+val appModules = listOf(
+    configModule,
+    viewModelModule,
+) + frameworkModules + listOf(
+    dataModule,
+    useCasesModule,
+)

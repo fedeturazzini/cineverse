@@ -11,21 +11,7 @@ val viewModelModule =
     module {
         viewModelOf(::HomeViewModel)
 
-        viewModel { params ->
-            MovieDetailViewModel(
-                movieId = params.get(),
-                findMovieByIdUseCase = get(),
-                getMovieCreditsUseCase = get(),
-                getMovieVideosUseCase = get(),
-                toggleFavoriteMovieUseCase = get(),
-                geminiRepository = get(),
-            )
-        }
+        viewModelOf(::MovieDetailViewModel)
 
-        viewModel {
-            ProfileViewModel(
-                profileRepository = get(),
-                fetchMoviesUseCase = get(),
-            )
-        }
+        viewModelOf(::ProfileViewModel)
     }

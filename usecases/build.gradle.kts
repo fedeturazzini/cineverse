@@ -17,4 +17,7 @@ dependencies {
     implementation(project(":data"))
 
     implementation(libs.kotlinx.coroutines.core)
+
+    // Koin
+    api(libs.koin.core)
 }
