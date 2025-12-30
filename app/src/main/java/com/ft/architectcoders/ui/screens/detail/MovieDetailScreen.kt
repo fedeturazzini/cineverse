@@ -332,7 +332,7 @@ fun AiReviewLoadingCard() {
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            LoadingIndicator(modifier = Modifier.size(24.dp))
+            LoadingIndicator()
             Text(
                 text = stringResource(R.string.generating_ai_review),
                 style = MaterialTheme.typography.bodyMedium,

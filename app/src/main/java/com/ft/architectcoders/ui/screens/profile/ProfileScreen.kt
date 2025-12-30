@@ -35,6 +35,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.ft.architectcoders.R
 import com.ft.architectcoders.domain.model.Movie
+import com.ft.architectcoders.ui.common.LoadingIndicator
 import com.ft.architectcoders.ui.common.photo.*
 import com.ft.architectcoders.ui.common.toFlagEmoji
 import org.koin.androidx.compose.koinViewModel
@@ -311,11 +312,10 @@ private fun ProfilePhotoSection(
         contentAlignment = Alignment.Center,
     ) {
         if (isLoading) {
-            CircularProgressIndicator(
+            LoadingIndicator(
                 modifier = Modifier
-                    .size(160.dp)
+                    .size(24.dp)
                     .align(Alignment.Center),
-                strokeWidth = 4.dp
             )
         }
 
