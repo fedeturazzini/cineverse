@@ -15,7 +15,7 @@ class MovieRepositoryImpl(
     private val remoteDataSource: MovieRemoteDataSource,
     private val localDataSource: MovieLocalDataSource,
 ) : MovieRepository {
-    override val movies: Flow<List<Movie>> =
+    override val movies: Flow<List<Movie>> get() =
         localDataSource.movies.onEach { localMovies ->
             if (localMovies.isEmpty()) {
                 when (val result = remoteDataSource.fetchPopularMovies()) {

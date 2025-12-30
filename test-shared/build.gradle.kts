@@ -1,7 +1,6 @@
 plugins {
     id("java-library")
     alias(libs.plugins.jetbrains.kotlin.jvm)
-    alias(libs.plugins.kotlin.serialization)
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -15,19 +14,12 @@ kotlin {
 
 dependencies {
     implementation(project(":domain"))
-
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.retrofit)
-    implementation(libs.kotlinx.serialization.json)
-
-    // Koin
-    api(libs.koin.core)
-
-    // Testing
-    testImplementation(libs.junit)
+    
+    // Testing dependencies
+    implementation(libs.junit)
+    implementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockito.inline)
     testImplementation(libs.mockito.kotlin)
-    testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
-    testImplementation(project(":test-shared"))
 }
+

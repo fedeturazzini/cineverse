@@ -20,4 +20,12 @@ dependencies {
 
     // Koin
     api(libs.koin.core)
+
+    // Testing
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
+    testImplementation(project(":test-shared"))
 }
