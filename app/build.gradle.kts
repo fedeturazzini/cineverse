@@ -73,6 +73,7 @@ dependencies {
     implementation(project(":data"))
     implementation(project(":framework"))
     implementation(project(":usecases"))
+    implementation(project(":test-shared"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

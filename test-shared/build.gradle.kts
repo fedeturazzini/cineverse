@@ -14,6 +14,8 @@ kotlin {
 
 dependencies {
     implementation(project(":domain"))
+    implementation(project(":data"))
+    implementation(project(":usecases"))
     
     // Testing dependencies
     implementation(libs.junit)
