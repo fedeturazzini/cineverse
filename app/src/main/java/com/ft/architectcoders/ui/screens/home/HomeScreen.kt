@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -47,7 +47,7 @@ fun HomeScreen(
     contentPadding: PaddingValues = PaddingValues(0.dp),
     viewModel: HomeViewModel = koinViewModel(),
 ) {
-    val homeState = rememberHomeState()
+    val state by viewModel.state.collectAsState()
 
     PermissionRequestEffect(permission = Manifest.permission.ACCESS_COARSE_LOCATION) { granted ->
         if (granted) {
@@ -55,7 +55,28 @@ fun HomeScreen(
         }
     }
 
-    val state by viewModel.state.collectAsState()
+    HomeScreen(
+        contentPadding = contentPadding,
+        state = state,
+        onMovieClick = { movie ->
+            onMovieClick(movie)
+        },
+        onPermissionRequest = {
+            viewModel.permissionGranted()
+        }
+    )
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeScreen(
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    state: UiState,
+    onMovieClick: (Movie) -> Unit,
+    onPermissionRequest: () -> Unit = {},
+) {
+    val homeState = rememberHomeState()
 
     Scaffold(
         topBar = {
@@ -103,7 +124,7 @@ fun HomeScreen(
                             text = state.error ?: "",
                             style = MaterialTheme.typography.bodyLarge,
                         )
-                        Button(onClick = { viewModel.permissionGranted() }) {
+                        Button(onClick = { onPermissionRequest() }) {
                             Text(stringResource(R.string.retry))
                         }
                     }
