@@ -1,6 +1,8 @@
 package com.ft.architectcoders.ui.screens.detail
 
 import android.annotation.SuppressLint
+
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -52,6 +55,16 @@ import com.ft.architectcoders.ui.theme.IndigoDark80
 import com.ft.architectcoders.ui.theme.StarBright
 import kotlin.math.floor
 
+// MovieDetailScreen test tags
+const val MOVIE_DETAIL_TOP_BAR_TAG = "MovieDetailTopBar"
+const val MOVIE_DETAIL_BACK_BUTTON_TAG = "MovieDetailBackButton"
+const val MOVIE_DETAIL_FAVORITE_FAB_TAG = "FavoriteFAB"
+const val MOVIE_DETAIL_BACKDROP_IMAGE_TAG = "MovieDetailBackdropImage"
+const val MOVIE_DETAIL_CAST_CAROUSEL_TAG = "MovieDetailCastCarousel"
+const val MOVIE_DETAIL_AI_REVIEW_CARD_TAG = "MovieDetailAiReviewCard"
+const val MOVIE_DETAIL_AI_REVIEW_LOADING_CARD_TAG = "MovieDetailAiReviewLoadingCard"
+const val MOVIE_DETAIL_AI_REVIEW_ERROR_CARD_TAG = "MovieDetailAiReviewErrorCard"
+const val MOVIE_DETAIL_TRAILERS_SECTION_TAG = "MovieDetailTrailersSection"
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieDetailScreen(
@@ -60,14 +73,36 @@ fun MovieDetailScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
+    MovieDetailScreen(
+        state = state,
+        onBack = {
+            onBack.invoke()
+        },
+        onFavoriteClick = {
+            viewModel.onFavoriteClick()
+        }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MovieDetailScreen(
+    state: MovieDetailUiState,
+    onBack: () -> Unit,
+    onFavoriteClick: () -> Unit = {},
+) {
     val movieDetailState = rememberMovieDetailState()
 
     Scaffold(
         topBar = {
             TopAppBar(
+                modifier = Modifier.testTag(MOVIE_DETAIL_TOP_BAR_TAG),
                 title = { Text(state.movie?.title ?: "") },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(
+                        onClick = onBack,
+                        modifier = Modifier.testTag(MOVIE_DETAIL_BACK_BUTTON_TAG)
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "",
@@ -83,9 +118,12 @@ fun MovieDetailScreen(
         },
         floatingActionButton = {
             val favorite = state.movie?.favorite ?: false
-            FloatingActionButton(onClick = {
-                viewModel.onFavoriteClick()
-            }) {
+            FloatingActionButton(
+                onClick = {
+                    onFavoriteClick()
+                },
+                modifier = Modifier.testTag(MOVIE_DETAIL_FAVORITE_FAB_TAG)
+            ) {
                 Icon(
                     imageVector = if (favorite) Icons.Filled.Favorite else Icons.Default.FavoriteBorder,
                     contentDescription = stringResource(R.string.fav_button),
@@ -119,7 +157,8 @@ fun MovieDetailScreen(
                         modifier =
                             Modifier
                                 .fillMaxWidth()
-                                .height(400.dp),
+                                .height(400.dp)
+                                .testTag(MOVIE_DETAIL_BACKDROP_IMAGE_TAG),
                     )
 
                     Column(
@@ -183,7 +222,7 @@ fun AiReviewCard(
     modifier: Modifier = Modifier,
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().testTag(MOVIE_DETAIL_AI_REVIEW_CARD_TAG),
         shape = RoundedCornerShape(16.dp),
         colors =
             CardDefaults.cardColors(
@@ -250,7 +289,7 @@ fun AiReviewCard(
 @Composable
 fun AiReviewErrorCard(modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().testTag(MOVIE_DETAIL_AI_REVIEW_ERROR_CARD_TAG),
         shape = RoundedCornerShape(16.dp),
         colors =
             CardDefaults.cardColors(
@@ -317,7 +356,7 @@ fun AiReviewErrorCard(modifier: Modifier = Modifier) {
 @Composable
 fun AiReviewLoadingCard() {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().testTag(MOVIE_DETAIL_AI_REVIEW_LOADING_CARD_TAG),
         shape = RoundedCornerShape(16.dp),
         colors =
             CardDefaults.cardColors(

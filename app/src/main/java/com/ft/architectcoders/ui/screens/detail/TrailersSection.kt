@@ -33,12 +33,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.ft.architectcoders.R
 import com.ft.architectcoders.domain.model.MovieVideo
 import androidx.core.net.toUri
+import com.ft.architectcoders.ui.screens.detail.MOVIE_DETAIL_TRAILERS_SECTION_TAG
 
 @Composable
 fun TrailersSection(
@@ -52,7 +54,8 @@ fun TrailersSection(
             modifier =
                 modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = 8.dp)
+                    .testTag(MOVIE_DETAIL_TRAILERS_SECTION_TAG),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Column(

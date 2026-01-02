@@ -32,11 +32,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.ft.architectcoders.R
 import com.ft.architectcoders.domain.model.Cast
+import com.ft.architectcoders.ui.screens.detail.MOVIE_DETAIL_CAST_CAROUSEL_TAG
 
 @Composable
 fun CastCarousel(
@@ -47,7 +49,8 @@ fun CastCarousel(
         modifier =
             modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .padding(vertical = 8.dp)
+                .testTag(MOVIE_DETAIL_CAST_CAROUSEL_TAG),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Column(

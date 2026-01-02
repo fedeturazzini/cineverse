@@ -6,7 +6,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.printToLog
-import com.ft.architectcoders.domain.model.Movie
 import com.ft.architectcoders.test.sampleMovies
 import com.ft.architectcoders.ui.common.LOADING_TEST_TAG
 import com.ft.architectcoders.ui.screens.home.HomeScreen
