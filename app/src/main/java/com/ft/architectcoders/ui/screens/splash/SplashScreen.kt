@@ -21,6 +21,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.ft.architectcoders.ui.common.StarryBackground
 import com.ft.architectcoders.ui.theme.DeepSpaceBlue20
 import com.ft.architectcoders.ui.theme.IndigoDark80
 import com.ft.architectcoders.ui.theme.SurfaceVariantLight
@@ -59,6 +60,12 @@ fun SplashScreen(
             ),
         contentAlignment = Alignment.Center,
     ) {
+
+        StarryBackground(
+            modifier = Modifier.fillMaxSize(),
+            alpha = 0.7f,
+        )
+
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {

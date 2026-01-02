@@ -87,4 +87,26 @@
     
     <!-- Content Descriptions -->
     <string name="cd_icon_fav">Icon fav</string>
+    
+    <!-- For You Screen -->
+    <string name="foryou_title">Para Ti</string>
+    <string name="foryou_subtitle">Experiencias personalizadas</string>
+    
+    <string name="foryou_marathon_title">Tu Maratón Perfecta</string>
+    <string name="foryou_marathon_desc">Crea tu maratón ideal de películas</string>
+    
+    <string name="foryou_mood_title">Mood Radar</string>
+    <string name="foryou_mood_desc">Películas según tu estado de ánimo</string>
+    
+    <string name="foryou_duel_title">Duelo de Pelis</string>
+    <string name="foryou_duel_desc">Elige entre dos películas A/B</string>
+    
+    <string name="foryou_challenge_title">Reco con Reto</string>
+    <string name="foryou_challenge_desc">Recomendaciones con desafíos</string>
+    
+    <string name="foryou_cineverso_title">Cineverso 60s</string>
+    <string name="foryou_cineverso_desc">Tu perfil resumido en 60 segundos</string>
+    
+    <string name="foryou_search_title">Búsqueda IA</string>
+    <string name="foryou_search_desc">Conversa para encontrar películas</string>
 </resources>
