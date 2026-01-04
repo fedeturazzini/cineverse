@@ -62,4 +62,5 @@ dependencies {
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.room.testing)
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
 }

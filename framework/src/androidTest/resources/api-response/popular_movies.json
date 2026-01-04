@@ -1,0 +1,44 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "id": 550,
+      "title": "Fight Club",
+      "overview": "A ticking-Loss time bomb of a movie about an insomniac office worker and a devil-may-care soap maker.",
+      "release_date": "1999-10-15",
+      "poster_path": "/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
+      "backdrop_path": "/hZkgoQYus5vegHoetLkCJzb17zJ.jpg",
+      "original_title": "Fight Club",
+      "original_language": "en",
+      "popularity": 73.433,
+      "vote_average": 8.433
+    },
+    {
+      "id": 680,
+      "title": "Pulp Fiction",
+      "overview": "The lives of two mob hitmen, a boxer, a gangster and his wife intertwine in four tales of violence and redemption.",
+      "release_date": "1994-09-10",
+      "poster_path": "/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg",
+      "backdrop_path": "/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg",
+      "original_title": "Pulp Fiction",
+      "original_language": "en",
+      "popularity": 65.877,
+      "vote_average": 8.489
+    },
+    {
+      "id": 13,
+      "title": "Forrest Gump",
+      "overview": "A man with a low IQ has accomplished great things in his life and been present during significant historic events.",
+      "release_date": "1994-06-23",
+      "poster_path": "/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg",
+      "backdrop_path": "/3h1JZGDhZ8nzxdgvkxha0qBqi05.jpg",
+      "original_title": "Forrest Gump",
+      "original_language": "en",
+      "popularity": 48.307,
+      "vote_average": 8.475
+    }
+  ],
+  "total_pages": 500,
+  "total_results": 10000
+}
+
