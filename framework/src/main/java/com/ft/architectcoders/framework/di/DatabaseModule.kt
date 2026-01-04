@@ -3,6 +3,7 @@ package com.ft.architectcoders.framework.di
 import android.app.Application
 import androidx.room.Room
 import com.ft.architectcoders.framework.database.CineVerseDatabase
+import com.ft.architectcoders.framework.database.DuelDao
 import com.ft.architectcoders.framework.database.MoviesDao
 import com.ft.architectcoders.framework.database.ProfileDao
 import org.koin.dsl.module
@@ -13,7 +14,7 @@ val databaseModule = module {
             get<Application>(),
             CineVerseDatabase::class.java,
             "cineverse_database",
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     single<MoviesDao> {
@@ -22,6 +23,10 @@ val databaseModule = module {
 
     single<ProfileDao> {
         get<CineVerseDatabase>().profileDao
+    }
+
+    single<DuelDao> {
+        get<CineVerseDatabase>().duelDao
     }
 }
 

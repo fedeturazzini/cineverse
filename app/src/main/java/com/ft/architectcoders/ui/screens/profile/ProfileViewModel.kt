@@ -9,8 +9,10 @@ import com.ft.architectcoders.data.repository.profile.ProfileRepository
 import com.ft.architectcoders.data.toResult
 import com.ft.architectcoders.domain.Result
 import com.ft.architectcoders.domain.model.Movie
+import com.ft.architectcoders.domain.model.TasteFingerprint
 import com.ft.architectcoders.ui.common.photo.FileStorageHelper
 import com.ft.architectcoders.usecases.FetchMoviesUseCase
+import com.ft.architectcoders.usecases.duel.GetLastFingerprintUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -36,12 +38,14 @@ data class ProfileState(
     val region: String = "US",
     val favoriteMovies: List<Movie> = emptyList(),
     val selectedGenres: List<String> = emptyList(),
+    val tasteFingerprint: TasteFingerprint? = null,
     val uiFlags: ProfileUiFlags = ProfileUiFlags()
 )
 
 class ProfileViewModel(
     private val profileRepository: ProfileRepository,
     fetchMoviesUseCase: FetchMoviesUseCase,
+    getLastFingerprintUseCase: GetLastFingerprintUseCase,
 ) : ViewModel() {
     private val _uiFlags = MutableStateFlow(ProfileUiFlags(isLoading = true))
     private val _localName = MutableStateFlow<String?>(null)
@@ -57,15 +61,17 @@ class ProfileViewModel(
                     else -> emptyList()
                 }
             },
+        getLastFingerprintUseCase(),
         _uiFlags,
         _localName
-    ) { profile, favoriteMovies, uiFlags, localName ->
+    ) { profile, favoriteMovies, fingerprint, uiFlags, localName ->
         ProfileState(
             name = localName ?: profile.name,
             profilePhotoPath = profile.profilePhotoPath,
             region = profile.region,
             selectedGenres = profile.favoriteGenres,
             favoriteMovies = favoriteMovies,
+            tasteFingerprint = fingerprint,
             uiFlags = uiFlags
         )
     }

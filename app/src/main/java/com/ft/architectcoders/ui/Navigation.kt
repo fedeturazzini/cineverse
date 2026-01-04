@@ -15,10 +15,12 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ft.architectcoders.ui.common.bottombar.GlassmorphicBottomBar
 import com.ft.architectcoders.ui.common.bottombar.bottomBarTabs
-import com.ft.architectcoders.ui.screens.home.HomeScreen
 import com.ft.architectcoders.ui.screens.detail.MovieDetailScreen
 import com.ft.architectcoders.ui.screens.detail.MovieDetailViewModel
+import com.ft.architectcoders.ui.screens.duel.DuelScreen
+import com.ft.architectcoders.ui.screens.foryou.ForYouExperience
 import com.ft.architectcoders.ui.screens.foryou.ForYouScreen
+import com.ft.architectcoders.ui.screens.home.HomeScreen
 import com.ft.architectcoders.ui.screens.profile.ProfileScreen
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeSource
@@ -35,6 +37,8 @@ sealed class NavScreen(val route: String) {
     data object Profile : NavScreen("profile")
 
     data object ForYou : NavScreen("for_you")
+
+    data object Duel : NavScreen("duel")
 }
 
 enum class NavArgs(val key: String) {
@@ -119,7 +123,26 @@ fun Navigation() {
             }
 
             composable(NavScreen.ForYou.route) {
-                ForYouScreen(contentPadding = padding)
+                ForYouScreen(
+                    contentPadding = padding,
+                    onExperienceClick = { experience ->
+                        when (experience) {
+                            ForYouExperience.MOVIE_DUEL -> {
+                                navController.navigate(NavScreen.Duel.route)
+                            }
+                            else -> { /* Not implemented yet */ }
+                        }
+                    },
+                )
+            }
+
+            composable(NavScreen.Duel.route) {
+                DuelScreen(
+                    onBack = { navController.popBackStack() },
+                    onMovieClick = { movieId ->
+                        navController.navigate(NavScreen.Detail.createRoute(movieId))
+                    },
+                )
             }
         }
     }

@@ -109,4 +109,26 @@
     
     <string name="foryou_search_title">Búsqueda IA</string>
     <string name="foryou_search_desc">Conversa para encontrar películas</string>
+    
+    <!-- Duel Screen -->
+    <string name="duel_title">Duelo de Pelis</string>
+    <string name="back">Volver</string>
+    <string name="duel_loading">Preparando el duelo…</string>
+    <string name="duel_instruction">Toca la película que prefieras</string>
+    <string name="duel_progress">Ronda %1$d de %2$d</string>
+    <string name="duel_vs">VS</string>
+    <string name="duel_generating">Generando tu perfil de gusto</string>
+    <string name="duel_analyzing">Analizando tus elecciones con IA…</string>
+    <string name="duel_result_title">Tu Taste Fingerprint</string>
+    <string name="duel_fallback_note">Generado sin IA (Gemini no disponible)</string>
+    <string name="duel_insights_title">Lo que revela tu gusto</string>
+    <string name="duel_traits_title">Tus rasgos dominantes</string>
+    <string name="duel_retry">Reintentar duelo</string>
+    <string name="duel_error_title">¡Ups! Algo salió mal</string>
+    <string name="close">Cerrar</string>
+    
+    <!-- Taste Fingerprint -->
+    <string name="taste_fingerprint_title">Tu Huella de Gusto</string>
+    <string name="generated_by_ai">Generado con IA</string>
+    <string name="generated_locally">Generado localmente</string>
 </resources>

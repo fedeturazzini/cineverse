@@ -7,12 +7,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -35,9 +34,14 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.ft.architectcoders.R
 import com.ft.architectcoders.domain.model.Movie
+import com.ft.architectcoders.domain.model.TasteFingerprint
 import com.ft.architectcoders.ui.common.LoadingIndicator
 import com.ft.architectcoders.ui.common.photo.*
 import com.ft.architectcoders.ui.common.toFlagEmoji
+import com.ft.architectcoders.ui.theme.CinemaOrange
+import com.ft.architectcoders.ui.theme.GalaxyPurple40
+import com.ft.architectcoders.ui.theme.GalaxyPurple80
+import com.ft.architectcoders.ui.theme.StarBright
 import org.koin.androidx.compose.koinViewModel
 
 // TODO: Profile screen va a ser optimizada para la proxima entrega
@@ -118,173 +122,177 @@ fun ProfileScreen(
             )
         },
     ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .padding(contentPadding)
-                .verticalScroll(rememberScrollState()),
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                top = padding.calculateTopPadding(),
+                bottom = contentPadding.calculateBottomPadding() + 16.dp,
+                start = 0.dp,
+                end = 0.dp,
+            ),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(
-                                MaterialTheme.colorScheme.primaryContainer,
-                                MaterialTheme.colorScheme.surface
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .background(
+                            Brush.verticalGradient(
+                                colors = listOf(
+                                    MaterialTheme.colorScheme.primaryContainer,
+                                    MaterialTheme.colorScheme.surface
+                                )
                             )
-                        )
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                ProfilePhotoSection(
-                    photoPath = state.profilePhotoPath,
-                    isEditing = state.uiFlags.isEditing,
-                    isLoading = state.uiFlags.isLoading,
-                    onPhotoClick = { viewModel.showPhotoDialog() }
-                )
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-
-                ElevatedCard(
-                    modifier = Modifier.fillMaxWidth(),
-                    elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp)
+                        ),
+                    contentAlignment = Alignment.Center
                 ) {
-                    OutlinedTextField(
-                        value = state.name,
-                        onValueChange = viewModel::onNameChanged,
-                        label = {
-                            Text(stringResource(R.string.name))
-                        },
-                        leadingIcon = {
-                            Icon(
-                                Icons.Default.Person,
-                                contentDescription = null,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        },
-                        enabled = state.uiFlags.isEditing,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        singleLine = true,
-                        colors = OutlinedTextFieldDefaults.colors(
-                            disabledTextColor = MaterialTheme.colorScheme.onSurface,
-                            disabledBorderColor = Color.Transparent,
-                            disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                    ProfilePhotoSection(
+                        photoPath = state.profilePhotoPath,
+                        isEditing = state.uiFlags.isEditing,
+                        isLoading = state.uiFlags.isLoading,
+                        onPhotoClick = { viewModel.showPhotoDialog() }
                     )
                 }
+            }
 
-                ElevatedCard(
-                    modifier = Modifier.fillMaxWidth(),
-                    elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp)
+            item {
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+
+            item {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(20.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            Surface(
-                                shape = CircleShape,
-                                color = MaterialTheme.colorScheme.primaryContainer,
-                                modifier = Modifier.size(48.dp)
-                            ) {
-                                Box(contentAlignment = Alignment.Center) {
-                                    Text(
-                                        text = state.region.toFlagEmoji(),
-                                        style = MaterialTheme.typography.headlineMedium
-                                    )
-                                }
-                            }
-                            Column {
-                                Text(
-                                    text = stringResource(R.string.region),
-                                    style = MaterialTheme.typography.labelMedium,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                Text(
-                                    text = state.region,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
-                        }
 
-                        // TODO
-//                        if (state.uiFlags.isEditing) {
-//                            FilledTonalIconButton(onClick = { /* TODO: Region picker */ }) {
-//                                Icon(Icons.Default.Edit, contentDescription = "Cambiar región")
-//                            }
-//                        }
-                    }
-                }
-
-                if (state.selectedGenres.isNotEmpty()) {
                     ElevatedCard(
                         modifier = Modifier.fillMaxWidth(),
                         elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp)
                     ) {
-                        Column(
-                            modifier = Modifier.padding(20.dp),
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            Text(
-                                text = stringResource(R.string.favorite_genres),
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold
+                        OutlinedTextField(
+                            value = state.name,
+                            onValueChange = viewModel::onNameChanged,
+                            label = {
+                                Text(stringResource(R.string.name))
+                            },
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Default.Person,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            },
+                            enabled = state.uiFlags.isEditing,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            singleLine = true,
+                            colors = OutlinedTextFieldDefaults.colors(
+                                disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                                disabledBorderColor = Color.Transparent,
+                                disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
                             )
-                            FlowRow(
-                                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                        )
+                    }
+
+                    ElevatedCard(
+                        modifier = Modifier.fillMaxWidth(),
+                        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(20.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                state.selectedGenres.forEach { genre ->
-                                    AssistChip(
-                                        onClick = {
-                                            if (state.uiFlags.isEditing) {
-                                                viewModel.onGenreToggled(genre)
-                                            }
-                                        },
-                                        label = { Text(genre) },
-                                        leadingIcon = {
-                                            Icon(
-                                                Icons.Default.Movie,
-                                                contentDescription = null,
-                                                modifier = Modifier.size(18.dp)
-                                            )
-                                        }
+                                Surface(
+                                    shape = CircleShape,
+                                    color = MaterialTheme.colorScheme.primaryContainer,
+                                    modifier = Modifier.size(48.dp)
+                                ) {
+                                    Box(contentAlignment = Alignment.Center) {
+                                        Text(
+                                            text = state.region.toFlagEmoji(),
+                                            style = MaterialTheme.typography.headlineMedium
+                                        )
+                                    }
+                                }
+                                Column {
+                                    Text(
+                                        text = stringResource(R.string.region),
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                    Text(
+                                        text = state.region,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = FontWeight.Bold
                                     )
                                 }
                             }
                         }
                     }
-                }
 
-                ProfileStatsCard(
-                    favoriteMovies = state.favoriteMovies,
-                    onMovieClick = { movie ->
-                        // TODO: Implementar navegación al detalle
+                    if (state.selectedGenres.isNotEmpty()) {
+                        ElevatedCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            elevation = CardDefaults.elevatedCardElevation(defaultElevation = 2.dp)
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(20.dp),
+                                verticalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.favorite_genres),
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                FlowRow(
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    state.selectedGenres.forEach { genre ->
+                                        AssistChip(
+                                            onClick = {
+                                                if (state.uiFlags.isEditing) {
+                                                    viewModel.onGenreToggled(genre)
+                                                }
+                                            },
+                                            label = { Text(genre) },
+                                            leadingIcon = {
+                                                Icon(
+                                                    Icons.Default.Movie,
+                                                    contentDescription = null,
+                                                    modifier = Modifier.size(18.dp)
+                                                )
+                                            }
+                                        )
+                                    }
+                                }
+                            }
+                        }
                     }
-                )
 
-                Spacer(modifier = Modifier.height(32.dp))
+                    // Taste Fingerprint Section
+                    state.tasteFingerprint?.let { fingerprint ->
+                        TasteFingerprintCard(fingerprint = fingerprint)
+                    }
+
+                    ProfileStatsCard(
+                        favoriteMovies = state.favoriteMovies,
+                        onMovieClick = { movie ->
+                            // TODO: Implementar navegación al detalle
+                        }
+                    )
+                }
             }
         }
     }
@@ -625,6 +633,137 @@ private fun EmptyFavoritesState() {
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
             )
+        }
+    }
+}
+
+@Composable
+private fun TasteFingerprintCard(fingerprint: TasteFingerprint) {
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            GalaxyPurple40.copy(alpha = 0.3f),
+                            GalaxyPurple80.copy(alpha = 0.1f)
+                        )
+                    )
+                )
+                .padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Surface(
+                    shape = CircleShape,
+                    color = CinemaOrange.copy(alpha = 0.2f)
+                ) {
+                    Icon(
+                        Icons.Default.Fingerprint,
+                        contentDescription = null,
+                        tint = CinemaOrange,
+                        modifier = Modifier
+                            .padding(12.dp)
+                            .size(28.dp)
+                    )
+                }
+                Column {
+                    Text(
+                        text = stringResource(R.string.taste_fingerprint_title),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        text = if (fingerprint.generatedByAi) {
+                            stringResource(R.string.generated_by_ai)
+                        } else {
+                            stringResource(R.string.generated_locally)
+                        },
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
+            HorizontalDivider(
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+            )
+
+            // Insights
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.duel_insights_title),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                fingerprint.insights.forEach { insight ->
+                    Row(
+                        verticalAlignment = Alignment.Top,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Icon(
+                            Icons.Default.AutoAwesome,
+                            contentDescription = null,
+                            tint = StarBright,
+                            modifier = Modifier.size(16.dp)
+                        )
+                        Text(
+                            text = insight,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
+            }
+
+            // Dominant Traits
+            if (fingerprint.dominantTraits.isNotEmpty()) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.duel_traits_title),
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        fingerprint.dominantTraits.forEach { trait ->
+                            SuggestionChip(
+                                onClick = { },
+                                label = {
+                                    Text(
+                                        text = trait,
+                                        style = MaterialTheme.typography.labelMedium
+                                    )
+                                },
+                                colors = SuggestionChipDefaults.suggestionChipColors(
+                                    containerColor = CinemaOrange.copy(alpha = 0.15f),
+                                    labelColor = CinemaOrange
+                                ),
+                                border = null
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }

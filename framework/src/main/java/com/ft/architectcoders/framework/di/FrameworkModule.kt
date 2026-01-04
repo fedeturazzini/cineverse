@@ -1,15 +1,17 @@
 package com.ft.architectcoders.framework.di
 
 import android.location.Geocoder
+import com.ft.architectcoders.data.datasource.DuelLocalDataSource
 import com.ft.architectcoders.data.datasource.GeminiAiService
 import com.ft.architectcoders.data.datasource.LocationDataSource
 import com.ft.architectcoders.data.datasource.MovieLocalDataSource
 import com.ft.architectcoders.data.datasource.MovieRemoteDataSource
 import com.ft.architectcoders.data.datasource.ProfileLocalDataSource
 import com.ft.architectcoders.data.datasource.RegionDataSource
+import com.ft.architectcoders.framework.DuelLocalDataSourceImpl
 import com.ft.architectcoders.framework.LocationDataSourceImpl
-import com.ft.architectcoders.framework.MovieRoomDataSource
 import com.ft.architectcoders.framework.MovieRemoteDataSourceImpl
+import com.ft.architectcoders.framework.MovieRoomDataSource
 import com.ft.architectcoders.framework.ProfileLocalDataSourceImpl
 import com.ft.architectcoders.framework.RegionDataSourceImpl
 import com.ft.architectcoders.framework.remote.gemini.GeminiAiServiceImpl
@@ -48,6 +50,7 @@ val frameworkModule = module {
     singleOf(::MovieRemoteDataSourceImpl) { bind<MovieRemoteDataSource>() }
     singleOf(::MovieRoomDataSource) { bind<MovieLocalDataSource>() }
     singleOf(::ProfileLocalDataSourceImpl) { bind<ProfileLocalDataSource>() }
+    singleOf(::DuelLocalDataSourceImpl) { bind<DuelLocalDataSource>() }
 }
 
 val frameworkModules = listOf(databaseModule, frameworkModule)
