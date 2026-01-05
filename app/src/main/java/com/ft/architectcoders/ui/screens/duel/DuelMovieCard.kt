@@ -368,9 +368,7 @@ fun DuelMovieCardVertical(
             ),
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            // Background with poster
             Row(modifier = Modifier.fillMaxSize()) {
-                // Poster on the left
                 AsyncImage(
                     model = movie.poster,
                     contentDescription = movie.title,
@@ -382,7 +380,6 @@ fun DuelMovieCardVertical(
                             .clip(RoundedCornerShape(topStart = 20.dp, bottomStart = 20.dp)),
                 )
 
-                // Content on the right
                 Box(
                     modifier =
                         Modifier
@@ -409,7 +406,6 @@ fun DuelMovieCardVertical(
                         Column(
                             verticalArrangement = Arrangement.spacedBy(6.dp),
                         ) {
-                            // Label badge
                             Box(
                                 modifier =
                                     Modifier

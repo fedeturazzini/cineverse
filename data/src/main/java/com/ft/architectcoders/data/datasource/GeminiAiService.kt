@@ -10,6 +10,7 @@ import com.ft.architectcoders.domain.model.MarathonTheme
 import com.ft.architectcoders.domain.model.MoodProfile
 import com.ft.architectcoders.domain.model.MoodVector
 import com.ft.architectcoders.domain.model.TasteFingerprint
+import com.ft.architectcoders.domain.model.WrapGeminiInput
 
 data class MarathonAiResult(
     val tagline: String,
@@ -77,4 +78,6 @@ interface GeminiAiService {
         topGenreIds: List<Int>,
         avoidMovieIds: List<Int>,
     ): Result<AiSearchGeminiResponse>
+
+    suspend fun generateCineverseWrap(input: WrapGeminiInput): Result<WrapAiResult>
 }

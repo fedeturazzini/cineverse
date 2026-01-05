@@ -7,6 +7,7 @@ import com.ft.architectcoders.domain.model.GenreWeight
 import com.ft.architectcoders.domain.model.MoodProfile
 import com.ft.architectcoders.domain.model.MoodVector
 import com.ft.architectcoders.domain.model.Movie
+import com.ft.architectcoders.domain.model.TmdbGenres
 
 class MoodRepositoryImpl(
     private val geminiAiService: GeminiAiService,
@@ -41,39 +42,39 @@ class MoodRepositoryImpl(
         val excludeGenres = mutableListOf<Int>()
 
         if (moodVector.energy > 60) {
-            genres.add(GenreWeight(GENRE_ACTION, 0.8f))
-            genres.add(GenreWeight(GENRE_ADVENTURE, 0.6f))
+            genres.add(GenreWeight(TmdbGenres.ACTION, 0.8f))
+            genres.add(GenreWeight(TmdbGenres.ADVENTURE, 0.6f))
             explanations.add("Películas con mucha acción y aventura")
         }
 
         if (moodVector.humor > 60) {
-            genres.add(GenreWeight(GENRE_COMEDY, 0.9f))
+            genres.add(GenreWeight(TmdbGenres.COMEDY, 0.9f))
             explanations.add("Comedias para reír sin parar")
-            excludeGenres.add(GENRE_HORROR)
+            excludeGenres.add(TmdbGenres.HORROR)
         }
 
         if (moodVector.tension > 60) {
-            genres.add(GenreWeight(GENRE_THRILLER, 0.8f))
-            genres.add(GenreWeight(GENRE_CRIME, 0.6f))
-            genres.add(GenreWeight(GENRE_MYSTERY, 0.5f))
+            genres.add(GenreWeight(TmdbGenres.THRILLER, 0.8f))
+            genres.add(GenreWeight(TmdbGenres.CRIME, 0.6f))
+            genres.add(GenreWeight(TmdbGenres.MYSTERY, 0.5f))
             explanations.add("Thrillers intensos con suspenso")
         }
 
         if (moodVector.romance > 60) {
-            genres.add(GenreWeight(GENRE_ROMANCE, 0.9f))
-            genres.add(GenreWeight(GENRE_DRAMA, 0.5f))
+            genres.add(GenreWeight(TmdbGenres.ROMANCE, 0.9f))
+            genres.add(GenreWeight(TmdbGenres.DRAMA, 0.5f))
             explanations.add("Historias románticas que tocan el corazón")
         }
 
         if (moodVector.cerebral > 60) {
-            genres.add(GenreWeight(GENRE_SCIFI, 0.7f))
-            genres.add(GenreWeight(GENRE_MYSTERY, 0.6f))
+            genres.add(GenreWeight(TmdbGenres.SCIFI, 0.7f))
+            genres.add(GenreWeight(TmdbGenres.MYSTERY, 0.6f))
             explanations.add("Películas que hacen pensar")
         }
 
         if (genres.isEmpty()) {
-            genres.add(GenreWeight(GENRE_DRAMA, 0.5f))
-            genres.add(GenreWeight(GENRE_COMEDY, 0.5f))
+            genres.add(GenreWeight(TmdbGenres.DRAMA, 0.5f))
+            genres.add(GenreWeight(TmdbGenres.COMEDY, 0.5f))
             explanations.add("Una mezcla variada para tu noche")
         }
 
@@ -112,16 +113,4 @@ class MoodRepositoryImpl(
         }
     }
 
-    companion object {
-        private const val GENRE_ACTION = 28
-        private const val GENRE_ADVENTURE = 12
-        private const val GENRE_COMEDY = 35
-        private const val GENRE_CRIME = 80
-        private const val GENRE_DRAMA = 18
-        private const val GENRE_HORROR = 27
-        private const val GENRE_MYSTERY = 9648
-        private const val GENRE_ROMANCE = 10749
-        private const val GENRE_SCIFI = 878
-        private const val GENRE_THRILLER = 53
-    }
 }

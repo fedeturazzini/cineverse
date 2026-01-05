@@ -7,6 +7,7 @@ import com.ft.architectcoders.domain.model.ChallengeType
 import com.ft.architectcoders.domain.model.DailyChallenge
 import com.ft.architectcoders.domain.model.DecadeCount
 import com.ft.architectcoders.domain.model.GenreCount
+import com.ft.architectcoders.domain.model.TmdbGenres
 import com.ft.architectcoders.domain.model.UserChallengeSignals
 
 fun sampleChallengeBadge(
@@ -73,8 +74,8 @@ fun sampleDailyChallenge(
 
 fun sampleUserChallengeSignals(
     topGenres: List<GenreCount> = listOf(
-        GenreCount(28, "Action", 10),
-        GenreCount(878, "Sci-Fi", 5),
+        GenreCount(TmdbGenres.ACTION, TmdbGenres.nameForId(TmdbGenres.ACTION)!!, 10),
+        GenreCount(TmdbGenres.SCIFI, TmdbGenres.nameForId(TmdbGenres.SCIFI)!!, 5),
     ),
     decadeHistogram: List<DecadeCount> = listOf(
         DecadeCount(2020, 15),

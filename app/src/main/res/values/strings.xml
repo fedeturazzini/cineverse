@@ -198,4 +198,26 @@
     <string name="ai_search_processing">Buscando películas…</string>
     <string name="ai_search_results_title">Resultados</string>
     <string name="ai_search_summary_title">Resumen de preferencias</string>
+
+    <!-- Cineverso Wrap Screen -->
+    <string name="wrap_title">Cineverso en 60s</string>
+    <string name="wrap_loading">Armando tu Cineverso…</string>
+    <string name="wrap_share">Compartir</string>
+    <string name="wrap_share_button">Compartir mi Cineverso</string>
+    <string name="wrap_archetype_label">Tu arquetipo</string>
+    <string name="wrap_genres_title">Tus géneros</string>
+    <string name="wrap_top_movies_title">Tus películas top</string>
+    <string name="wrap_actor_title">Tu actor favorito</string>
+    <string name="wrap_director_title">Tu director favorito</string>
+    <string name="wrap_ai_search_title">Tus búsquedas IA</string>
+    <string name="wrap_stat_movies">Películas</string>
+    <string name="wrap_stat_favorites">Favoritas</string>
+    <string name="wrap_stat_searches">Búsquedas</string>
+    <string name="wrap_empty_title">Todavía no tenemos material</string>
+    <string name="wrap_empty_subtitle">Te faltan %1$d interacciones para desbloquear tu Cineverso</string>
+    <string name="wrap_empty_suggestions_title">¿Cómo sumar interacciones?</string>
+    <string name="wrap_empty_suggestion_1">Explorá películas en la cartelera</string>
+    <string name="wrap_empty_suggestion_2">Marcá tus favoritas</string>
+    <string name="wrap_empty_suggestion_3">Probá la Búsqueda IA</string>
+    <string name="wrap_error_title">¡Ups! Algo salió mal</string>
 </resources>

@@ -8,6 +8,7 @@ import com.ft.architectcoders.domain.model.ChallengeStatus
 import com.ft.architectcoders.domain.model.DailyChallenge
 import com.ft.architectcoders.domain.model.DecadeCount
 import com.ft.architectcoders.domain.model.GenreCount
+import com.ft.architectcoders.domain.model.TmdbGenres
 import com.ft.architectcoders.domain.model.UserChallengeSignals
 import com.ft.architectcoders.usecases.FetchMoviesUseCase
 import com.ft.architectcoders.usecases.challenge.CompleteDailyChallengeUseCase
@@ -149,9 +150,9 @@ class DailyChallengeViewModel(
             val favoriteMovies = movies.filter { it.favorite }
 
             val topGenres = listOf(
-                GenreCount(28, "Action", favoriteMovies.size / 3),
-                GenreCount(18, "Drama", favoriteMovies.size / 4),
-                GenreCount(35, "Comedy", favoriteMovies.size / 5),
+                GenreCount(TmdbGenres.ACTION, TmdbGenres.nameForId(TmdbGenres.ACTION)!!, favoriteMovies.size / 3),
+                GenreCount(TmdbGenres.DRAMA, TmdbGenres.nameForId(TmdbGenres.DRAMA)!!, favoriteMovies.size / 4),
+                GenreCount(TmdbGenres.COMEDY, TmdbGenres.nameForId(TmdbGenres.COMEDY)!!, favoriteMovies.size / 5),
             ).filter { it.count > 0 }
 
             val decadeHistogram = favoriteMovies

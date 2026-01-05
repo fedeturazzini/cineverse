@@ -46,6 +46,10 @@ import com.ft.architectcoders.usecases.mood.BuildMoodProfileUseCase
 import com.ft.architectcoders.usecases.mood.BuildMoodProfileUseCaseImpl
 import com.ft.architectcoders.usecases.mood.GetMoodRecommendationsUseCase
 import com.ft.architectcoders.usecases.mood.GetMoodRecommendationsUseCaseImpl
+import com.ft.architectcoders.usecases.wrap.BuildWrapStatsUseCase
+import com.ft.architectcoders.usecases.wrap.BuildWrapStatsUseCaseImpl
+import com.ft.architectcoders.usecases.wrap.GetCineverseWrapUseCase
+import com.ft.architectcoders.usecases.wrap.GetCineverseWrapUseCaseImpl
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
@@ -75,4 +79,6 @@ val useCasesModule =
         factoryOf(::SendAiSearchMessageUseCaseImpl) { bind<SendAiSearchMessageUseCase>() }
         factoryOf(::GetAiSearchSessionUseCaseImpl) { bind<GetAiSearchSessionUseCase>() }
         factoryOf(::SaveAiSearchSessionUseCaseImpl) { bind<SaveAiSearchSessionUseCase>() }
+        factoryOf(::BuildWrapStatsUseCaseImpl) { bind<BuildWrapStatsUseCase>() }
+        factoryOf(::GetCineverseWrapUseCaseImpl) { bind<GetCineverseWrapUseCase>() }
     }

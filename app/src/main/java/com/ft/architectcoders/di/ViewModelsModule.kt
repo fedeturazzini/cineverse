@@ -10,6 +10,7 @@ import com.ft.architectcoders.ui.screens.marathon.MarathonPickerViewModel
 import com.ft.architectcoders.ui.screens.marathon.MarathonTodayViewModel
 import com.ft.architectcoders.ui.screens.mood.MoodRadarViewModel
 import com.ft.architectcoders.ui.screens.profile.ProfileViewModel
+import com.ft.architectcoders.ui.screens.wrap.CineverseWrapViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
@@ -34,4 +35,6 @@ val viewModelModule =
         viewModelOf(::DailyChallengeViewModel)
 
         viewModelOf(::AiSearchChatViewModel)
+
+        viewModelOf(::CineverseWrapViewModel)
     }

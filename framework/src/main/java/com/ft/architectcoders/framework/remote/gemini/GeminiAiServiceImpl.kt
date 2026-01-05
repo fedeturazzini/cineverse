@@ -4,6 +4,7 @@ import com.ft.architectcoders.data.datasource.AiSearchGeminiResponse
 import com.ft.architectcoders.data.datasource.ChallengeAiResult
 import com.ft.architectcoders.data.datasource.GeminiAiService
 import com.ft.architectcoders.data.datasource.MarathonAiResult
+import com.ft.architectcoders.data.datasource.WrapAiResult
 import com.ft.architectcoders.data.toGeminiResult
 import com.ft.architectcoders.domain.Result
 import com.ft.architectcoders.domain.model.AiReview
@@ -14,6 +15,7 @@ import com.ft.architectcoders.domain.model.MarathonTheme
 import com.ft.architectcoders.domain.model.MoodProfile
 import com.ft.architectcoders.domain.model.MoodVector
 import com.ft.architectcoders.domain.model.TasteFingerprint
+import com.ft.architectcoders.domain.model.WrapGeminiInput
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.generationConfig
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +27,7 @@ class GeminiAiServiceImpl(
     private val marathonPromptBuilder: MarathonPromptBuilder,
     private val challengePromptBuilder: ChallengePromptBuilder,
     private val aiSearchPromptBuilder: AiSearchPromptBuilder,
+    private val wrapPromptBuilder: WrapPromptBuilder,
 ) : GeminiAiService {
 
     companion object {
@@ -239,6 +242,20 @@ class GeminiAiServiceImpl(
                 val text = response.text ?: throw Exception("No response from AI")
 
                 Result.Success(aiSearchPromptBuilder.parseResponse(text))
+            } catch (e: Exception) {
+                e.toGeminiResult()
+            }
+        }
+    }
+
+    override suspend fun generateCineverseWrap(input: WrapGeminiInput): Result<WrapAiResult> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val prompt = wrapPromptBuilder.buildPrompt(input)
+                val response = model.generateContent(prompt)
+                val text = response.text ?: throw Exception("No response from AI")
+
+                Result.Success(wrapPromptBuilder.parseResponse(text))
             } catch (e: Exception) {
                 e.toGeminiResult()
             }

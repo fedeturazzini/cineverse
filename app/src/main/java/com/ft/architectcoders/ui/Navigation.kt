@@ -28,6 +28,7 @@ import com.ft.architectcoders.ui.screens.marathon.MarathonPickerScreen
 import com.ft.architectcoders.ui.screens.marathon.MarathonTodayScreen
 import com.ft.architectcoders.ui.screens.mood.MoodRadarScreen
 import com.ft.architectcoders.ui.screens.profile.ProfileScreen
+import com.ft.architectcoders.ui.screens.wrap.CineverseWrapScreen
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeSource
 import org.koin.androidx.compose.koinViewModel
@@ -61,6 +62,8 @@ sealed class NavScreen(val route: String) {
     data object DailyChallenge : NavScreen("daily_challenge")
 
     data object AiSearchChat : NavScreen("ai_search_chat")
+
+    data object CineverseWrap : NavScreen("cineverso_wrap")
 }
 
 enum class NavArgs(val key: String) {
@@ -174,7 +177,9 @@ fun Navigation() {
                             ForYouExperience.CONVERSATIONAL_SEARCH -> {
                                 navController.navigate(NavScreen.AiSearchChat.route)
                             }
-                            else -> { }
+                            ForYouExperience.CINEVERSO_60S -> {
+                                navController.navigate(NavScreen.CineverseWrap.route)
+                            }
                         }
                     },
                 )
@@ -250,6 +255,12 @@ fun Navigation() {
                     onMovieClick = { movieId ->
                         navController.navigate(NavScreen.Detail.createRoute(movieId))
                     },
+                )
+            }
+
+            composable(NavScreen.CineverseWrap.route) {
+                CineverseWrapScreen(
+                    onBack = { navController.popBackStack() },
                 )
             }
         }

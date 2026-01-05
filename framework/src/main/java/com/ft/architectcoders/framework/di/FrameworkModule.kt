@@ -25,6 +25,7 @@ import com.ft.architectcoders.framework.remote.gemini.ChallengePromptBuilder
 import com.ft.architectcoders.framework.remote.gemini.GeminiAiServiceImpl
 import com.ft.architectcoders.framework.remote.gemini.MarathonPromptBuilder
 import com.ft.architectcoders.framework.remote.gemini.MoodPromptBuilder
+import com.ft.architectcoders.framework.remote.gemini.WrapPromptBuilder
 import kotlinx.serialization.json.Json
 import com.ft.architectcoders.framework.remote.tmdb.TmdbApiClient
 import com.ft.architectcoders.framework.remote.tmdb.TmdbService
@@ -59,6 +60,7 @@ val frameworkModule =
         singleOf(::MarathonPromptBuilder)
         singleOf(::ChallengePromptBuilder)
         singleOf(::AiSearchPromptBuilder)
+        singleOf(::WrapPromptBuilder)
 
         single<GeminiAiService> {
             GeminiAiServiceImpl(
@@ -67,6 +69,7 @@ val frameworkModule =
                 marathonPromptBuilder = get(),
                 challengePromptBuilder = get(),
                 aiSearchPromptBuilder = get(),
+                wrapPromptBuilder = get(),
             )
         }
 

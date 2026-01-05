@@ -20,6 +20,8 @@ import com.ft.architectcoders.data.repository.region.RegionRepository
 import com.ft.architectcoders.data.repository.region.RegionRepositoryImpl
 import com.ft.architectcoders.data.repository.taste.TasteRepository
 import com.ft.architectcoders.data.repository.taste.TasteRepositoryImpl
+import com.ft.architectcoders.data.repository.wrap.WrapRepository
+import com.ft.architectcoders.data.repository.wrap.WrapRepositoryImpl
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -36,4 +38,5 @@ val dataModule =
         singleOf(::MarathonRepositoryImpl) { bind<MarathonRepository>() }
         singleOf(::ChallengeRepositoryImpl) { bind<ChallengeRepository>() }
         singleOf(::AiSearchRepositoryImpl) { bind<AiSearchRepository>() }
+        singleOf(::WrapRepositoryImpl) { bind<WrapRepository>() }
     }

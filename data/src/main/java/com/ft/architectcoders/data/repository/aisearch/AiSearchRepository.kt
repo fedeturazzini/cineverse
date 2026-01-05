@@ -4,6 +4,7 @@ import com.ft.architectcoders.domain.Result
 import com.ft.architectcoders.domain.model.AiSearchSession
 import com.ft.architectcoders.domain.model.AiSearchTurnResult
 import com.ft.architectcoders.domain.model.AiSearchUserSignals
+import kotlinx.coroutines.flow.Flow
 
 interface AiSearchRepository {
     suspend fun processUserMessage(
@@ -14,5 +15,6 @@ interface AiSearchRepository {
 
     suspend fun saveSession(session: AiSearchSession): Long
     suspend fun getSessionById(id: Long): AiSearchSession?
+    fun getAllSessions(): Flow<List<AiSearchSession>>
 }
 

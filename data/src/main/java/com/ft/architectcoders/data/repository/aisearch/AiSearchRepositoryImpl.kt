@@ -10,6 +10,7 @@ import com.ft.architectcoders.domain.model.AiSearchUserSignals
 import com.ft.architectcoders.domain.model.ChatMessage
 import com.ft.architectcoders.domain.model.ChatRole
 import com.ft.architectcoders.domain.model.Movie
+import kotlinx.coroutines.flow.Flow
 
 class AiSearchRepositoryImpl(
     private val geminiAiService: GeminiAiService,
@@ -112,6 +113,10 @@ class AiSearchRepositoryImpl(
 
     override suspend fun getSessionById(id: Long): AiSearchSession? {
         return localDataSource.getSessionById(id)
+    }
+
+    override fun getAllSessions(): Flow<List<AiSearchSession>> {
+        return localDataSource.getAllSessions()
     }
 }
 
