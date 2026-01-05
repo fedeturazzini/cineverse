@@ -28,29 +28,30 @@ import org.koin.dsl.module
 val TMDB_API_KEY = named("TMDB_API_KEY")
 val GEMINI_API_KEY = named("GEMINI_API_KEY")
 
-val frameworkModule = module {
-    single<TmdbService> {
-        TmdbApiClient.build(apiKey = get(TMDB_API_KEY))
-    }
+val frameworkModule =
+    module {
+        single<TmdbService> {
+            TmdbApiClient.build(apiKey = get(TMDB_API_KEY))
+        }
 
-    single<FusedLocationProviderClient> {
-        LocationServices.getFusedLocationProviderClient(androidApplication())
-    }
+        single<FusedLocationProviderClient> {
+            LocationServices.getFusedLocationProviderClient(androidApplication())
+        }
 
-    single<Geocoder> {
-        Geocoder(androidApplication())
-    }
+        single<Geocoder> {
+            Geocoder(androidApplication())
+        }
 
-    single<GeminiAiService> {
-        GeminiAiServiceImpl(apiKey = get(GEMINI_API_KEY))
-    }
+        single<GeminiAiService> {
+            GeminiAiServiceImpl(apiKey = get(GEMINI_API_KEY))
+        }
 
-    singleOf(::LocationDataSourceImpl) { bind<LocationDataSource>() }
-    singleOf(::RegionDataSourceImpl) { bind<RegionDataSource>() }
-    singleOf(::MovieRemoteDataSourceImpl) { bind<MovieRemoteDataSource>() }
-    singleOf(::MovieRoomDataSource) { bind<MovieLocalDataSource>() }
-    singleOf(::ProfileLocalDataSourceImpl) { bind<ProfileLocalDataSource>() }
-    singleOf(::DuelLocalDataSourceImpl) { bind<DuelLocalDataSource>() }
-}
+        singleOf(::LocationDataSourceImpl) { bind<LocationDataSource>() }
+        singleOf(::RegionDataSourceImpl) { bind<RegionDataSource>() }
+        singleOf(::MovieRemoteDataSourceImpl) { bind<MovieRemoteDataSource>() }
+        singleOf(::MovieRoomDataSource) { bind<MovieLocalDataSource>() }
+        singleOf(::ProfileLocalDataSourceImpl) { bind<ProfileLocalDataSource>() }
+        singleOf(::DuelLocalDataSourceImpl) { bind<DuelLocalDataSource>() }
+    }
 
 val frameworkModules = listOf(databaseModule, frameworkModule)

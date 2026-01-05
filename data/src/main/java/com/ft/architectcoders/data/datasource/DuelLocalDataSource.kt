@@ -6,9 +6,12 @@ import kotlinx.coroutines.flow.Flow
 
 interface DuelLocalDataSource {
     suspend fun saveDuelSession(session: DuelSession): Long
+
     suspend fun saveTasteFingerprint(fingerprint: TasteFingerprint)
+
     fun getLastFingerprint(): Flow<TasteFingerprint?>
+
     fun getDuelHistory(): Flow<List<DuelSession>>
+
     suspend fun markSessionCompleted(sessionId: Long)
 }
-

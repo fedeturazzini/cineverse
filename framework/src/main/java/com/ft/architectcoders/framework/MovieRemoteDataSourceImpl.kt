@@ -76,14 +76,15 @@ class MovieRemoteDataSourceImpl(
         yearTo: Int?,
     ): Result<List<Movie>> {
         return try {
-            val response = tmdbService.discoverMovies(
-                genres = genres?.joinToString(","),
-                excludeGenres = excludeGenres?.joinToString(","),
-                sortBy = sortBy,
-                minVoteAverage = minVoteAverage,
-                yearFrom = yearFrom?.let { "$it-01-01" },
-                yearTo = yearTo?.let { "$it-12-31" },
-            )
+            val response =
+                tmdbService.discoverMovies(
+                    genres = genres?.joinToString(","),
+                    excludeGenres = excludeGenres?.joinToString(","),
+                    sortBy = sortBy,
+                    minVoteAverage = minVoteAverage,
+                    yearFrom = yearFrom?.let { "$it-01-01" },
+                    yearTo = yearTo?.let { "$it-12-31" },
+                )
             Result.Success(response.results.map { it.toDomain() })
         } catch (e: Exception) {
             e.toTmdbResult()

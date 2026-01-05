@@ -18,13 +18,14 @@ fun sampleDuelChoice(
     roundNumber = roundNumber,
 )
 
-fun sampleDuelChoices(count: Int = 10) = (1..count).map { round ->
-    sampleDuelChoice(
-        roundNumber = round,
-        winnerId = round * 2 - 1,
-        loserId = round * 2,
-    )
-}
+fun sampleDuelChoices(count: Int = 10) =
+    (1..count).map { round ->
+        sampleDuelChoice(
+            roundNumber = round,
+            winnerId = round * 2 - 1,
+            loserId = round * 2,
+        )
+    }
 
 fun sampleDuelSession(
     id: Long = 1L,
@@ -41,13 +42,14 @@ fun sampleDuelSession(
 fun sampleTasteFingerprint(
     id: Long = 1L,
     sessionId: Long = 1L,
-    insights: List<String> = listOf(
-        "Te gustan los dramas intensos",
-        "Prefieres personajes complejos",
-        "Disfrutas narrativas lentas",
-        "Te atraen las atmósferas oscuras",
-        "Valoras la cinematografía artística",
-    ),
+    insights: List<String> =
+        listOf(
+            "Te gustan los dramas intensos",
+            "Prefieres personajes complejos",
+            "Disfrutas narrativas lentas",
+            "Te atraen las atmósferas oscuras",
+            "Valoras la cinematografía artística",
+        ),
     dominantTraits: List<String> = listOf("cinéfilo", "introspectivo", "atmosférico"),
     generatedByAi: Boolean = true,
 ) = TasteFingerprint(
@@ -57,4 +59,3 @@ fun sampleTasteFingerprint(
     dominantTraits = dominantTraits,
     generatedByAi = generatedByAi,
 )
-

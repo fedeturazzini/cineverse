@@ -6,8 +6,8 @@ import com.ft.architectcoders.framework.di.GEMINI_API_KEY as GEMINI_API_KEY_QUAL
 import com.ft.architectcoders.framework.di.TMDB_API_KEY as TMDB_API_KEY_QUALIFIER
 import org.koin.dsl.module
 
-val configModule = module {
-    single(TMDB_API_KEY_QUALIFIER) { TMDB_API_KEY }
-    single(GEMINI_API_KEY_QUALIFIER) { GEMINI_API_KEY }
-}
-
+val configModule =
+    module {
+        single(TMDB_API_KEY_QUALIFIER) { TMDB_API_KEY }
+        single(GEMINI_API_KEY_QUALIFIER) { GEMINI_API_KEY }
+    }

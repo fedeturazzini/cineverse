@@ -90,26 +90,29 @@ fun DuelScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = if (isCompleted) {
-                                Icons.Default.Close
-                            } else {
-                                Icons.AutoMirrored.Filled.ArrowBack
-                            },
+                            imageVector =
+                                if (isCompleted) {
+                                    Icons.Default.Close
+                                } else {
+                                    Icons.AutoMirrored.Filled.ArrowBack
+                                },
                             contentDescription = stringResource(R.string.back),
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent,
-                ),
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent,
+                    ),
             )
         },
         containerColor = Color.Transparent,
     ) { padding ->
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(SpaceNavy),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(SpaceNavy),
         ) {
             StarryBackground(
                 modifier = Modifier.fillMaxSize(),
@@ -117,31 +120,38 @@ fun DuelScreen(
             )
 
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                SpaceNavy.copy(alpha = 0.4f),
-                                GalaxyPurple40.copy(alpha = 0.3f),
-                                SpaceNavy.copy(alpha = 0.6f),
-                            ),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush =
+                                Brush.verticalGradient(
+                                    colors =
+                                        listOf(
+                                            SpaceNavy.copy(alpha = 0.4f),
+                                            GalaxyPurple40.copy(alpha = 0.3f),
+                                            SpaceNavy.copy(alpha = 0.6f),
+                                        ),
+                                ),
                         ),
-                    ),
             )
 
             AnimatedContent(
                 targetState = state,
                 transitionSpec = {
-                    (fadeIn(animationSpec = tween(300)) + scaleIn(
-                        initialScale = 0.95f,
-                        animationSpec = tween(300),
-                    )).togetherWith(fadeOut(animationSpec = tween(200)))
+                    (
+                        fadeIn(animationSpec = tween(300)) +
+                            scaleIn(
+                                initialScale = 0.95f,
+                                animationSpec = tween(300),
+                            )
+                    ).togetherWith(fadeOut(animationSpec = tween(200)))
                 },
                 label = "duelStateTransition",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(padding),
             ) { currentState ->
                 when (currentState) {
                     is DuelUiState.Loading -> {
@@ -202,9 +212,10 @@ private fun DuelInProgressContent(
     onChooseB: () -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         DuelProgressIndicator(
@@ -229,15 +240,17 @@ private fun DuelInProgressContent(
             label = "A",
             labelColor = CinemaOrange,
             onSelect = onChooseA,
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth(),
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
         )
 
         // VS indicator in the middle
         Box(
-            modifier = Modifier
-                .padding(vertical = 8.dp),
+            modifier =
+                Modifier
+                    .padding(vertical = 8.dp),
             contentAlignment = Alignment.Center,
         ) {
             Surface(
@@ -265,9 +278,10 @@ private fun DuelInProgressContent(
             label = "B",
             labelColor = StarBright,
             onSelect = onChooseB,
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth(),
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -292,10 +306,11 @@ private fun DuelProgressIndicator(
 
         LinearProgressIndicator(
             progress = { (current - 1).toFloat() / total },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(8.dp)
-                .clip(RoundedCornerShape(4.dp)),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+                    .clip(RoundedCornerShape(4.dp)),
             color = StarBright,
             trackColor = Color.White.copy(alpha = 0.2f),
         )
@@ -364,14 +379,16 @@ private fun DuelCompletedContent(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(24.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = GalaxyPurple40.copy(alpha = 0.6f),
-                ),
+                colors =
+                    CardDefaults.cardColors(
+                        containerColor = GalaxyPurple40.copy(alpha = 0.6f),
+                    ),
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(24.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
@@ -417,14 +434,16 @@ private fun DuelCompletedContent(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = SpaceNavy.copy(alpha = 0.8f),
-                ),
+                colors =
+                    CardDefaults.cardColors(
+                        containerColor = SpaceNavy.copy(alpha = 0.8f),
+                    ),
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(20.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     Text(
@@ -459,14 +478,16 @@ private fun DuelCompletedContent(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = GalaxyPurple80.copy(alpha = 0.3f),
-                ),
+                colors =
+                    CardDefaults.cardColors(
+                        containerColor = GalaxyPurple80.copy(alpha = 0.3f),
+                    ),
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(20.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(20.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     Text(
@@ -490,10 +511,11 @@ private fun DuelCompletedContent(
                                     style = MaterialTheme.typography.labelMedium,
                                     fontWeight = FontWeight.Medium,
                                     color = CinemaOrange,
-                                    modifier = Modifier.padding(
-                                        horizontal = 12.dp,
-                                        vertical = 6.dp,
-                                    ),
+                                    modifier =
+                                        Modifier.padding(
+                                            horizontal = 12.dp,
+                                            vertical = 6.dp,
+                                        ),
                                 )
                             }
                         }
@@ -509,10 +531,11 @@ private fun DuelCompletedContent(
                 onClick = onRetry,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = StarBright,
-                    contentColor = SpaceNavy,
-                ),
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = StarBright,
+                        contentColor = SpaceNavy,
+                    ),
                 contentPadding = PaddingValues(16.dp),
             ) {
                 Icon(
@@ -564,10 +587,11 @@ private fun DuelErrorContent(
             Button(
                 onClick = onRetry,
                 shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = StarBright,
-                    contentColor = SpaceNavy,
-                ),
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = StarBright,
+                        contentColor = SpaceNavy,
+                    ),
             ) {
                 Icon(
                     imageVector = Icons.Default.Refresh,
@@ -583,4 +607,3 @@ private fun DuelErrorContent(
         }
     }
 }
-

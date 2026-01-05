@@ -13,7 +13,6 @@ class DuelRepositoryImpl(
     private val movieLocalDataSource: MovieLocalDataSource,
     private val duelLocalDataSource: DuelLocalDataSource,
 ) : DuelRepository {
-
     override suspend fun getDuelCandidates(count: Int): Result<List<Movie>> {
         val localMovies = movieLocalDataSource.movies.firstOrNull() ?: emptyList()
 
@@ -39,4 +38,3 @@ class DuelRepositoryImpl(
         duelLocalDataSource.markSessionCompleted(sessionId)
     }
 }
-

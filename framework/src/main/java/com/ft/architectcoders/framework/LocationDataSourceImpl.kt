@@ -15,9 +15,10 @@ class LocationDataSourceImpl(private val fusedLocationClient: FusedLocationProvi
     private suspend fun FusedLocationProviderClient.lastLocation(): CineVerseLocation? {
         return suspendCancellableCoroutine { continuation ->
             lastLocation.addOnSuccessListener { location ->
-                val cineVerseLocation = location?.let {
-                    CineVerseLocation(it.latitude, it.longitude)
-                }
+                val cineVerseLocation =
+                    location?.let {
+                        CineVerseLocation(it.latitude, it.longitude)
+                    }
 
                 continuation.resume(cineVerseLocation)
             }.addOnFailureListener {

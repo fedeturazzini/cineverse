@@ -14,53 +14,52 @@ import org.junit.Rule
 import org.junit.Test
 
 class HomeIntegrationTests {
-
     @get:Rule
     val coroutinesTestRule = CoroutinesTestRule()
 
     @Test
-    fun `Data is loaded from server when local data source is empty`() = runTest  {
-        val remoteData = sampleMovies(1,2,3)
+    fun `Data is loaded from server when local data source is empty`() =
+        runTest {
+            val remoteData = sampleMovies(1, 2, 3)
 
-        val viewModel = buildViewModelWith(remoteData = remoteData)
+            val viewModel = buildViewModelWith(remoteData = remoteData)
 
-        viewModel.state.test {
-            assertEquals(UiState(isLoading = true), awaitItem())
-            
-            // When
-            viewModel.permissionGranted()
+            viewModel.state.test {
+                assertEquals(UiState(isLoading = true), awaitItem())
 
-            // Then
-            val successState = awaitItem()
-            assertEquals(remoteData, successState.movies)
-            assertEquals(false, successState.isLoading)
+                // When
+                viewModel.permissionGranted()
+
+                // Then
+                val successState = awaitItem()
+                assertEquals(remoteData, successState.movies)
+                assertEquals(false, successState.isLoading)
+            }
         }
-    }
 
     @Test
-    fun `Data is loaded from local source when available`() = runTest {
-        val localData = sampleMovies(1, 2)
-        val viewModel = buildViewModelWith(localData = localData)
+    fun `Data is loaded from local source when available`() =
+        runTest {
+            val localData = sampleMovies(1, 2)
+            val viewModel = buildViewModelWith(localData = localData)
 
-        viewModel.state.test {
-            assertEquals(UiState(isLoading = true), awaitItem())
+            viewModel.state.test {
+                assertEquals(UiState(isLoading = true), awaitItem())
 
-            // When
-            viewModel.permissionGranted()
+                // When
+                viewModel.permissionGranted()
 
-            // Then
-            val successState = awaitItem()
-            assertEquals(localData, successState.movies)
-            assertEquals(false, successState.isLoading)
+                // Then
+                val successState = awaitItem()
+                assertEquals(localData, successState.movies)
+                assertEquals(false, successState.isLoading)
+            }
         }
-
-    }
 }
-
 
 private fun buildViewModelWith(
     localData: List<Movie> = emptyList(),
-    remoteData: List<Movie> = emptyList()
+    remoteData: List<Movie> = emptyList(),
 ): HomeViewModel {
     val fetchMoviesUseCase =
         FakeFetchMoviesUseCase(buildMoviesRepositoryWith(localData, remoteData))

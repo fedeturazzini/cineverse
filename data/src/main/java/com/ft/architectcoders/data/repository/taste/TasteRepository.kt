@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface TasteRepository {
     suspend fun generateFingerprint(session: DuelSession): Result<TasteFingerprint>
+
     fun getLastFingerprint(): Flow<TasteFingerprint?>
 }
-

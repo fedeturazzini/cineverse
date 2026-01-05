@@ -11,7 +11,6 @@ class TasteRepositoryImpl(
     private val geminiAiService: GeminiAiService,
     private val duelLocalDataSource: DuelLocalDataSource,
 ) : TasteRepository {
-
     override suspend fun generateFingerprint(session: DuelSession): Result<TasteFingerprint> {
         val aiResult = geminiAiService.generateTasteFingerprint(session.id, session.choices)
 
@@ -61,4 +60,3 @@ class TasteRepositoryImpl(
         )
     }
 }
-

@@ -19,7 +19,6 @@ import org.mockito.kotlin.whenever
 
 @RunWith(MockitoJUnitRunner::class)
 class CompleteDuelSessionUseCaseTest {
-
     @Mock
     lateinit var duelRepository: DuelRepository
 
@@ -30,66 +29,69 @@ class CompleteDuelSessionUseCaseTest {
 
     @Before
     fun setUp() {
-        useCase = CompleteDuelSessionUseCaseImpl(
-            duelRepository = duelRepository,
-            tasteRepository = tasteRepository,
-        )
+        useCase =
+            CompleteDuelSessionUseCaseImpl(
+                duelRepository = duelRepository,
+                tasteRepository = tasteRepository,
+            )
     }
 
     @Test
-    fun `invoke saves session and generates fingerprint`() = runTest {
-        // Given
-        val session = sampleDuelSession(choicesCount = 10)
-        val sessionId = 123L
-        val fingerprint = sampleTasteFingerprint(sessionId = sessionId)
-        
-        whenever(duelRepository.saveDuelSession(any())).thenReturn(sessionId)
-        whenever(tasteRepository.generateFingerprint(any())).thenReturn(Result.Success(fingerprint))
+    fun `invoke saves session and generates fingerprint`() =
+        runTest {
+            // Given
+            val session = sampleDuelSession(choicesCount = 10)
+            val sessionId = 123L
+            val fingerprint = sampleTasteFingerprint(sessionId = sessionId)
 
-        // When
-        val result = useCase(session)
+            whenever(duelRepository.saveDuelSession(any())).thenReturn(sessionId)
+            whenever(tasteRepository.generateFingerprint(any())).thenReturn(Result.Success(fingerprint))
 
-        // Then
-        assertTrue(result is Result.Success)
-        assertEquals(fingerprint, (result as Result.Success).data)
-        verify(duelRepository).saveDuelSession(any())
-        verify(duelRepository).markSessionCompleted(sessionId)
-        verify(tasteRepository).generateFingerprint(any())
-    }
+            // When
+            val result = useCase(session)
 
-    @Test
-    fun `invoke marks session as completed`() = runTest {
-        // Given
-        val session = sampleDuelSession(isCompleted = false)
-        val sessionId = 456L
-        val fingerprint = sampleTasteFingerprint()
-        
-        whenever(duelRepository.saveDuelSession(any())).thenReturn(sessionId)
-        whenever(tasteRepository.generateFingerprint(any())).thenReturn(Result.Success(fingerprint))
-
-        // When
-        useCase(session)
-
-        // Then
-        verify(duelRepository).markSessionCompleted(sessionId)
-    }
+            // Then
+            assertTrue(result is Result.Success)
+            assertEquals(fingerprint, (result as Result.Success).data)
+            verify(duelRepository).saveDuelSession(any())
+            verify(duelRepository).markSessionCompleted(sessionId)
+            verify(tasteRepository).generateFingerprint(any())
+        }
 
     @Test
-    fun `invoke returns error when fingerprint generation fails`() = runTest {
-        // Given
-        val session = sampleDuelSession()
-        val sessionId = 789L
-        val error = com.ft.architectcoders.domain.error.AppError.UnknownError(message = "AI error")
-        
-        whenever(duelRepository.saveDuelSession(any())).thenReturn(sessionId)
-        whenever(tasteRepository.generateFingerprint(any())).thenReturn(Result.Error(error))
+    fun `invoke marks session as completed`() =
+        runTest {
+            // Given
+            val session = sampleDuelSession(isCompleted = false)
+            val sessionId = 456L
+            val fingerprint = sampleTasteFingerprint()
 
-        // When
-        val result = useCase(session)
+            whenever(duelRepository.saveDuelSession(any())).thenReturn(sessionId)
+            whenever(tasteRepository.generateFingerprint(any())).thenReturn(Result.Success(fingerprint))
 
-        // Then
-        assertTrue(result is Result.Error)
-        assertEquals(error, (result as Result.Error).error)
-    }
+            // When
+            useCase(session)
+
+            // Then
+            verify(duelRepository).markSessionCompleted(sessionId)
+        }
+
+    @Test
+    fun `invoke returns error when fingerprint generation fails`() =
+        runTest {
+            // Given
+            val session = sampleDuelSession()
+            val sessionId = 789L
+            val error = com.ft.architectcoders.domain.error.AppError.UnknownError(message = "AI error")
+
+            whenever(duelRepository.saveDuelSession(any())).thenReturn(sessionId)
+            whenever(tasteRepository.generateFingerprint(any())).thenReturn(Result.Error(error))
+
+            // When
+            val result = useCase(session)
+
+            // Then
+            assertTrue(result is Result.Error)
+            assertEquals(error, (result as Result.Error).error)
+        }
 }
-

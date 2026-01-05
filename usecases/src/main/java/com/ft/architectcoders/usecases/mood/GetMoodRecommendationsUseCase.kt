@@ -15,15 +15,16 @@ class GetMoodRecommendationsUseCaseImpl(
     override suspend fun invoke(profile: MoodProfile): Result<MoodRecommendation> {
         return when (val result = moodRepository.getRecommendations(profile)) {
             is Result.Success -> {
-                val dedupedMovies = result.data
-                    .distinctBy { it.id }
-                    .take(20)
+                val dedupedMovies =
+                    result.data
+                        .distinctBy { it.id }
+                        .take(20)
 
                 Result.Success(
                     MoodRecommendation(
                         profile = profile,
                         movies = dedupedMovies,
-                    )
+                    ),
                 )
             }
             is Result.Error -> result

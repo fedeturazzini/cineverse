@@ -17,4 +17,3 @@ class MockWebServerRule : TestWatcher() {
         server.shutdown()
     }
 }
-

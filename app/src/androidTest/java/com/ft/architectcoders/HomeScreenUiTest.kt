@@ -15,7 +15,6 @@ import org.junit.Rule
 import org.junit.Test
 
 class HomeScreenUiTest {
-
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -25,7 +24,6 @@ class HomeScreenUiTest {
             HomeScreen(
                 state = UiState(isLoading = true),
                 onMovieClick = {
-
                 },
             )
         }
@@ -36,52 +34,55 @@ class HomeScreenUiTest {
     }
 
     @Test
-    fun whenErrorState_showError(): Unit = with(composeTestRule) {
-        setContent {
-            HomeScreen(
-                state = UiState(error = "Is error"),
-                onMovieClick = {
+    fun whenErrorState_showError(): Unit =
+        with(composeTestRule) {
+            setContent {
+                HomeScreen(
+                    state = UiState(error = "Is error"),
+                    onMovieClick = {
+                    },
+                )
+            }
 
-                },
-            )
+            onNodeWithText("Is error").assertExists()
         }
-
-        onNodeWithText("Is error").assertExists()
-    }
 
     @Test
-    fun whenSuccess_showMovies(): Unit = with(composeTestRule) {
-        setContent {
-            HomeScreen(
-                state = UiState(
-                    movies = sampleMovies(1,2,3)
-                ),
-                onMovieClick = {
+    fun whenSuccess_showMovies(): Unit =
+        with(composeTestRule) {
+            setContent {
+                HomeScreen(
+                    state =
+                        UiState(
+                            movies = sampleMovies(1, 2, 3),
+                        ),
+                    onMovieClick = {
+                    },
+                )
+            }
 
-                },
-            )
+            onNodeWithText("Movie 3").assertExists()
         }
-
-        onNodeWithText("Movie 3").assertExists()
-    }
 
     @Test
-    fun whenMovieClicked_listenerCalled(): Unit = with(composeTestRule) {
-        var clickedMovieId = 0
-        val movies = sampleMovies(1,2,3)
-        setContent {
-            HomeScreen(
-                state = UiState(
-                    movies = movies
-                ),
-                onMovieClick = {
-                    clickedMovieId = it.id
-                },
-            )
+    fun whenMovieClicked_listenerCalled(): Unit =
+        with(composeTestRule) {
+            var clickedMovieId = 0
+            val movies = sampleMovies(1, 2, 3)
+            setContent {
+                HomeScreen(
+                    state =
+                        UiState(
+                            movies = movies,
+                        ),
+                    onMovieClick = {
+                        clickedMovieId = it.id
+                    },
+                )
+            }
+
+            onNodeWithText("Movie 2").performClick()
+
+            assertEquals(2, clickedMovieId)
         }
-
-        onNodeWithText("Movie 2").performClick()
-
-        assertEquals(2, clickedMovieId)
-    }
 }

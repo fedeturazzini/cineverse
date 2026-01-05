@@ -23,10 +23,10 @@ fun StarryBackground(
     LottieAnimation(
         composition = composition,
         iterations = LottieConstants.IterateForever,
-        modifier = modifier
-            .fillMaxSize()
-            .alpha(alpha),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .alpha(alpha),
         contentScale = ContentScale.Crop,
     )
 }
-

@@ -18,12 +18,13 @@ import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-val dataModule = module {
-    singleOf(::RegionRepositoryImpl) { bind<RegionRepository>() }
-    singleOf(::MovieRepositoryImpl) { bind<MovieRepository>() }
-    singleOf(::GeminiRepositoryImpl) { bind<GeminiRepository>() }
-    singleOf(::ProfileRepositoryImpl) { bind<ProfileRepository>() }
-    singleOf(::DuelRepositoryImpl) { bind<DuelRepository>() }
-    singleOf(::TasteRepositoryImpl) { bind<TasteRepository>() }
-    singleOf(::MoodRepositoryImpl) { bind<MoodRepository>() }
-}
+val dataModule =
+    module {
+        singleOf(::RegionRepositoryImpl) { bind<RegionRepository>() }
+        singleOf(::MovieRepositoryImpl) { bind<MovieRepository>() }
+        singleOf(::GeminiRepositoryImpl) { bind<GeminiRepository>() }
+        singleOf(::ProfileRepositoryImpl) { bind<ProfileRepository>() }
+        singleOf(::DuelRepositoryImpl) { bind<DuelRepository>() }
+        singleOf(::TasteRepositoryImpl) { bind<TasteRepository>() }
+        singleOf(::MoodRepositoryImpl) { bind<MoodRepository>() }
+    }

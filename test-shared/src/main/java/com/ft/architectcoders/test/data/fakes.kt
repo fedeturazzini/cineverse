@@ -27,24 +27,23 @@ fun buildMoviesRepositoryWith(
     localData: List<Movie> = emptyList(),
     remoteData: List<Movie> = emptyList(),
 ): MovieRepository {
-
-    val localDataSource = FakeLocalDataSource().apply {
-        inMemoryMovies.value = localData
-    }
+    val localDataSource =
+        FakeLocalDataSource().apply {
+            inMemoryMovies.value = localData
+        }
 
     val remoteDataSource = FakeRemoteDataSource().apply { movies = remoteData }
 
     return MovieRepositoryImpl(remoteDataSource, localDataSource)
 }
 
-class FakeLocalDataSource: MovieLocalDataSource {
+class FakeLocalDataSource : MovieLocalDataSource {
     val inMemoryMovies = MutableStateFlow<List<Movie>>(emptyList())
 
     override val movies: Flow<List<Movie>>
         get() = inMemoryMovies
 
-    override fun findMovieById(id: Int): Flow<Movie?> =
-        inMemoryMovies.map { it.firstOrNull { movie -> movie.id == id } }
+    override fun findMovieById(id: Int): Flow<Movie?> = inMemoryMovies.map { it.firstOrNull { movie -> movie.id == id } }
 
     override suspend fun countMovies(): Int {
         return inMemoryMovies.value.size
@@ -64,16 +63,14 @@ class FakeLocalDataSource: MovieLocalDataSource {
 
     override suspend fun updateAiReview(
         movieId: Int,
-        review: AiReview
+        review: AiReview,
     ) {
         TODO("Not yet implemented")
     }
-
 }
 
-class FakeRemoteDataSource: MovieRemoteDataSource {
-
-    var movies = sampleMovies(1,2,3,4,5)
+class FakeRemoteDataSource : MovieRemoteDataSource {
+    var movies = sampleMovies(1, 2, 3, 4, 5)
 
     override suspend fun fetchPopularMovies(): Result<List<Movie>> = successResult(movies)
 
@@ -99,21 +96,20 @@ class FakeRemoteDataSource: MovieRemoteDataSource {
         yearFrom: Int?,
         yearTo: Int?,
     ): Result<List<Movie>> = successResult(movies)
-
 }
 
 // TODO: Ver si lo puedo usar en el futuro
 class FakeRegionRepository(
-    val fakeRegionDataSource: FakeRegionDataSource
-): RegionRepository {
+    val fakeRegionDataSource: FakeRegionDataSource,
+) : RegionRepository {
     override suspend fun findLastRegion(): String = fakeRegionDataSource.region
 }
 
-class FakeFetchMoviesUseCase(private val movieRepository: MovieRepository): FetchMoviesUseCase {
+class FakeFetchMoviesUseCase(private val movieRepository: MovieRepository) : FetchMoviesUseCase {
     override fun invoke(): Flow<List<Movie>> = movieRepository.movies
 }
 
-class FakeRegionDataSource: RegionDataSource {
+class FakeRegionDataSource : RegionDataSource {
     var region: String = DEFAULT_REGION
 
     override suspend fun findLastRegion(): String = region
@@ -127,7 +123,7 @@ class FakeGeminiRepository : GeminiRepository {
     override fun getMovieReview(
         movieId: Int,
         title: String,
-        overview: String
+        overview: String,
     ): Flow<Result<AiReview>> {
         return flowOf(successResult(sampleAiReview()))
     }

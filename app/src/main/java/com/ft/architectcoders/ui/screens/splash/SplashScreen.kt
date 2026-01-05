@@ -27,9 +27,7 @@ import com.ft.architectcoders.ui.theme.IndigoDark80
 import com.ft.architectcoders.ui.theme.SurfaceVariantLight
 
 @Composable
-fun SplashScreen(
-    onAnimationEnd: () -> Unit,
-) {
+fun SplashScreen(onAnimationEnd: () -> Unit) {
     val composition by rememberLottieComposition(
         LottieCompositionSpec.Asset("splash_animation.json"),
     )
@@ -48,19 +46,21 @@ fun SplashScreen(
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        DeepSpaceBlue20,
-                        IndigoDark80,
-                    ),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(
+                    brush =
+                        Brush.verticalGradient(
+                            colors =
+                                listOf(
+                                    DeepSpaceBlue20,
+                                    IndigoDark80,
+                                ),
+                        ),
                 ),
-            ),
         contentAlignment = Alignment.Center,
     ) {
-
         StarryBackground(
             modifier = Modifier.fillMaxSize(),
             alpha = 0.7f,
@@ -86,4 +86,3 @@ fun SplashScreen(
         }
     }
 }
-

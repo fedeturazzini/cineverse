@@ -8,25 +8,25 @@ import com.ft.architectcoders.framework.database.MoviesDao
 import com.ft.architectcoders.framework.database.ProfileDao
 import org.koin.dsl.module
 
-val databaseModule = module {
-    single<CineVerseDatabase> {
-        Room.databaseBuilder(
-            get<Application>(),
-            CineVerseDatabase::class.java,
-            "cineverse_database",
-        ).fallbackToDestructiveMigration().build()
-    }
+val databaseModule =
+    module {
+        single<CineVerseDatabase> {
+            Room.databaseBuilder(
+                get<Application>(),
+                CineVerseDatabase::class.java,
+                "cineverse_database",
+            ).fallbackToDestructiveMigration().build()
+        }
 
-    single<MoviesDao> {
-        get<CineVerseDatabase>().moviesDao
-    }
+        single<MoviesDao> {
+            get<CineVerseDatabase>().moviesDao
+        }
 
-    single<ProfileDao> {
-        get<CineVerseDatabase>().profileDao
-    }
+        single<ProfileDao> {
+            get<CineVerseDatabase>().profileDao
+        }
 
-    single<DuelDao> {
-        get<CineVerseDatabase>().duelDao
+        single<DuelDao> {
+            get<CineVerseDatabase>().duelDao
+        }
     }
-}
-

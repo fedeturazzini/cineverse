@@ -69,71 +69,78 @@ fun DuelMovieCard(
     val cardShape = RoundedCornerShape(24.dp)
 
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(420.dp)
-            .offset { IntOffset(animatedOffsetX.roundToInt(), 0) }
-            .rotate(rotation)
-            .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragEnd = {
-                        if (kotlin.math.abs(offsetX) > swipeThreshold) {
-                            onSwipeComplete()
-                        }
-                        offsetX = 0f
-                    },
-                    onDragCancel = {
-                        offsetX = 0f
-                    },
-                ) { _, dragAmount ->
-                    offsetX += dragAmount.x
-                }
-            },
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(420.dp)
+                .offset { IntOffset(animatedOffsetX.roundToInt(), 0) }
+                .rotate(rotation)
+                .pointerInput(Unit) {
+                    detectDragGestures(
+                        onDragEnd = {
+                            if (kotlin.math.abs(offsetX) > swipeThreshold) {
+                                onSwipeComplete()
+                            }
+                            offsetX = 0f
+                        },
+                        onDragCancel = {
+                            offsetX = 0f
+                        },
+                    ) { _, dragAmount ->
+                        offsetX += dragAmount.x
+                    }
+                },
         shape = cardShape,
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 12.dp,
-            pressedElevation = 16.dp,
-        ),
+        elevation =
+            CardDefaults.cardElevation(
+                defaultElevation = 12.dp,
+                pressedElevation = 16.dp,
+            ),
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             AsyncImage(
                 model = movie.poster,
                 contentDescription = movie.title,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(cardShape),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .clip(cardShape),
             )
 
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                Color.Black.copy(alpha = 0.3f),
-                                Color.Black.copy(alpha = 0.85f),
-                            ),
-                            startY = 200f,
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush =
+                                Brush.verticalGradient(
+                                    colors =
+                                        listOf(
+                                            Color.Transparent,
+                                            Color.Black.copy(alpha = 0.3f),
+                                            Color.Black.copy(alpha = 0.85f),
+                                        ),
+                                    startY = 200f,
+                                ),
                         ),
-                    ),
             )
 
             Box(
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .padding(16.dp)
-                    .background(
-                        color = labelColor.copy(alpha = 0.9f),
-                        shape = RoundedCornerShape(12.dp),
-                    )
-                    .border(
-                        width = 1.dp,
-                        color = Color.White.copy(alpha = 0.3f),
-                        shape = RoundedCornerShape(12.dp),
-                    )
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                modifier =
+                    Modifier
+                        .align(Alignment.TopStart)
+                        .padding(16.dp)
+                        .background(
+                            color = labelColor.copy(alpha = 0.9f),
+                            shape = RoundedCornerShape(12.dp),
+                        )
+                        .border(
+                            width = 1.dp,
+                            color = Color.White.copy(alpha = 0.3f),
+                            shape = RoundedCornerShape(12.dp),
+                        )
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
                 Text(
                     text = label,
@@ -144,10 +151,11 @@ fun DuelMovieCard(
             }
 
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomStart)
-                    .padding(20.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomStart)
+                        .padding(20.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Text(
@@ -190,54 +198,61 @@ fun DuelMovieCardSimple(
 
     Card(
         onClick = onClick,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(420.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .height(420.dp),
         shape = cardShape,
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 12.dp,
-            pressedElevation = 16.dp,
-        ),
+        elevation =
+            CardDefaults.cardElevation(
+                defaultElevation = 12.dp,
+                pressedElevation = 16.dp,
+            ),
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             AsyncImage(
                 model = movie.poster,
                 contentDescription = movie.title,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clip(cardShape),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .clip(cardShape),
             )
 
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                Color.Black.copy(alpha = 0.3f),
-                                Color.Black.copy(alpha = 0.85f),
-                            ),
-                            startY = 200f,
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush =
+                                Brush.verticalGradient(
+                                    colors =
+                                        listOf(
+                                            Color.Transparent,
+                                            Color.Black.copy(alpha = 0.3f),
+                                            Color.Black.copy(alpha = 0.85f),
+                                        ),
+                                    startY = 200f,
+                                ),
                         ),
-                    ),
             )
 
             Box(
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .padding(16.dp)
-                    .background(
-                        color = labelColor.copy(alpha = 0.9f),
-                        shape = RoundedCornerShape(12.dp),
-                    )
-                    .border(
-                        width = 1.dp,
-                        color = Color.White.copy(alpha = 0.3f),
-                        shape = RoundedCornerShape(12.dp),
-                    )
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                modifier =
+                    Modifier
+                        .align(Alignment.TopStart)
+                        .padding(16.dp)
+                        .background(
+                            color = labelColor.copy(alpha = 0.9f),
+                            shape = RoundedCornerShape(12.dp),
+                        )
+                        .border(
+                            width = 1.dp,
+                            color = Color.White.copy(alpha = 0.3f),
+                            shape = RoundedCornerShape(12.dp),
+                        )
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
                 Text(
                     text = label,
@@ -248,10 +263,11 @@ fun DuelMovieCardSimple(
             }
 
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomStart)
-                    .padding(20.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomStart)
+                        .padding(20.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Text(
@@ -285,9 +301,10 @@ fun DuelMovieCardSimple(
                 fontWeight = FontWeight.Bold,
                 color = Color.White.copy(alpha = 0.6f),
                 textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 8.dp),
+                modifier =
+                    Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 8.dp),
             )
         }
     }
@@ -304,10 +321,11 @@ fun DuelMovieCardVertical(
     var offsetX by remember { mutableFloatStateOf(0f) }
     val animatedOffsetX by animateFloatAsState(
         targetValue = offsetX,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessLow,
-        ),
+        animationSpec =
+            spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessLow,
+            ),
         label = "cardOffsetX",
     )
 
@@ -318,34 +336,36 @@ fun DuelMovieCardVertical(
     val cardShape = RoundedCornerShape(20.dp)
 
     Card(
-        modifier = modifier
-            .offset { IntOffset(animatedOffsetX.roundToInt(), 0) }
-            .rotate(rotation)
-            .scale(scale)
-            .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragEnd = {
-                        if (abs(offsetX) > swipeThreshold) {
-                            onSelect()
-                        }
-                        offsetX = 0f
-                    },
-                    onDragCancel = {
-                        offsetX = 0f
-                    },
-                ) { _, dragAmount ->
-                    offsetX += dragAmount.x
+        modifier =
+            modifier
+                .offset { IntOffset(animatedOffsetX.roundToInt(), 0) }
+                .rotate(rotation)
+                .scale(scale)
+                .pointerInput(Unit) {
+                    detectDragGestures(
+                        onDragEnd = {
+                            if (abs(offsetX) > swipeThreshold) {
+                                onSelect()
+                            }
+                            offsetX = 0f
+                        },
+                        onDragCancel = {
+                            offsetX = 0f
+                        },
+                    ) { _, dragAmount ->
+                        offsetX += dragAmount.x
+                    }
                 }
-            }
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onTap = { onSelect() },
-                )
-            },
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onTap = { onSelect() },
+                    )
+                },
         shape = cardShape,
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 8.dp,
-        ),
+        elevation =
+            CardDefaults.cardElevation(
+                defaultElevation = 8.dp,
+            ),
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             // Background with poster
@@ -355,30 +375,35 @@ fun DuelMovieCardVertical(
                     model = movie.poster,
                     contentDescription = movie.title,
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .width(130.dp)
-                        .clip(RoundedCornerShape(topStart = 20.dp, bottomStart = 20.dp)),
+                    modifier =
+                        Modifier
+                            .fillMaxHeight()
+                            .width(130.dp)
+                            .clip(RoundedCornerShape(topStart = 20.dp, bottomStart = 20.dp)),
                 )
 
                 // Content on the right
                 Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .background(
-                            brush = Brush.horizontalGradient(
-                                colors = listOf(
-                                    Color.Black.copy(alpha = 0.9f),
-                                    labelColor.copy(alpha = 0.15f),
-                                ),
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .background(
+                                brush =
+                                    Brush.horizontalGradient(
+                                        colors =
+                                            listOf(
+                                                Color.Black.copy(alpha = 0.9f),
+                                                labelColor.copy(alpha = 0.15f),
+                                            ),
+                                    ),
                             ),
-                        ),
                 ) {
                     Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(16.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(16.dp),
                         verticalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Column(
@@ -386,12 +411,13 @@ fun DuelMovieCardVertical(
                         ) {
                             // Label badge
                             Box(
-                                modifier = Modifier
-                                    .background(
-                                        color = labelColor,
-                                        shape = RoundedCornerShape(8.dp),
-                                    )
-                                    .padding(horizontal = 12.dp, vertical = 4.dp),
+                                modifier =
+                                    Modifier
+                                        .background(
+                                            color = labelColor,
+                                            shape = RoundedCornerShape(8.dp),
+                                        )
+                                        .padding(horizontal = 12.dp, vertical = 4.dp),
                             ) {
                                 Text(
                                     text = label,
@@ -444,4 +470,3 @@ fun DuelMovieCardVertical(
         }
     }
 }
-

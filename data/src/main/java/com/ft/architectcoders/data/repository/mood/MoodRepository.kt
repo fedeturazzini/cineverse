@@ -7,5 +7,6 @@ import com.ft.architectcoders.domain.model.Movie
 
 interface MoodRepository {
     suspend fun buildMoodProfile(moodVector: MoodVector): Result<MoodProfile>
+
     suspend fun getRecommendations(profile: MoodProfile): Result<List<Movie>>
 }

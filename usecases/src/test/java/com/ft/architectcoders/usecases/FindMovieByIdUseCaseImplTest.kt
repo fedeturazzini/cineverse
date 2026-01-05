@@ -12,21 +12,23 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
 class FindMovieByIdUseCaseImplTest {
-
     @Test
-    fun `Invoke should return movie from repository`() = runTest {
-        // Given
-        val movie = sampleMovie(1)
+    fun `Invoke should return movie from repository`() =
+        runTest {
+            // Given
+            val movie = sampleMovie(1)
 
-        // When
-        val useCase = FindMovieByIdUseCaseImpl(mock {
-            on { findMovieById(1) } doReturn flowOf(successResult(movie))
-        })
+            // When
+            val useCase =
+                FindMovieByIdUseCaseImpl(
+                    mock {
+                        on { findMovieById(1) } doReturn flowOf(successResult(movie))
+                    },
+                )
 
-        // Then
-        val result = useCase.invoke(1).first()
+            // Then
+            val result = useCase.invoke(1).first()
 
-        assertEquals(successResult(movie), result)
-    }
-
+            assertEquals(successResult(movie), result)
+        }
 }

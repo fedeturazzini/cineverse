@@ -14,27 +14,28 @@ import kotlinx.coroutines.flow.map
 class DuelLocalDataSourceImpl(
     private val duelDao: DuelDao,
 ) : DuelLocalDataSource {
-
     override suspend fun saveDuelSession(session: DuelSession): Long {
-        val dbSession = DbDuelSession(
-            id = session.id,
-            timestamp = session.timestamp,
-            isCompleted = session.isCompleted,
-        )
+        val dbSession =
+            DbDuelSession(
+                id = session.id,
+                timestamp = session.timestamp,
+                isCompleted = session.isCompleted,
+            )
         val dbChoices = session.choices.map { it.toDbDuelChoice(session.id) }
 
         return duelDao.saveDuelSessionWithChoices(dbSession, dbChoices)
     }
 
     override suspend fun saveTasteFingerprint(fingerprint: TasteFingerprint) {
-        val dbFingerprint = DbTasteFingerprint(
-            id = fingerprint.id,
-            sessionId = fingerprint.sessionId,
-            timestamp = fingerprint.timestamp,
-            insights = fingerprint.insights.joinToString(SEPARATOR),
-            dominantTraits = fingerprint.dominantTraits.joinToString(SEPARATOR),
-            generatedByAi = fingerprint.generatedByAi,
-        )
+        val dbFingerprint =
+            DbTasteFingerprint(
+                id = fingerprint.id,
+                sessionId = fingerprint.sessionId,
+                timestamp = fingerprint.timestamp,
+                insights = fingerprint.insights.joinToString(SEPARATOR),
+                dominantTraits = fingerprint.dominantTraits.joinToString(SEPARATOR),
+                generatedByAi = fingerprint.generatedByAi,
+            )
         duelDao.insertFingerprint(dbFingerprint)
     }
 
@@ -55,41 +56,44 @@ class DuelLocalDataSourceImpl(
         duelDao.markSessionCompleted(sessionId)
     }
 
-    private fun DuelChoice.toDbDuelChoice(sessionId: Long) = DbDuelChoice(
-        sessionId = sessionId,
-        winnerId = winnerId,
-        loserId = loserId,
-        winnerTitle = winnerTitle,
-        loserTitle = loserTitle,
-        roundNumber = roundNumber,
-    )
+    private fun DuelChoice.toDbDuelChoice(sessionId: Long) =
+        DbDuelChoice(
+            sessionId = sessionId,
+            winnerId = winnerId,
+            loserId = loserId,
+            winnerTitle = winnerTitle,
+            loserTitle = loserTitle,
+            roundNumber = roundNumber,
+        )
 
-    private fun DbDuelSession.toDomainSession(choices: List<DbDuelChoice>) = DuelSession(
-        id = id,
-        timestamp = timestamp,
-        choices = choices.map { it.toDomainChoice() },
-        isCompleted = isCompleted,
-    )
+    private fun DbDuelSession.toDomainSession(choices: List<DbDuelChoice>) =
+        DuelSession(
+            id = id,
+            timestamp = timestamp,
+            choices = choices.map { it.toDomainChoice() },
+            isCompleted = isCompleted,
+        )
 
-    private fun DbDuelChoice.toDomainChoice() = DuelChoice(
-        winnerId = winnerId,
-        loserId = loserId,
-        winnerTitle = winnerTitle,
-        loserTitle = loserTitle,
-        roundNumber = roundNumber,
-    )
+    private fun DbDuelChoice.toDomainChoice() =
+        DuelChoice(
+            winnerId = winnerId,
+            loserId = loserId,
+            winnerTitle = winnerTitle,
+            loserTitle = loserTitle,
+            roundNumber = roundNumber,
+        )
 
-    private fun DbTasteFingerprint.toDomainFingerprint() = TasteFingerprint(
-        id = id,
-        sessionId = sessionId,
-        timestamp = timestamp,
-        insights = insights.split(SEPARATOR).filter { it.isNotBlank() },
-        dominantTraits = dominantTraits.split(SEPARATOR).filter { it.isNotBlank() },
-        generatedByAi = generatedByAi,
-    )
+    private fun DbTasteFingerprint.toDomainFingerprint() =
+        TasteFingerprint(
+            id = id,
+            sessionId = sessionId,
+            timestamp = timestamp,
+            insights = insights.split(SEPARATOR).filter { it.isNotBlank() },
+            dominantTraits = dominantTraits.split(SEPARATOR).filter { it.isNotBlank() },
+            generatedByAi = generatedByAi,
+        )
 
     companion object {
         private const val SEPARATOR = "|||"
     }
 }
-

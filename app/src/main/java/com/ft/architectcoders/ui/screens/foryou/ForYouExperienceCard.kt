@@ -54,44 +54,49 @@ fun ForYouExperienceCard(
     val cardShape = RoundedCornerShape(20.dp)
 
     Box(
-        modifier = modifier
-            .aspectRatio(0.9f)
-            .graphicsLayer {
-                scaleX = scale
-                scaleY = scale
-            }
-            .shadow(
-                elevation = 8.dp,
-                shape = cardShape,
-                ambientColor = experience.gradientColors.first().copy(alpha = 0.3f),
-                spotColor = experience.gradientColors.first().copy(alpha = 0.3f),
-            )
-            .clip(cardShape)
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = experience.gradientColors,
+        modifier =
+            modifier
+                .aspectRatio(0.9f)
+                .graphicsLayer {
+                    scaleX = scale
+                    scaleY = scale
+                }
+                .shadow(
+                    elevation = 8.dp,
+                    shape = cardShape,
+                    ambientColor = experience.gradientColors.first().copy(alpha = 0.3f),
+                    spotColor = experience.gradientColors.first().copy(alpha = 0.3f),
+                )
+                .clip(cardShape)
+                .background(
+                    brush =
+                        Brush.verticalGradient(
+                            colors = experience.gradientColors,
+                        ),
+                )
+                .border(
+                    width = Dp.Hairline,
+                    brush =
+                        Brush.verticalGradient(
+                            colors =
+                                listOf(
+                                    Color.White.copy(alpha = 0.4f),
+                                    Color.White.copy(alpha = 0.1f),
+                                ),
+                        ),
+                    shape = cardShape,
+                )
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    onClick = onClick,
                 ),
-            )
-            .border(
-                width = Dp.Hairline,
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color.White.copy(alpha = 0.4f),
-                        Color.White.copy(alpha = 0.1f),
-                    ),
-                ),
-                shape = cardShape,
-            )
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = onClick,
-            ),
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
@@ -114,9 +119,10 @@ fun ForYouExperienceCard(
             }
 
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
@@ -142,4 +148,3 @@ fun ForYouExperienceCard(
         }
     }
 }
-

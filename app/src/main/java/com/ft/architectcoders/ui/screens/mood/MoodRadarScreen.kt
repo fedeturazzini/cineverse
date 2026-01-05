@@ -98,17 +98,19 @@ fun MoodRadarScreen(
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent,
-                ),
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent,
+                    ),
             )
         },
         containerColor = Color.Transparent,
     ) { padding ->
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(SpaceNavy),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(SpaceNavy),
         ) {
             StarryBackground(
                 modifier = Modifier.fillMaxSize(),
@@ -116,17 +118,20 @@ fun MoodRadarScreen(
             )
 
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                SpaceNavy.copy(alpha = 0.6f),
-                                GalaxyPurple40.copy(alpha = 0.3f),
-                                SpaceNavy.copy(alpha = 0.8f),
-                            ),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush =
+                                Brush.verticalGradient(
+                                    colors =
+                                        listOf(
+                                            SpaceNavy.copy(alpha = 0.6f),
+                                            GalaxyPurple40.copy(alpha = 0.3f),
+                                            SpaceNavy.copy(alpha = 0.8f),
+                                        ),
+                                ),
                         ),
-                    ),
             )
 
             when (val currentState = state) {
@@ -169,10 +174,11 @@ private fun MoodInputContent(
     padding: PaddingValues,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(padding)
-            .padding(horizontal = 24.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(horizontal = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Spacer(modifier = Modifier.height(16.dp))
@@ -230,13 +236,15 @@ private fun MoodInputContent(
 
         Button(
             onClick = onBuildNight,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
             shape = RoundedCornerShape(16.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = CinemaOrange,
-            ),
+            colors =
+                ButtonDefaults.buttonColors(
+                    containerColor = CinemaOrange,
+                ),
         ) {
             Icon(
                 imageVector = Icons.Default.AutoAwesome,
@@ -265,9 +273,10 @@ private fun MoodSlider(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -306,11 +315,12 @@ private fun MoodSlider(
             value = value.toFloat(),
             onValueChange = { onValueChange(it.toInt()) },
             valueRange = 0f..100f,
-            colors = SliderDefaults.colors(
-                thumbColor = color,
-                activeTrackColor = color,
-                inactiveTrackColor = color.copy(alpha = 0.3f),
-            ),
+            colors =
+                SliderDefaults.colors(
+                    thumbColor = color,
+                    activeTrackColor = color,
+                    inactiveTrackColor = color.copy(alpha = 0.3f),
+                ),
         )
     }
 }
@@ -318,9 +328,10 @@ private fun MoodSlider(
 @Composable
 private fun LoadingContent(padding: PaddingValues) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(padding),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(padding),
         contentAlignment = Alignment.Center,
     ) {
         Column(
@@ -346,12 +357,13 @@ private fun SuccessContent(
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(
-            top = padding.calculateTopPadding() + 16.dp,
-            bottom = 16.dp,
-            start = 16.dp,
-            end = 16.dp,
-        ),
+        contentPadding =
+            PaddingValues(
+                top = padding.calculateTopPadding() + 16.dp,
+                bottom = 16.dp,
+                start = 16.dp,
+                end = 16.dp,
+            ),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
@@ -379,13 +391,15 @@ private fun SuccessContent(
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = onBuildNight,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
                 shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = GalaxyPurple80,
-                ),
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = GalaxyPurple80,
+                    ),
             ) {
                 Text(
                     text = stringResource(R.string.mood_try_again),
@@ -405,9 +419,10 @@ private fun MicroCopyCard(
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = GalaxyPurple40.copy(alpha = 0.6f),
-        ),
+        colors =
+            CardDefaults.cardColors(
+                containerColor = GalaxyPurple40.copy(alpha = 0.6f),
+            ),
     ) {
         Column(
             modifier = Modifier.padding(20.dp),
@@ -424,11 +439,12 @@ private fun MicroCopyCard(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = if (generatedByAi) {
-                        stringResource(R.string.generated_by_ai)
-                    } else {
-                        stringResource(R.string.generated_locally)
-                    },
+                    text =
+                        if (generatedByAi) {
+                            stringResource(R.string.generated_by_ai)
+                        } else {
+                            stringResource(R.string.generated_locally)
+                        },
                     style = MaterialTheme.typography.labelSmall,
                     color = Color.White.copy(alpha = 0.7f),
                 )
@@ -468,10 +484,11 @@ private fun ErrorContent(
     padding: PaddingValues,
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(padding)
-            .padding(24.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(24.dp),
         contentAlignment = Alignment.Center,
     ) {
         Column(
@@ -503,9 +520,10 @@ private fun ErrorContent(
 
             Button(
                 onClick = onRetry,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = CinemaOrange,
-                ),
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = CinemaOrange,
+                    ),
             ) {
                 Text(
                     text = stringResource(R.string.retry),
@@ -515,4 +533,3 @@ private fun ErrorContent(
         }
     }
 }
-

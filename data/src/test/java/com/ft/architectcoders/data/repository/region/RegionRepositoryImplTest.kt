@@ -7,19 +7,20 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
 class RegionRepositoryImplTest {
-
     @Test
-    fun `findLastRegion calls RegionDataSource`() = runTest {
-        // Given
-        val expectedRegion = "US"
-        val repository = RegionRepositoryImpl(
-            mock { onBlocking { findLastRegion() } doReturn expectedRegion }
-        )
+    fun `findLastRegion calls RegionDataSource`() =
+        runTest {
+            // Given
+            val expectedRegion = "US"
+            val repository =
+                RegionRepositoryImpl(
+                    mock { onBlocking { findLastRegion() } doReturn expectedRegion },
+                )
 
-        // When
-        val result = repository.findLastRegion()
+            // When
+            val result = repository.findLastRegion()
 
-        // Then
-        assertEquals(expectedRegion, result)
-    }
+            // Then
+            assertEquals(expectedRegion, result)
+        }
 }

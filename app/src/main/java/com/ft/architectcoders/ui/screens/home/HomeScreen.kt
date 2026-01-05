@@ -63,9 +63,8 @@ fun HomeScreen(
         },
         onPermissionRequest = {
             viewModel.permissionGranted()
-        }
+        },
     )
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

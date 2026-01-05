@@ -10,7 +10,6 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 
-
 // Tod: preguntar en que modulo encajaria mejor
 @Suppress("DEPRECATION")
 suspend fun Geocoder.getFromLocationCompat(

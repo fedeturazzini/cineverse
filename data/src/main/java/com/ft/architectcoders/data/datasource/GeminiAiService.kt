@@ -18,7 +18,5 @@ interface GeminiAiService {
         choices: List<DuelChoice>,
     ): Result<TasteFingerprint>
 
-    suspend fun generateMoodProfile(
-        moodVector: MoodVector,
-    ): Result<MoodProfile>
+    suspend fun generateMoodProfile(moodVector: MoodVector): Result<MoodProfile>
 }

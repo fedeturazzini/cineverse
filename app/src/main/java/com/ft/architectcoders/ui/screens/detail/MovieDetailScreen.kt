@@ -2,7 +2,6 @@ package com.ft.architectcoders.ui.screens.detail
 
 import android.annotation.SuppressLint
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -65,6 +64,7 @@ const val MOVIE_DETAIL_AI_REVIEW_CARD_TAG = "MovieDetailAiReviewCard"
 const val MOVIE_DETAIL_AI_REVIEW_LOADING_CARD_TAG = "MovieDetailAiReviewLoadingCard"
 const val MOVIE_DETAIL_AI_REVIEW_ERROR_CARD_TAG = "MovieDetailAiReviewErrorCard"
 const val MOVIE_DETAIL_TRAILERS_SECTION_TAG = "MovieDetailTrailersSection"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieDetailScreen(
@@ -80,7 +80,7 @@ fun MovieDetailScreen(
         },
         onFavoriteClick = {
             viewModel.onFavoriteClick()
-        }
+        },
     )
 }
 
@@ -101,7 +101,7 @@ fun MovieDetailScreen(
                 navigationIcon = {
                     IconButton(
                         onClick = onBack,
-                        modifier = Modifier.testTag(MOVIE_DETAIL_BACK_BUTTON_TAG)
+                        modifier = Modifier.testTag(MOVIE_DETAIL_BACK_BUTTON_TAG),
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -122,7 +122,7 @@ fun MovieDetailScreen(
                 onClick = {
                     onFavoriteClick()
                 },
-                modifier = Modifier.testTag(MOVIE_DETAIL_FAVORITE_FAB_TAG)
+                modifier = Modifier.testTag(MOVIE_DETAIL_FAVORITE_FAB_TAG),
             ) {
                 Icon(
                     imageVector = if (favorite) Icons.Filled.Favorite else Icons.Default.FavoriteBorder,

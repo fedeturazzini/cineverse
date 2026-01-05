@@ -14,7 +14,6 @@ class CompleteDuelSessionUseCaseImpl(
     private val duelRepository: DuelRepository,
     private val tasteRepository: TasteRepository,
 ) : CompleteDuelSessionUseCase {
-
     override suspend fun invoke(session: DuelSession): Result<TasteFingerprint> {
         val completedSession = session.copy(isCompleted = true)
 
@@ -26,4 +25,3 @@ class CompleteDuelSessionUseCaseImpl(
         return tasteRepository.generateFingerprint(sessionWithId)
     }
 }
-

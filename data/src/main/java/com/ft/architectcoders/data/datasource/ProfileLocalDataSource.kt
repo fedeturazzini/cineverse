@@ -8,4 +8,3 @@ interface ProfileLocalDataSource {
 
     suspend fun saveProfile(profile: Profile)
 }
-

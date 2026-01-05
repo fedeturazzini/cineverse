@@ -23,7 +23,6 @@ import org.mockito.kotlin.whenever
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(MockitoJUnitRunner::class)
 class MoodRadarViewModelTest {
-
     @get:Rule
     val coroutinesTestRule = CoroutinesTestRule()
 
@@ -34,207 +33,216 @@ class MoodRadarViewModelTest {
     lateinit var getMoodRecommendationsUseCase: GetMoodRecommendationsUseCase
 
     @Test
-    fun `Initial state is Idle with default mood vector`() = runTest {
-        val viewModel = createViewModel()
+    fun `Initial state is Idle with default mood vector`() =
+        runTest {
+            val viewModel = createViewModel()
 
-        viewModel.state.test {
-            val state = awaitItem()
-            assertTrue(state is MoodRadarUiState.Idle)
-            assertEquals(50, state.moodVector.energy)
-            assertEquals(50, state.moodVector.humor)
-            assertEquals(50, state.moodVector.tension)
-            assertEquals(50, state.moodVector.romance)
-            assertEquals(50, state.moodVector.cerebral)
-            cancelAndIgnoreRemainingEvents()
+            viewModel.state.test {
+                val state = awaitItem()
+                assertTrue(state is MoodRadarUiState.Idle)
+                assertEquals(50, state.moodVector.energy)
+                assertEquals(50, state.moodVector.humor)
+                assertEquals(50, state.moodVector.tension)
+                assertEquals(50, state.moodVector.romance)
+                assertEquals(50, state.moodVector.cerebral)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `onMoodChange updates energy correctly`() = runTest {
-        val viewModel = createViewModel()
+    fun `onMoodChange updates energy correctly`() =
+        runTest {
+            val viewModel = createViewModel()
 
-        viewModel.state.test {
-            awaitItem()
+            viewModel.state.test {
+                awaitItem()
 
-            viewModel.onMoodChange(MoodAxis.ENERGY, 80)
+                viewModel.onMoodChange(MoodAxis.ENERGY, 80)
 
-            val state = awaitItem()
-            assertTrue(state is MoodRadarUiState.Idle)
-            assertEquals(80, state.moodVector.energy)
-            assertEquals(50, state.moodVector.humor)
-            cancelAndIgnoreRemainingEvents()
+                val state = awaitItem()
+                assertTrue(state is MoodRadarUiState.Idle)
+                assertEquals(80, state.moodVector.energy)
+                assertEquals(50, state.moodVector.humor)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `onMoodChange updates humor correctly`() = runTest {
-        val viewModel = createViewModel()
+    fun `onMoodChange updates humor correctly`() =
+        runTest {
+            val viewModel = createViewModel()
 
-        viewModel.state.test {
-            awaitItem()
+            viewModel.state.test {
+                awaitItem()
 
-            viewModel.onMoodChange(MoodAxis.HUMOR, 90)
+                viewModel.onMoodChange(MoodAxis.HUMOR, 90)
 
-            val state = awaitItem()
-            assertEquals(90, state.moodVector.humor)
-            cancelAndIgnoreRemainingEvents()
+                val state = awaitItem()
+                assertEquals(90, state.moodVector.humor)
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `onMoodChange clamps values to 0-100 range`() = runTest {
-        val viewModel = createViewModel()
+    fun `onMoodChange clamps values to 0-100 range`() =
+        runTest {
+            val viewModel = createViewModel()
 
-        viewModel.state.test {
-            awaitItem()
+            viewModel.state.test {
+                awaitItem()
 
-            viewModel.onMoodChange(MoodAxis.TENSION, 150)
-            val state1 = awaitItem()
-            assertEquals(100, state1.moodVector.tension)
+                viewModel.onMoodChange(MoodAxis.TENSION, 150)
+                val state1 = awaitItem()
+                assertEquals(100, state1.moodVector.tension)
 
-            viewModel.onMoodChange(MoodAxis.ROMANCE, -20)
-            val state2 = awaitItem()
-            assertEquals(0, state2.moodVector.romance)
+                viewModel.onMoodChange(MoodAxis.ROMANCE, -20)
+                val state2 = awaitItem()
+                assertEquals(0, state2.moodVector.romance)
 
-            cancelAndIgnoreRemainingEvents()
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `onBuildNight transitions to Loading then Success`() = runTest {
-        val profile = sampleMoodProfile()
-        val recommendation = sampleMoodRecommendation(profile = profile)
+    fun `onBuildNight transitions to Loading then Success`() =
+        runTest {
+            val profile = sampleMoodProfile()
+            val recommendation = sampleMoodRecommendation(profile = profile)
 
-        whenever(buildMoodProfileUseCase(any())).thenReturn(Result.Success(profile))
-        whenever(getMoodRecommendationsUseCase(any())).thenReturn(Result.Success(recommendation))
+            whenever(buildMoodProfileUseCase(any())).thenReturn(Result.Success(profile))
+            whenever(getMoodRecommendationsUseCase(any())).thenReturn(Result.Success(recommendation))
 
-        val viewModel = createViewModel()
+            val viewModel = createViewModel()
 
-        viewModel.state.test {
-            awaitItem()
-            viewModel.onBuildNight()
+            viewModel.state.test {
+                awaitItem()
+                viewModel.onBuildNight()
 
-            val finalState = expectMostRecentItem()
-            assertTrue(
-                "Expected Success, got $finalState",
-                finalState is MoodRadarUiState.Success
+                val finalState = expectMostRecentItem()
+                assertTrue(
+                    "Expected Success, got $finalState",
+                    finalState is MoodRadarUiState.Success,
+                )
+                val successState = finalState as MoodRadarUiState.Success
+                assertEquals(profile.microCopy, successState.profile.microCopy)
+                assertEquals(recommendation.movies.size, successState.movies.size)
+
+                cancelAndIgnoreRemainingEvents()
+            }
+        }
+
+    @Test
+    fun `onBuildNight shows Error when profile generation fails`() =
+        runTest {
+            val errorMessage = "Gemini connection failed"
+            whenever(buildMoodProfileUseCase(any())).thenReturn(
+                Result.Error(AppError.UnknownError(message = errorMessage)),
             )
-            val successState = finalState as MoodRadarUiState.Success
-            assertEquals(profile.microCopy, successState.profile.microCopy)
-            assertEquals(recommendation.movies.size, successState.movies.size)
 
-            cancelAndIgnoreRemainingEvents()
+            val viewModel = createViewModel()
+
+            viewModel.state.test {
+                awaitItem()
+
+                viewModel.onBuildNight()
+
+                val finalState = expectMostRecentItem()
+                assertTrue(
+                    "Expected Error, got $finalState",
+                    finalState is MoodRadarUiState.Error,
+                )
+                assertEquals(errorMessage, (finalState as MoodRadarUiState.Error).message)
+
+                cancelAndIgnoreRemainingEvents()
+            }
         }
-    }
 
     @Test
-    fun `onBuildNight shows Error when profile generation fails`() = runTest {
-        val errorMessage = "Gemini connection failed"
-        whenever(buildMoodProfileUseCase(any())).thenReturn(
-            Result.Error(AppError.UnknownError(message = errorMessage))
+    fun `onBuildNight shows Error when recommendations fetch fails`() =
+        runTest {
+            val profile = sampleMoodProfile()
+            val errorMessage = "TMDB connection failed"
+
+            whenever(buildMoodProfileUseCase(any())).thenReturn(Result.Success(profile))
+            whenever(getMoodRecommendationsUseCase(any())).thenReturn(
+                Result.Error(AppError.UnknownError(message = errorMessage)),
+            )
+
+            val viewModel = createViewModel()
+
+            viewModel.state.test {
+                awaitItem()
+
+                viewModel.onBuildNight()
+
+                val finalState = expectMostRecentItem()
+                assertTrue(
+                    "Expected Error, got $finalState",
+                    finalState is MoodRadarUiState.Error,
+                )
+                assertEquals(errorMessage, (finalState as MoodRadarUiState.Error).message)
+
+                cancelAndIgnoreRemainingEvents()
+            }
+        }
+
+    @Test
+    fun `onRetry calls onBuildNight again`() =
+        runTest {
+            val profile = sampleMoodProfile()
+            val recommendation = sampleMoodRecommendation(profile = profile)
+
+            whenever(buildMoodProfileUseCase(any())).thenReturn(Result.Success(profile))
+            whenever(getMoodRecommendationsUseCase(any())).thenReturn(Result.Success(recommendation))
+
+            val viewModel = createViewModel()
+
+            viewModel.state.test {
+                awaitItem()
+
+                viewModel.onRetry()
+
+                val finalState = expectMostRecentItem()
+                assertTrue(finalState is MoodRadarUiState.Success)
+
+                cancelAndIgnoreRemainingEvents()
+            }
+        }
+
+    @Test
+    fun `Changing mood after Success resets to Idle`() =
+        runTest {
+            val profile = sampleMoodProfile()
+            val recommendation = sampleMoodRecommendation(profile = profile)
+
+            whenever(buildMoodProfileUseCase(any())).thenReturn(Result.Success(profile))
+            whenever(getMoodRecommendationsUseCase(any())).thenReturn(Result.Success(recommendation))
+
+            val viewModel = createViewModel()
+
+            viewModel.state.test {
+                awaitItem()
+
+                viewModel.onBuildNight()
+                val successState = expectMostRecentItem()
+                assertTrue(successState is MoodRadarUiState.Success)
+
+                viewModel.onMoodChange(MoodAxis.ENERGY, 100)
+
+                val idleState = awaitItem()
+                assertTrue(
+                    "Expected Idle after mood change, got $idleState",
+                    idleState is MoodRadarUiState.Idle,
+                )
+                assertEquals(100, idleState.moodVector.energy)
+
+                cancelAndIgnoreRemainingEvents()
+            }
+        }
+
+    private fun createViewModel() =
+        MoodRadarViewModel(
+            buildMoodProfileUseCase = buildMoodProfileUseCase,
+            getMoodRecommendationsUseCase = getMoodRecommendationsUseCase,
         )
-
-        val viewModel = createViewModel()
-
-        viewModel.state.test {
-            awaitItem()
-
-            viewModel.onBuildNight()
-
-            val finalState = expectMostRecentItem()
-            assertTrue(
-                "Expected Error, got $finalState",
-                finalState is MoodRadarUiState.Error
-            )
-            assertEquals(errorMessage, (finalState as MoodRadarUiState.Error).message)
-
-            cancelAndIgnoreRemainingEvents()
-        }
-    }
-
-    @Test
-    fun `onBuildNight shows Error when recommendations fetch fails`() = runTest {
-        val profile = sampleMoodProfile()
-        val errorMessage = "TMDB connection failed"
-
-        whenever(buildMoodProfileUseCase(any())).thenReturn(Result.Success(profile))
-        whenever(getMoodRecommendationsUseCase(any())).thenReturn(
-            Result.Error(AppError.UnknownError(message = errorMessage))
-        )
-
-        val viewModel = createViewModel()
-
-        viewModel.state.test {
-            awaitItem()
-
-            viewModel.onBuildNight()
-
-            val finalState = expectMostRecentItem()
-            assertTrue(
-                "Expected Error, got $finalState",
-                finalState is MoodRadarUiState.Error
-            )
-            assertEquals(errorMessage, (finalState as MoodRadarUiState.Error).message)
-
-            cancelAndIgnoreRemainingEvents()
-        }
-    }
-
-    @Test
-    fun `onRetry calls onBuildNight again`() = runTest {
-        val profile = sampleMoodProfile()
-        val recommendation = sampleMoodRecommendation(profile = profile)
-
-        whenever(buildMoodProfileUseCase(any())).thenReturn(Result.Success(profile))
-        whenever(getMoodRecommendationsUseCase(any())).thenReturn(Result.Success(recommendation))
-
-        val viewModel = createViewModel()
-
-        viewModel.state.test {
-            awaitItem()
-
-            viewModel.onRetry()
-
-            val finalState = expectMostRecentItem()
-            assertTrue(finalState is MoodRadarUiState.Success)
-
-            cancelAndIgnoreRemainingEvents()
-        }
-    }
-
-    @Test
-    fun `Changing mood after Success resets to Idle`() = runTest {
-        val profile = sampleMoodProfile()
-        val recommendation = sampleMoodRecommendation(profile = profile)
-
-        whenever(buildMoodProfileUseCase(any())).thenReturn(Result.Success(profile))
-        whenever(getMoodRecommendationsUseCase(any())).thenReturn(Result.Success(recommendation))
-
-        val viewModel = createViewModel()
-
-        viewModel.state.test {
-            awaitItem()
-
-            viewModel.onBuildNight()
-            val successState = expectMostRecentItem()
-            assertTrue(successState is MoodRadarUiState.Success)
-
-            viewModel.onMoodChange(MoodAxis.ENERGY, 100)
-
-            val idleState = awaitItem()
-            assertTrue(
-                "Expected Idle after mood change, got $idleState",
-                idleState is MoodRadarUiState.Idle
-            )
-            assertEquals(100, idleState.moodVector.energy)
-
-            cancelAndIgnoreRemainingEvents()
-        }
-    }
-
-    private fun createViewModel() = MoodRadarViewModel(
-        buildMoodProfileUseCase = buildMoodProfileUseCase,
-        getMoodRecommendationsUseCase = getMoodRecommendationsUseCase,
-    )
 }
-

@@ -12,6 +12,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 
 const val LOADING_TEST_TAG = "Loading test tag"
+
 @Composable
 fun LoadingIndicator(modifier: Modifier = Modifier) {
     val composition by rememberLottieComposition(

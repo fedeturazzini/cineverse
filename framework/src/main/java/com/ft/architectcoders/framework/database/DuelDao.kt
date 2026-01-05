@@ -47,4 +47,3 @@ interface DuelDao {
         return sessionId
     }
 }
-

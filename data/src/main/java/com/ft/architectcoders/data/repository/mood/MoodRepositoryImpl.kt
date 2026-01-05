@@ -12,7 +12,6 @@ class MoodRepositoryImpl(
     private val geminiAiService: GeminiAiService,
     private val movieRemoteDataSource: MovieRemoteDataSource,
 ) : MoodRepository {
-
     override suspend fun buildMoodProfile(moodVector: MoodVector): Result<MoodProfile> {
         return when (val result = geminiAiService.generateMoodProfile(moodVector)) {
             is Result.Success -> result
@@ -94,13 +93,14 @@ class MoodRepositoryImpl(
     }
 
     private fun buildFallbackMicroCopy(moodVector: MoodVector): String {
-        val dominant = listOf(
-            "energía" to moodVector.energy,
-            "risas" to moodVector.humor,
-            "tensión" to moodVector.tension,
-            "romance" to moodVector.romance,
-            "reflexión" to moodVector.cerebral,
-        ).maxByOrNull { it.second }
+        val dominant =
+            listOf(
+                "energía" to moodVector.energy,
+                "risas" to moodVector.humor,
+                "tensión" to moodVector.tension,
+                "romance" to moodVector.romance,
+                "reflexión" to moodVector.cerebral,
+            ).maxByOrNull { it.second }
 
         return when (dominant?.first) {
             "energía" -> "Hoy estás para películas con adrenalina pura"

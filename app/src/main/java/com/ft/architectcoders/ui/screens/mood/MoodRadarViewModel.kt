@@ -48,26 +48,30 @@ class MoodRadarViewModel(
     private val buildMoodProfileUseCase: BuildMoodProfileUseCase,
     private val getMoodRecommendationsUseCase: GetMoodRecommendationsUseCase,
 ) : ViewModel() {
-
     private val _state = MutableStateFlow<MoodRadarUiState>(MoodRadarUiState.Idle())
     val state: StateFlow<MoodRadarUiState> = _state.asStateFlow()
 
-    fun onMoodChange(axis: MoodAxis, value: Int) {
+    fun onMoodChange(
+        axis: MoodAxis,
+        value: Int,
+    ) {
         val currentVector = _state.value.moodVector
-        val newVector = when (axis) {
-            MoodAxis.ENERGY -> currentVector.copy(energy = value.coerceIn(0, 100))
-            MoodAxis.HUMOR -> currentVector.copy(humor = value.coerceIn(0, 100))
-            MoodAxis.TENSION -> currentVector.copy(tension = value.coerceIn(0, 100))
-            MoodAxis.ROMANCE -> currentVector.copy(romance = value.coerceIn(0, 100))
-            MoodAxis.CEREBRAL -> currentVector.copy(cerebral = value.coerceIn(0, 100))
-        }
+        val newVector =
+            when (axis) {
+                MoodAxis.ENERGY -> currentVector.copy(energy = value.coerceIn(0, 100))
+                MoodAxis.HUMOR -> currentVector.copy(humor = value.coerceIn(0, 100))
+                MoodAxis.TENSION -> currentVector.copy(tension = value.coerceIn(0, 100))
+                MoodAxis.ROMANCE -> currentVector.copy(romance = value.coerceIn(0, 100))
+                MoodAxis.CEREBRAL -> currentVector.copy(cerebral = value.coerceIn(0, 100))
+            }
 
-        _state.value = when (val current = _state.value) {
-            is MoodRadarUiState.Idle -> current.copy(moodVector = newVector)
-            is MoodRadarUiState.Success -> MoodRadarUiState.Idle(moodVector = newVector)
-            is MoodRadarUiState.Error -> MoodRadarUiState.Idle(moodVector = newVector)
-            is MoodRadarUiState.Loading -> current
-        }
+        _state.value =
+            when (val current = _state.value) {
+                is MoodRadarUiState.Idle -> current.copy(moodVector = newVector)
+                is MoodRadarUiState.Success -> MoodRadarUiState.Idle(moodVector = newVector)
+                is MoodRadarUiState.Error -> MoodRadarUiState.Idle(moodVector = newVector)
+                is MoodRadarUiState.Loading -> current
+            }
     }
 
     fun onBuildNight() {
@@ -79,26 +83,29 @@ class MoodRadarViewModel(
                 is Result.Success -> {
                     when (val recsResult = getMoodRecommendationsUseCase(profileResult.data)) {
                         is Result.Success -> {
-                            _state.value = MoodRadarUiState.Success(
-                                moodVector = moodVector,
-                                profile = recsResult.data.profile,
-                                movies = recsResult.data.movies,
-                            )
+                            _state.value =
+                                MoodRadarUiState.Success(
+                                    moodVector = moodVector,
+                                    profile = recsResult.data.profile,
+                                    movies = recsResult.data.movies,
+                                )
                         }
                         is Result.Error -> {
-                            _state.value = MoodRadarUiState.Error(
-                                moodVector = moodVector,
-                                message = recsResult.error.message,
-                            )
+                            _state.value =
+                                MoodRadarUiState.Error(
+                                    moodVector = moodVector,
+                                    message = recsResult.error.message,
+                                )
                         }
                         is Result.Loading -> {}
                     }
                 }
                 is Result.Error -> {
-                    _state.value = MoodRadarUiState.Error(
-                        moodVector = moodVector,
-                        message = profileResult.error.message,
-                    )
+                    _state.value =
+                        MoodRadarUiState.Error(
+                            moodVector = moodVector,
+                            message = profileResult.error.message,
+                        )
                 }
                 is Result.Loading -> {
                 }

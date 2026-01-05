@@ -23,4 +23,3 @@ data class TasteFingerprint(
     val dominantTraits: List<String>,
     val generatedByAi: Boolean = true,
 )
-

@@ -20,53 +20,55 @@ import org.junit.Rule
 import org.junit.Test
 
 class MovieDetailIntegrationTest {
-
     @get:Rule
     val coroutinesTestRule = CoroutinesTestRule()
 
     @Test
-    fun `UI is updated with the movie on start`() = runTest {
-        val moviesRepository = buildMoviesRepositoryWith(localData = sampleMovies(1, 2, 3, 4))
-        val viewModel = buildDetailViewModel(2, moviesRepository)
+    fun `UI is updated with the movie on start`() =
+        runTest {
+            val moviesRepository = buildMoviesRepositoryWith(localData = sampleMovies(1, 2, 3, 4))
+            val viewModel = buildDetailViewModel(2, moviesRepository)
 
-        viewModel.state.test {
-            val state = awaitItem()
-            assertEquals(sampleMovies(2).first(), state.movie)
-            assertEquals(false, state.isLoadingMovie)
-            assertTrue(state.aiReviewState is AiReviewUiState.Success)
+            viewModel.state.test {
+                val state = awaitItem()
+                assertEquals(sampleMovies(2).first(), state.movie)
+                assertEquals(false, state.isLoadingMovie)
+                assertTrue(state.aiReviewState is AiReviewUiState.Success)
+            }
         }
-    }
 
     @Test
-    fun `Favorite updated in local data source`() = runTest {
-        val local = FakeLocalDataSource().apply {
-            inMemoryMovies.value = sampleMovies(1, 2, 3, 4)
+    fun `Favorite updated in local data source`() =
+        runTest {
+            val local =
+                FakeLocalDataSource().apply {
+                    inMemoryMovies.value = sampleMovies(1, 2, 3, 4)
+                }
+            val moviesRepository = MovieRepositoryImpl(FakeRemoteDataSource(), local)
+            val viewModel = buildDetailViewModel(2, moviesRepository)
+
+            viewModel.state.test {
+                val beforeToggle = awaitItem()
+                assertEquals(false, beforeToggle.movie?.favorite)
+
+                viewModel.onFavoriteClick()
+
+                val afterToggle = awaitItem()
+                assertEquals(true, afterToggle.movie?.favorite)
+            }
+
+            assertEquals(true, local.inMemoryMovies.value.first { it.id == 2 }.favorite)
         }
-        val moviesRepository = MovieRepositoryImpl(FakeRemoteDataSource(), local)
-        val viewModel = buildDetailViewModel(2, moviesRepository)
-
-        viewModel.state.test {
-            val beforeToggle = awaitItem()
-            assertEquals(false, beforeToggle.movie?.favorite)
-
-            viewModel.onFavoriteClick()
-
-            val afterToggle = awaitItem()
-            assertEquals(true, afterToggle.movie?.favorite)
-        }
-
-        assertEquals(true, local.inMemoryMovies.value.first { it.id == 2 }.favorite)
-    }
 }
 
 private fun buildDetailViewModel(
     movieId: Int,
-    moviesRepository: MovieRepository
+    moviesRepository: MovieRepository,
 ) = MovieDetailViewModel(
     movieId,
     findMovieByIdUseCase = FindMovieByIdUseCaseImpl(moviesRepository),
     getMovieCreditsUseCase = GetMovieCreditsUseCaseImpl(moviesRepository),
     getMovieVideosUseCase = GetMovieVideosUseCaseImpl(moviesRepository),
     toggleFavoriteMovieUseCase = ToggleFavoriteMovieUseCaseImpl(moviesRepository),
-    geminiRepository = FakeGeminiRepository()
+    geminiRepository = FakeGeminiRepository(),
 )

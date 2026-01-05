@@ -11,9 +11,7 @@ interface GetLastFingerprintUseCase {
 class GetLastFingerprintUseCaseImpl(
     private val tasteRepository: TasteRepository,
 ) : GetLastFingerprintUseCase {
-
     override fun invoke(): Flow<TasteFingerprint?> {
         return tasteRepository.getLastFingerprint()
     }
 }
-

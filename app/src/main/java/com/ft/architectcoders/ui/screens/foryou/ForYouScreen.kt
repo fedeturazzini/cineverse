@@ -61,18 +61,20 @@ fun ForYouScreen(
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent,
-                ),
+                colors =
+                    TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent,
+                    ),
             )
         },
         contentWindowInsets = WindowInsets.safeDrawing,
         containerColor = Color.Transparent,
     ) { padding ->
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(SpaceNavy),
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(SpaceNavy),
         ) {
             StarryBackground(
                 modifier = Modifier.fillMaxSize(),
@@ -80,34 +82,39 @@ fun ForYouScreen(
             )
 
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                SpaceNavy.copy(alpha = 0.4f),
-                                GalaxyPurple20.copy(alpha = 0.2f),
-                                SpaceNavy.copy(alpha = 0.6f),
-                            ),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush =
+                                Brush.verticalGradient(
+                                    colors =
+                                        listOf(
+                                            SpaceNavy.copy(alpha = 0.4f),
+                                            GalaxyPurple20.copy(alpha = 0.2f),
+                                            SpaceNavy.copy(alpha = 0.6f),
+                                        ),
+                                ),
                         ),
-                    ),
             )
 
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(padding),
             ) {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
-                    contentPadding = PaddingValues(
-                        top = 16.dp,
-                        start = 16.dp,
-                        end = 16.dp,
-                        bottom = contentPadding.calculateBottomPadding() + 16.dp,
-                    ),
+                    contentPadding =
+                        PaddingValues(
+                            top = 16.dp,
+                            start = 16.dp,
+                            end = 16.dp,
+                            bottom = contentPadding.calculateBottomPadding() + 16.dp,
+                        ),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.fillMaxWidth(),

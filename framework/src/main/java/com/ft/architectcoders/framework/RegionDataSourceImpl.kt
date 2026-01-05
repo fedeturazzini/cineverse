@@ -10,8 +10,7 @@ class RegionDataSourceImpl(
     private val geocoder: Geocoder,
     private val locationDataSource: LocationDataSource,
 ) : RegionDataSource {
-    override suspend fun findLastRegion(): String =
-        locationDataSource.findLastLocation()?.toRegion() ?: DEFAULT_REGION
+    override suspend fun findLastRegion(): String = locationDataSource.findLastLocation()?.toRegion() ?: DEFAULT_REGION
 
     override suspend fun CineVerseLocation.toRegion(): String {
         val addresses = geocoder.getFromLocationCompat(latitude, longitude, 1)

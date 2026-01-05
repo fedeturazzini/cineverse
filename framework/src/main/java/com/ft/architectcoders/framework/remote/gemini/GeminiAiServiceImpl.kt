@@ -70,9 +70,10 @@ class GeminiAiServiceImpl(private val apiKey: String) : GeminiAiService {
     ): Result<TasteFingerprint> {
         return withContext(Dispatchers.IO) {
             try {
-                val choicesText = choices.mapIndexed { index, choice ->
-                    "${index + 1}. ${choice.winnerTitle} > ${choice.loserTitle}"
-                }.joinToString("\n")
+                val choicesText =
+                    choices.mapIndexed { index, choice ->
+                        "${index + 1}. ${choice.winnerTitle} > ${choice.loserTitle}"
+                    }.joinToString("\n")
 
                 val prompt =
                     """
@@ -124,7 +125,10 @@ class GeminiAiServiceImpl(private val apiKey: String) : GeminiAiService {
         )
     }
 
-    private fun parseFingerprintResponse(sessionId: Long, response: String): TasteFingerprint {
+    private fun parseFingerprintResponse(
+        sessionId: Long,
+        response: String,
+    ): TasteFingerprint {
         val lines = response.lines()
 
         val insights = mutableListOf<String>()
@@ -145,12 +149,13 @@ class GeminiAiServiceImpl(private val apiKey: String) : GeminiAiService {
         }
 
         val traitsLine = lines.find { it.trim().startsWith("TRAITS:") }
-        val traits = traitsLine
-            ?.substringAfter("TRAITS:")
-            ?.split(",")
-            ?.map { it.trim() }
-            ?.filter { it.isNotBlank() }
-            ?: emptyList()
+        val traits =
+            traitsLine
+                ?.substringAfter("TRAITS:")
+                ?.split(",")
+                ?.map { it.trim() }
+                ?.filter { it.isNotBlank() }
+                ?: emptyList()
 
         return TasteFingerprint(
             sessionId = sessionId,
@@ -200,16 +205,17 @@ class GeminiAiServiceImpl(private val apiKey: String) : GeminiAiService {
             IDs de géneros TMDB: Acción=28, Aventura=12, Animación=16, Comedia=35, Crimen=80, Documental=99, Drama=18, Familia=10751, Fantasía=14, Historia=36, Terror=27, Música=10402, Misterio=9648, Romance=10749, Ciencia Ficción=878, Thriller=53, Guerra=10752, Western=37.
 
             NO incluyas texto adicional, solo el JSON.
-        """.trimIndent()
+            """.trimIndent()
     }
 
     private val json = Json { ignoreUnknownKeys = true }
 
     private fun parseMoodProfileResponse(response: String): MoodProfile {
-        val jsonString = response
-            .replace("```json", "")
-            .replace("```", "")
-            .trim()
+        val jsonString =
+            response
+                .replace("```json", "")
+                .replace("```", "")
+                .trim()
 
         return try {
             val parsed = json.decodeFromString<GeminiMoodResponse>(jsonString)

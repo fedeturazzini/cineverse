@@ -40,7 +40,6 @@ class DuelViewModel(
     private val submitDuelChoiceUseCase: SubmitDuelChoiceUseCase,
     private val completeDuelSessionUseCase: CompleteDuelSessionUseCase,
 ) : ViewModel() {
-
     private val _state = MutableStateFlow<DuelUiState>(DuelUiState.Loading)
     val state: StateFlow<DuelUiState> = _state.asStateFlow()
 
@@ -99,14 +98,19 @@ class DuelViewModel(
         }
     }
 
-    private fun submitChoice(winner: Movie, loser: Movie, round: Int) {
-        val choice = DuelChoice(
-            winnerId = winner.id,
-            loserId = loser.id,
-            winnerTitle = winner.title,
-            loserTitle = loser.title,
-            roundNumber = round,
-        )
+    private fun submitChoice(
+        winner: Movie,
+        loser: Movie,
+        round: Int,
+    ) {
+        val choice =
+            DuelChoice(
+                winnerId = winner.id,
+                loserId = loser.id,
+                winnerTitle = winner.title,
+                loserTitle = loser.title,
+                roundNumber = round,
+            )
 
         currentSession = submitDuelChoiceUseCase(currentSession, choice)
         currentPairIndex++
@@ -123,11 +127,12 @@ class DuelViewModel(
         val indexB = indexA + 1
 
         if (indexB < candidates.size) {
-            _state.value = DuelUiState.InProgress(
-                movieA = candidates[indexA],
-                movieB = candidates[indexB],
-                currentRound = currentSession.choices.size + 1,
-            )
+            _state.value =
+                DuelUiState.InProgress(
+                    movieA = candidates[indexA],
+                    movieB = candidates[indexB],
+                    currentRound = currentSession.choices.size + 1,
+                )
         } else {
             _state.value = DuelUiState.Error("No hay más películas disponibles")
         }
@@ -159,4 +164,3 @@ class DuelViewModel(
         const val TOTAL_ROUNDS = 10
     }
 }
-

@@ -77,24 +77,29 @@ class MovieDetailViewModel(
                             geminiRepository.getMovieReview(
                                 movieId,
                                 movieResult.data.title,
-                                movieResult.data.overview
+                                movieResult.data.overview,
                             ),
                             getMovieVideosUseCase(movieId),
                         ) { castResult, aiReview, videosResult ->
-                            val cast = when (castResult) {
-                                is Result.Success -> castResult.data
-                                else -> emptyList()
-                            }
-                            val videos = when (videosResult) {
-                                is Result.Success -> videosResult.data
-                                else -> emptyList()
-                            }
+                            val cast =
+                                when (castResult) {
+                                    is Result.Success -> castResult.data
+                                    else -> emptyList()
+                                }
+                            val videos =
+                                when (videosResult) {
+                                    is Result.Success -> videosResult.data
+                                    else -> emptyList()
+                                }
                             val castError = (castResult as? Result.Error)?.error?.message
                             val videosError = (videosResult as? Result.Error)?.error?.message
 
-                            val error = if (castError != null || videosError != null) {
-                                MovieDetailError(castError = castError, videosError = videosError)
-                            } else null
+                            val error =
+                                if (castError != null || videosError != null) {
+                                    MovieDetailError(castError = castError, videosError = videosError)
+                                } else {
+                                    null
+                                }
 
                             MovieDetailUiState(
                                 movie = movieResult.data,
@@ -111,7 +116,7 @@ class MovieDetailViewModel(
                             MovieDetailUiState(
                                 isLoadingMovie = false,
                                 error = MovieDetailError(genericError = movieResult.error.message),
-                            )
+                            ),
                         )
                     is Result.Loading ->
                         flowOf(MovieDetailUiState(isLoadingMovie = true))

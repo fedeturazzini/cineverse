@@ -63,4 +63,3 @@ enum class ForYouExperience(
         gradientColors = listOf(StarBright, GalaxyPurple40),
     ),
 }
-

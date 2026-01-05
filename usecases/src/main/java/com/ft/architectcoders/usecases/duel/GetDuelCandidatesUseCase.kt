@@ -11,7 +11,6 @@ interface GetDuelCandidatesUseCase {
 class GetDuelCandidatesUseCaseImpl(
     private val duelRepository: DuelRepository,
 ) : GetDuelCandidatesUseCase {
-
     override suspend fun invoke(): Result<List<Movie>> {
         return duelRepository.getDuelCandidates(CANDIDATES_COUNT)
     }
@@ -20,4 +19,3 @@ class GetDuelCandidatesUseCaseImpl(
         private const val CANDIDATES_COUNT = 20
     }
 }
-

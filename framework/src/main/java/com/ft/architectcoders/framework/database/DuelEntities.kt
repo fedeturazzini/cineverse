@@ -57,4 +57,3 @@ data class DbTasteFingerprint(
     val dominantTraits: String,
     val generatedByAi: Boolean,
 )
-

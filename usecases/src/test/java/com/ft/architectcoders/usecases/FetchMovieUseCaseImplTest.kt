@@ -7,18 +7,19 @@ import org.junit.Test
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
-
 class FetchMovieUseCaseImplTest {
-
     @Test
-    fun `Invoke calls repository` () {
+    fun `Invoke calls repository`() {
         // Given
-        val movieFlow = flowOf(sampleMovies(1,2,3,4))
+        val movieFlow = flowOf(sampleMovies(1, 2, 3, 4))
 
         // When
-        val useCase = FetchMovieUseCaseImpl(mock {
-            on { movies } doReturn movieFlow
-        })
+        val useCase =
+            FetchMovieUseCaseImpl(
+                mock {
+                    on { movies } doReturn movieFlow
+                },
+            )
 
         val result = useCase.invoke()
 
