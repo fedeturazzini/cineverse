@@ -15,7 +15,7 @@ class MovieRoomDataSource(
     override val movies: Flow<List<Movie>> =
         moviesDao.fetchMovies().map { list -> list.map { it.toDomainMovie() } }
 
-    override fun findMovieById(id: Int): Flow<Movie> = moviesDao.findMovieById(id).map { it.toDomainMovie() }
+    override fun findMovieById(id: Int): Flow<Movie?> = moviesDao.findMovieById(id).map { it?.toDomainMovie() }
 
     override suspend fun countMovies(): Int = moviesDao.countMovies()
 

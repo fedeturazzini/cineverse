@@ -12,7 +12,7 @@ interface MoviesDao {
     fun fetchMovies(): Flow<List<DbMovie>>
 
     @Query("SELECT * FROM DbMovie WHERE id = :id")
-    fun findMovieById(id: Int): Flow<DbMovie>
+    fun findMovieById(id: Int): Flow<DbMovie?>
 
     @Query("SELECT COUNT(*) FROM DbMovie")
     suspend fun countMovies(): Int

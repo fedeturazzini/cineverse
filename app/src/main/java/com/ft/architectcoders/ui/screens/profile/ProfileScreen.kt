@@ -49,6 +49,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ProfileScreen(
     contentPadding: PaddingValues = PaddingValues(0.dp),
+    onMovieClick: (Int) -> Unit = {},
     viewModel: ProfileViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
@@ -289,7 +290,7 @@ fun ProfileScreen(
                     ProfileStatsCard(
                         favoriteMovies = state.favoriteMovies,
                         onMovieClick = { movie ->
-                            // TODO: Implementar navegación al detalle
+                            onMovieClick(movie.id)
                         }
                     )
                 }

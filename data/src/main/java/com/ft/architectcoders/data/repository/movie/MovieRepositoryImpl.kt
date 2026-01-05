@@ -32,14 +32,18 @@ class MovieRepositoryImpl(
 
             if (localMovie != null) {
                 localDataSource.findMovieById(id).collect { movie ->
-                    emit(Result.Success(movie))
+                    if (movie != null) {
+                        emit(Result.Success(movie))
+                    }
                 }
             } else {
                 when (val remoteResult = remoteDataSource.findMovieById(id)) {
                     is Result.Success -> {
                         localDataSource.saveMovies(listOf(remoteResult.data))
                         localDataSource.findMovieById(id).collect { movie ->
-                            emit(Result.Success(movie))
+                            if (movie != null) {
+                                emit(Result.Success(movie))
+                            }
                         }
                     }
                     is Result.Error -> emit(remoteResult)

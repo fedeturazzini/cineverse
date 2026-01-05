@@ -21,6 +21,7 @@ import com.ft.architectcoders.ui.screens.duel.DuelScreen
 import com.ft.architectcoders.ui.screens.foryou.ForYouExperience
 import com.ft.architectcoders.ui.screens.foryou.ForYouScreen
 import com.ft.architectcoders.ui.screens.home.HomeScreen
+import com.ft.architectcoders.ui.screens.mood.MoodRadarScreen
 import com.ft.architectcoders.ui.screens.profile.ProfileScreen
 import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.hazeSource
@@ -39,6 +40,8 @@ sealed class NavScreen(val route: String) {
     data object ForYou : NavScreen("for_you")
 
     data object Duel : NavScreen("duel")
+
+    data object MoodRadar : NavScreen("mood_radar")
 }
 
 enum class NavArgs(val key: String) {
@@ -97,7 +100,12 @@ fun Navigation() {
                     .hazeSource(state = hazeState) { },
         ) {
             composable(NavScreen.Profile.route) {
-                ProfileScreen(contentPadding = padding)
+                ProfileScreen(
+                    contentPadding = padding,
+                    onMovieClick = { movieId ->
+                        navController.navigate(NavScreen.Detail.createRoute(movieId))
+                    },
+                )
             }
 
             composable(NavScreen.Home.route) {
@@ -130,6 +138,9 @@ fun Navigation() {
                             ForYouExperience.MOVIE_DUEL -> {
                                 navController.navigate(NavScreen.Duel.route)
                             }
+                            ForYouExperience.MOOD_RADAR -> {
+                                navController.navigate(NavScreen.MoodRadar.route)
+                            }
                             else -> { /* Not implemented yet */ }
                         }
                     },
@@ -138,6 +149,15 @@ fun Navigation() {
 
             composable(NavScreen.Duel.route) {
                 DuelScreen(
+                    onBack = { navController.popBackStack() },
+                    onMovieClick = { movieId ->
+                        navController.navigate(NavScreen.Detail.createRoute(movieId))
+                    },
+                )
+            }
+
+            composable(NavScreen.MoodRadar.route) {
+                MoodRadarScreen(
                     onBack = { navController.popBackStack() },
                     onMovieClick = { movieId ->
                         navController.navigate(NavScreen.Detail.createRoute(movieId))

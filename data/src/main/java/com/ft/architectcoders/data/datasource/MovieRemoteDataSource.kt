@@ -15,4 +15,13 @@ interface MovieRemoteDataSource {
     suspend fun fetchMovieVideos(movieId: Int): Result<List<MovieVideo>>
 
     suspend fun searchMovies(query: String): Result<List<Movie>>
+
+    suspend fun discoverMovies(
+        genres: List<Int>? = null,
+        excludeGenres: List<Int>? = null,
+        sortBy: String = "popularity.desc",
+        minVoteAverage: Float? = null,
+        yearFrom: Int? = null,
+        yearTo: Int? = null,
+    ): Result<List<Movie>>
 }

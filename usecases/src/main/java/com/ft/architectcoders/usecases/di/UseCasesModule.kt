@@ -18,6 +18,10 @@ import com.ft.architectcoders.usecases.duel.GetLastFingerprintUseCase
 import com.ft.architectcoders.usecases.duel.GetLastFingerprintUseCaseImpl
 import com.ft.architectcoders.usecases.duel.SubmitDuelChoiceUseCase
 import com.ft.architectcoders.usecases.duel.SubmitDuelChoiceUseCaseImpl
+import com.ft.architectcoders.usecases.mood.BuildMoodProfileUseCase
+import com.ft.architectcoders.usecases.mood.BuildMoodProfileUseCaseImpl
+import com.ft.architectcoders.usecases.mood.GetMoodRecommendationsUseCase
+import com.ft.architectcoders.usecases.mood.GetMoodRecommendationsUseCaseImpl
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
@@ -32,4 +36,6 @@ val useCasesModule = module {
     factoryOf(::SubmitDuelChoiceUseCaseImpl) { bind<SubmitDuelChoiceUseCase>() }
     factoryOf(::CompleteDuelSessionUseCaseImpl) { bind<CompleteDuelSessionUseCase>() }
     factoryOf(::GetLastFingerprintUseCaseImpl) { bind<GetLastFingerprintUseCase>() }
+    factoryOf(::BuildMoodProfileUseCaseImpl) { bind<BuildMoodProfileUseCase>() }
+    factoryOf(::GetMoodRecommendationsUseCaseImpl) { bind<GetMoodRecommendationsUseCase>() }
 }

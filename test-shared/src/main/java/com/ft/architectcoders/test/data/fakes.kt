@@ -43,8 +43,8 @@ class FakeLocalDataSource: MovieLocalDataSource {
     override val movies: Flow<List<Movie>>
         get() = inMemoryMovies
 
-    override fun findMovieById(id: Int): Flow<Movie> =
-        inMemoryMovies.map { it.firstOrNull { movie -> movie.id == id } as Movie }
+    override fun findMovieById(id: Int): Flow<Movie?> =
+        inMemoryMovies.map { it.firstOrNull { movie -> movie.id == id } }
 
     override suspend fun countMovies(): Int {
         return inMemoryMovies.value.size
@@ -90,6 +90,15 @@ class FakeRemoteDataSource: MovieRemoteDataSource {
     override suspend fun searchMovies(query: String): Result<List<Movie>> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun discoverMovies(
+        genres: List<Int>?,
+        excludeGenres: List<Int>?,
+        sortBy: String,
+        minVoteAverage: Float?,
+        yearFrom: Int?,
+        yearTo: Int?,
+    ): Result<List<Movie>> = successResult(movies)
 
 }
 

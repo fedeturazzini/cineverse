@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface MovieLocalDataSource {
     val movies: Flow<List<Movie>>
 
-    fun findMovieById(id: Int): Flow<Movie>
+    fun findMovieById(id: Int): Flow<Movie?>
 
     suspend fun countMovies(): Int
 

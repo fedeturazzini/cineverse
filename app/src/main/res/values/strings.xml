@@ -131,4 +131,17 @@
     <string name="taste_fingerprint_title">Tu Huella de Gusto</string>
     <string name="generated_by_ai">Generado con IA</string>
     <string name="generated_locally">Generado localmente</string>
+    
+    <!-- Mood Radar Screen -->
+    <string name="mood_radar_title">Mood Radar</string>
+    <string name="mood_radar_subtitle">Ajustá tu estado de ánimo y te armo una lista de peliculas para tu vos</string>
+    <string name="mood_energy">Energía</string>
+    <string name="mood_humor">Humor</string>
+    <string name="mood_tension">Tensión</string>
+    <string name="mood_romance">Romance</string>
+    <string name="mood_cerebral">Cerebral</string>
+    <string name="mood_build_night">Armar mi mood</string>
+    <string name="mood_loading">Analizando tu mood…</string>
+    <string name="mood_error_title">¡Ups! Algo salió mal</string>
+    <string name="mood_try_again">Probar otro mood</string>
 </resources>
