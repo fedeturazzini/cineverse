@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.ft.architectcoders.framework.database.CineVerseDatabase
 import com.ft.architectcoders.framework.database.DuelDao
+import com.ft.architectcoders.framework.database.MarathonDao
 import com.ft.architectcoders.framework.database.MoviesDao
 import com.ft.architectcoders.framework.database.ProfileDao
 import org.koin.dsl.module
@@ -28,5 +29,9 @@ val databaseModule =
 
         single<DuelDao> {
             get<CineVerseDatabase>().duelDao
+        }
+
+        single<MarathonDao> {
+            get<CineVerseDatabase>().marathonDao
         }
     }

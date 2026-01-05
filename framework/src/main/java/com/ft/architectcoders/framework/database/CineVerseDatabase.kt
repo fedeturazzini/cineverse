@@ -10,12 +10,15 @@ import androidx.room.RoomDatabase
         DbDuelSession::class,
         DbDuelChoice::class,
         DbTasteFingerprint::class,
+        DbMarathon::class,
+        DbMarathonPick::class,
     ],
-    version = 2,
+    version = 3,
     exportSchema = false,
 )
 abstract class CineVerseDatabase : RoomDatabase() {
     abstract val moviesDao: MoviesDao
     abstract val profileDao: ProfileDao
     abstract val duelDao: DuelDao
+    abstract val marathonDao: MarathonDao
 }

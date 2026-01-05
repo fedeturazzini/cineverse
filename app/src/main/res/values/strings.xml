@@ -144,4 +144,19 @@
     <string name="mood_loading">Analizando tu mood…</string>
     <string name="mood_error_title">¡Ups! Algo salió mal</string>
     <string name="mood_try_again">Probar otro mood</string>
+    
+    <!-- Marathon Screen -->
+    <string name="marathon_picker_title">Tu Maratón Perfecta</string>
+    <string name="marathon_picker_subtitle">¿Querés una maratón para…?</string>
+    <string name="marathon_today_title">Tu Maratón de Hoy</string>
+    <string name="marathon_detail_title">Detalle de Maratón</string>
+    <string name="marathon_generating">Armando tu maratón perfecta…</string>
+    <string name="marathon_regenerate">Regenerar</string>
+    <string name="marathon_save">Guardar maratón</string>
+    <string name="marathon_saved">Guardada</string>
+    <string name="marathon_fallback_note">Generado sin IA</string>
+    <string name="marathon_error">Error al generar la maratón</string>
+    <string name="marathon_empty">No encontramos películas para este tema</string>
+    <string name="marathon_not_found">Maratón no encontrada</string>
+    <string name="marathon_history_title">Mis Maratones</string>
 </resources>

@@ -21,6 +21,9 @@ import com.ft.architectcoders.ui.screens.duel.DuelScreen
 import com.ft.architectcoders.ui.screens.foryou.ForYouExperience
 import com.ft.architectcoders.ui.screens.foryou.ForYouScreen
 import com.ft.architectcoders.ui.screens.home.HomeScreen
+import com.ft.architectcoders.ui.screens.marathon.MarathonDetailScreen
+import com.ft.architectcoders.ui.screens.marathon.MarathonPickerScreen
+import com.ft.architectcoders.ui.screens.marathon.MarathonTodayScreen
 import com.ft.architectcoders.ui.screens.mood.MoodRadarScreen
 import com.ft.architectcoders.ui.screens.profile.ProfileScreen
 import dev.chrisbanes.haze.HazeState
@@ -42,10 +45,22 @@ sealed class NavScreen(val route: String) {
     data object Duel : NavScreen("duel")
 
     data object MoodRadar : NavScreen("mood_radar")
+
+    data object MarathonPicker : NavScreen("marathon_picker")
+
+    data object MarathonToday : NavScreen("marathon_today/{${NavArgs.ThemeId.key}}") {
+        fun createRoute(themeId: String) = "marathon_today/$themeId"
+    }
+
+    data object MarathonDetail : NavScreen("marathon_detail/{${NavArgs.MarathonId.key}}") {
+        fun createRoute(marathonId: Long) = "marathon_detail/$marathonId"
+    }
 }
 
 enum class NavArgs(val key: String) {
     MovieId("movieId"),
+    ThemeId("themeId"),
+    MarathonId("marathonId"),
 }
 
 private val bottomBarRoutes =
@@ -105,6 +120,9 @@ fun Navigation() {
                     onMovieClick = { movieId ->
                         navController.navigate(NavScreen.Detail.createRoute(movieId))
                     },
+                    onMarathonClick = { marathonId ->
+                        navController.navigate(NavScreen.MarathonDetail.createRoute(marathonId))
+                    },
                 )
             }
 
@@ -141,6 +159,9 @@ fun Navigation() {
                             ForYouExperience.MOOD_RADAR -> {
                                 navController.navigate(NavScreen.MoodRadar.route)
                             }
+                            ForYouExperience.MARATHON -> {
+                                navController.navigate(NavScreen.MarathonPicker.route)
+                            }
                             else -> { /* Not implemented yet */ }
                         }
                     },
@@ -158,6 +179,43 @@ fun Navigation() {
 
             composable(NavScreen.MoodRadar.route) {
                 MoodRadarScreen(
+                    onBack = { navController.popBackStack() },
+                    onMovieClick = { movieId ->
+                        navController.navigate(NavScreen.Detail.createRoute(movieId))
+                    },
+                )
+            }
+
+            composable(NavScreen.MarathonPicker.route) {
+                MarathonPickerScreen(
+                    onBack = { navController.popBackStack() },
+                    onThemeSelected = { themeId ->
+                        navController.navigate(NavScreen.MarathonToday.createRoute(themeId.name))
+                    },
+                )
+            }
+
+            composable(
+                route = NavScreen.MarathonToday.route,
+                arguments = listOf(navArgument(NavArgs.ThemeId.key) { type = NavType.StringType }),
+            ) { backStackEntry ->
+                val themeId = requireNotNull(backStackEntry.arguments?.getString(NavArgs.ThemeId.key))
+                MarathonTodayScreen(
+                    themeId = themeId,
+                    onBack = { navController.popBackStack() },
+                    onMovieClick = { movieId ->
+                        navController.navigate(NavScreen.Detail.createRoute(movieId))
+                    },
+                )
+            }
+
+            composable(
+                route = NavScreen.MarathonDetail.route,
+                arguments = listOf(navArgument(NavArgs.MarathonId.key) { type = NavType.LongType }),
+            ) { backStackEntry ->
+                val marathonId = requireNotNull(backStackEntry.arguments?.getLong(NavArgs.MarathonId.key))
+                MarathonDetailScreen(
+                    marathonId = marathonId,
                     onBack = { navController.popBackStack() },
                     onMovieClick = { movieId ->
                         navController.navigate(NavScreen.Detail.createRoute(movieId))

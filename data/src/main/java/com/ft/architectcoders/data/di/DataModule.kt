@@ -4,6 +4,8 @@ import com.ft.architectcoders.data.repository.duel.DuelRepository
 import com.ft.architectcoders.data.repository.duel.DuelRepositoryImpl
 import com.ft.architectcoders.data.repository.gemini.GeminiRepository
 import com.ft.architectcoders.data.repository.gemini.GeminiRepositoryImpl
+import com.ft.architectcoders.data.repository.marathon.MarathonRepository
+import com.ft.architectcoders.data.repository.marathon.MarathonRepositoryImpl
 import com.ft.architectcoders.data.repository.mood.MoodRepository
 import com.ft.architectcoders.data.repository.mood.MoodRepositoryImpl
 import com.ft.architectcoders.data.repository.movie.MovieRepository
@@ -27,4 +29,5 @@ val dataModule =
         singleOf(::DuelRepositoryImpl) { bind<DuelRepository>() }
         singleOf(::TasteRepositoryImpl) { bind<TasteRepository>() }
         singleOf(::MoodRepositoryImpl) { bind<MoodRepository>() }
+        singleOf(::MarathonRepositoryImpl) { bind<MarathonRepository>() }
     }

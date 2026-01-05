@@ -8,11 +8,13 @@ import com.ft.architectcoders.data.asResult
 import com.ft.architectcoders.data.repository.profile.ProfileRepository
 import com.ft.architectcoders.data.toResult
 import com.ft.architectcoders.domain.Result
+import com.ft.architectcoders.domain.model.MarathonHistoryItem
 import com.ft.architectcoders.domain.model.Movie
 import com.ft.architectcoders.domain.model.TasteFingerprint
 import com.ft.architectcoders.ui.common.photo.FileStorageHelper
 import com.ft.architectcoders.usecases.FetchMoviesUseCase
 import com.ft.architectcoders.usecases.duel.GetLastFingerprintUseCase
+import com.ft.architectcoders.usecases.marathon.GetMarathonHistoryUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -39,6 +41,7 @@ data class ProfileState(
     val favoriteMovies: List<Movie> = emptyList(),
     val selectedGenres: List<String> = emptyList(),
     val tasteFingerprint: TasteFingerprint? = null,
+    val marathonHistory: List<MarathonHistoryItem> = emptyList(),
     val uiFlags: ProfileUiFlags = ProfileUiFlags()
 )
 
@@ -46,33 +49,44 @@ class ProfileViewModel(
     private val profileRepository: ProfileRepository,
     fetchMoviesUseCase: FetchMoviesUseCase,
     getLastFingerprintUseCase: GetLastFingerprintUseCase,
+    getMarathonHistoryUseCase: GetMarathonHistoryUseCase,
 ) : ViewModel() {
     private val _uiFlags = MutableStateFlow(ProfileUiFlags(isLoading = true))
     private val _localName = MutableStateFlow<String?>(null)
 
+    private val favoriteMoviesFlow = fetchMoviesUseCase()
+        .asResult()
+        .map { result ->
+            when (result) {
+                is Result.Success -> result.data.filter { it.favorite }
+                else -> emptyList()
+            }
+        }
+
+    private val combinedExtras = combine(
+        getLastFingerprintUseCase(),
+        getMarathonHistoryUseCase(),
+        _uiFlags,
+        _localName
+    ) { fingerprint, marathonHistory, uiFlags, localName ->
+        ProfileExtras(fingerprint, marathonHistory, uiFlags, localName)
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val state: StateFlow<ProfileState> = combine(
         profileRepository.profile,
-        fetchMoviesUseCase()
-            .asResult()
-            .map { result ->
-                when (result) {
-                    is Result.Success -> result.data.filter { it.favorite }
-                    else -> emptyList()
-                }
-            },
-        getLastFingerprintUseCase(),
-        _uiFlags,
-        _localName
-    ) { profile, favoriteMovies, fingerprint, uiFlags, localName ->
+        favoriteMoviesFlow,
+        combinedExtras
+    ) { profile, favoriteMovies, extras ->
         ProfileState(
-            name = localName ?: profile.name,
+            name = extras.localName ?: profile.name,
             profilePhotoPath = profile.profilePhotoPath,
             region = profile.region,
             selectedGenres = profile.favoriteGenres,
             favoriteMovies = favoriteMovies,
-            tasteFingerprint = fingerprint,
-            uiFlags = uiFlags
+            tasteFingerprint = extras.fingerprint,
+            marathonHistory = extras.marathonHistory,
+            uiFlags = extras.uiFlags
         )
     }
         .stateIn(
@@ -80,6 +94,13 @@ class ProfileViewModel(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = ProfileState(uiFlags = ProfileUiFlags(isLoading = true))
         )
+
+    private data class ProfileExtras(
+        val fingerprint: TasteFingerprint?,
+        val marathonHistory: List<MarathonHistoryItem>,
+        val uiFlags: ProfileUiFlags,
+        val localName: String?,
+    )
 
     fun onNameChanged(name: String) {
         _localName.value = name

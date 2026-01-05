@@ -4,12 +4,14 @@ import android.location.Geocoder
 import com.ft.architectcoders.data.datasource.DuelLocalDataSource
 import com.ft.architectcoders.data.datasource.GeminiAiService
 import com.ft.architectcoders.data.datasource.LocationDataSource
+import com.ft.architectcoders.data.datasource.MarathonLocalDataSource
 import com.ft.architectcoders.data.datasource.MovieLocalDataSource
 import com.ft.architectcoders.data.datasource.MovieRemoteDataSource
 import com.ft.architectcoders.data.datasource.ProfileLocalDataSource
 import com.ft.architectcoders.data.datasource.RegionDataSource
 import com.ft.architectcoders.framework.DuelLocalDataSourceImpl
 import com.ft.architectcoders.framework.LocationDataSourceImpl
+import com.ft.architectcoders.framework.MarathonLocalDataSourceImpl
 import com.ft.architectcoders.framework.MovieRemoteDataSourceImpl
 import com.ft.architectcoders.framework.MovieRoomDataSource
 import com.ft.architectcoders.framework.ProfileLocalDataSourceImpl
@@ -52,6 +54,7 @@ val frameworkModule =
         singleOf(::MovieRoomDataSource) { bind<MovieLocalDataSource>() }
         singleOf(::ProfileLocalDataSourceImpl) { bind<ProfileLocalDataSource>() }
         singleOf(::DuelLocalDataSourceImpl) { bind<DuelLocalDataSource>() }
+        singleOf(::MarathonLocalDataSourceImpl) { bind<MarathonLocalDataSource>() }
     }
 
 val frameworkModules = listOf(databaseModule, frameworkModule)

@@ -18,6 +18,16 @@ import com.ft.architectcoders.usecases.duel.GetLastFingerprintUseCase
 import com.ft.architectcoders.usecases.duel.GetLastFingerprintUseCaseImpl
 import com.ft.architectcoders.usecases.duel.SubmitDuelChoiceUseCase
 import com.ft.architectcoders.usecases.duel.SubmitDuelChoiceUseCaseImpl
+import com.ft.architectcoders.usecases.marathon.GenerateMarathonPlanUseCase
+import com.ft.architectcoders.usecases.marathon.GenerateMarathonPlanUseCaseImpl
+import com.ft.architectcoders.usecases.marathon.GetMarathonByIdUseCase
+import com.ft.architectcoders.usecases.marathon.GetMarathonByIdUseCaseImpl
+import com.ft.architectcoders.usecases.marathon.GetMarathonHistoryUseCase
+import com.ft.architectcoders.usecases.marathon.GetMarathonHistoryUseCaseImpl
+import com.ft.architectcoders.usecases.marathon.GetMarathonThemesUseCase
+import com.ft.architectcoders.usecases.marathon.GetMarathonThemesUseCaseImpl
+import com.ft.architectcoders.usecases.marathon.SaveMarathonUseCase
+import com.ft.architectcoders.usecases.marathon.SaveMarathonUseCaseImpl
 import com.ft.architectcoders.usecases.mood.BuildMoodProfileUseCase
 import com.ft.architectcoders.usecases.mood.BuildMoodProfileUseCaseImpl
 import com.ft.architectcoders.usecases.mood.GetMoodRecommendationsUseCase
@@ -39,4 +49,9 @@ val useCasesModule =
         factoryOf(::GetLastFingerprintUseCaseImpl) { bind<GetLastFingerprintUseCase>() }
         factoryOf(::BuildMoodProfileUseCaseImpl) { bind<BuildMoodProfileUseCase>() }
         factoryOf(::GetMoodRecommendationsUseCaseImpl) { bind<GetMoodRecommendationsUseCase>() }
+        factoryOf(::GetMarathonThemesUseCaseImpl) { bind<GetMarathonThemesUseCase>() }
+        factoryOf(::GenerateMarathonPlanUseCaseImpl) { bind<GenerateMarathonPlanUseCase>() }
+        factoryOf(::SaveMarathonUseCaseImpl) { bind<SaveMarathonUseCase>() }
+        factoryOf(::GetMarathonHistoryUseCaseImpl) { bind<GetMarathonHistoryUseCase>() }
+        factoryOf(::GetMarathonByIdUseCaseImpl) { bind<GetMarathonByIdUseCase>() }
     }

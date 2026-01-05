@@ -33,6 +33,7 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.ft.architectcoders.R
+import com.ft.architectcoders.domain.model.MarathonHistoryItem
 import com.ft.architectcoders.domain.model.Movie
 import com.ft.architectcoders.domain.model.TasteFingerprint
 import com.ft.architectcoders.ui.common.LoadingIndicator
@@ -50,6 +51,7 @@ import org.koin.androidx.compose.koinViewModel
 fun ProfileScreen(
     contentPadding: PaddingValues = PaddingValues(0.dp),
     onMovieClick: (Int) -> Unit = {},
+    onMarathonClick: (Long) -> Unit = {},
     viewModel: ProfileViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
@@ -285,6 +287,14 @@ fun ProfileScreen(
                     // Taste Fingerprint Section
                     state.tasteFingerprint?.let { fingerprint ->
                         TasteFingerprintCard(fingerprint = fingerprint)
+                    }
+
+                    // Marathon History Section
+                    if (state.marathonHistory.isNotEmpty()) {
+                        MarathonHistoryCard(
+                            marathonHistory = state.marathonHistory,
+                            onMarathonClick = onMarathonClick,
+                        )
                     }
 
                     ProfileStatsCard(
@@ -798,3 +808,87 @@ private fun TasteFingerprintCard(fingerprint: TasteFingerprint) {
 //        )
 //    }
 //}
+
+@Composable
+private fun MarathonHistoryCard(
+    marathonHistory: List<MarathonHistoryItem>,
+    onMarathonClick: (Long) -> Unit,
+) {
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
+        )
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Icon(
+                    Icons.Default.LocalFireDepartment,
+                    contentDescription = null,
+                    tint = CinemaOrange,
+                    modifier = Modifier.size(24.dp)
+                )
+                Text(
+                    text = stringResource(R.string.marathon_history_title),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            marathonHistory.take(5).forEach { item ->
+                MarathonHistoryRow(
+                    item = item,
+                    onClick = { onMarathonClick(item.id) }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun MarathonHistoryRow(
+    item: MarathonHistoryItem,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+            .clickable(onClick = onClick)
+            .background(MaterialTheme.colorScheme.surfaceContainerLow)
+            .padding(12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = item.themeTitle,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium
+            )
+            Text(
+                text = "${item.movieCount} películas · ${formatMarathonDate(item.timestamp)}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        Icon(
+            Icons.Default.ChevronRight,
+            contentDescription = null,
+            tint = CinemaOrange,
+            modifier = Modifier.size(20.dp)
+        )
+    }
+}
+
+private fun formatMarathonDate(timestamp: Long): String {
+    val sdf = java.text.SimpleDateFormat("dd MMM", java.util.Locale.getDefault())
+    return sdf.format(java.util.Date(timestamp))
+}
