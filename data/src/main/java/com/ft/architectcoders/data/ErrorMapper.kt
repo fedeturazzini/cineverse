@@ -15,34 +15,49 @@ object ErrorMapper {
     }
 
     fun mapGeminiError(throwable: Throwable): AppError {
+        val message = throwable.message ?: ""
+        val isQuotaError = message.contains("quota", ignoreCase = true) ||
+            message.contains("exceeded", ignoreCase = true) ||
+            message.contains("rate limit", ignoreCase = true)
+
+        if (isQuotaError) {
+            val retrySeconds = extractRetrySeconds(message)
+            return AppError.QuotaExceeded(
+                cause = throwable,
+                retryAfterSeconds = retrySeconds,
+            )
+        }
+
         return when (throwable) {
             is HttpException -> {
                 val code = throwable.code()
-                AppError.GeminiApiError(
-                    message =
-                        when (code) {
+                if (code == 429) {
+                    AppError.QuotaExceeded(cause = throwable)
+                } else {
+                    AppError.GeminiApiError(
+                        message = when (code) {
                             400 -> "Solicitud inválida a Gemini"
                             401 -> "API key de Gemini inválida"
                             403 -> "Acceso prohibido a Gemini"
-                            429 -> "Límite de solicitudes de Gemini excedido"
                             500 -> "Error del servidor de Gemini"
                             else -> "Error de Gemini: $code"
                         },
-                    cause = throwable,
-                    reason = throwable.message(),
-                )
+                        cause = throwable,
+                        reason = throwable.message(),
+                    )
+                }
             }
             else -> {
                 val isGeminiError =
                     throwable.javaClass.name.contains("gemini", ignoreCase = true) ||
-                        throwable.message?.contains("gemini", ignoreCase = true) == true ||
-                        throwable.message?.contains("generative", ignoreCase = true) == true
+                        message.contains("gemini", ignoreCase = true) ||
+                        message.contains("generative", ignoreCase = true)
 
                 if (isGeminiError) {
                     AppError.GeminiApiError(
-                        message = throwable.message ?: "Error de la API de Gemini",
+                        message = message.ifEmpty { "Error de la API de Gemini" },
                         cause = throwable,
-                        reason = throwable.message,
+                        reason = message,
                     )
                 } else {
                     when (throwable) {
@@ -64,13 +79,18 @@ object ErrorMapper {
                             )
                         else ->
                             AppError.GeminiApiError(
-                                message = throwable.message ?: "Error desconocido de Gemini",
+                                message = message.ifEmpty { "Error desconocido de Gemini" },
                                 cause = throwable,
                             )
                     }
                 }
             }
         }
+    }
+
+    private fun extractRetrySeconds(message: String): Int? {
+        val regex = Regex("""retry in (\d+)""", RegexOption.IGNORE_CASE)
+        return regex.find(message)?.groupValues?.getOrNull(1)?.toIntOrNull()
     }
 
     private fun mapToAppError(

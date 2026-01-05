@@ -10,6 +10,12 @@ import com.ft.architectcoders.usecases.GetMovieVideosUseCase
 import com.ft.architectcoders.usecases.GetMovieVideosUseCaseImpl
 import com.ft.architectcoders.usecases.ToggleFavoriteMovieUseCase
 import com.ft.architectcoders.usecases.ToggleFavoriteMovieUseCaseImpl
+import com.ft.architectcoders.usecases.aisearch.GetAiSearchSessionUseCase
+import com.ft.architectcoders.usecases.aisearch.GetAiSearchSessionUseCaseImpl
+import com.ft.architectcoders.usecases.aisearch.SaveAiSearchSessionUseCase
+import com.ft.architectcoders.usecases.aisearch.SaveAiSearchSessionUseCaseImpl
+import com.ft.architectcoders.usecases.aisearch.SendAiSearchMessageUseCase
+import com.ft.architectcoders.usecases.aisearch.SendAiSearchMessageUseCaseImpl
 import com.ft.architectcoders.usecases.challenge.CompleteDailyChallengeUseCase
 import com.ft.architectcoders.usecases.challenge.CompleteDailyChallengeUseCaseImpl
 import com.ft.architectcoders.usecases.challenge.GetChallengeHistoryUseCase
@@ -66,4 +72,7 @@ val useCasesModule =
         factoryOf(::CompleteDailyChallengeUseCaseImpl) { bind<CompleteDailyChallengeUseCase>() }
         factoryOf(::GetChallengeHistoryUseCaseImpl) { bind<GetChallengeHistoryUseCase>() }
         factoryOf(::GetUnlockedBadgesUseCaseImpl) { bind<GetUnlockedBadgesUseCase>() }
+        factoryOf(::SendAiSearchMessageUseCaseImpl) { bind<SendAiSearchMessageUseCase>() }
+        factoryOf(::GetAiSearchSessionUseCaseImpl) { bind<GetAiSearchSessionUseCase>() }
+        factoryOf(::SaveAiSearchSessionUseCaseImpl) { bind<SaveAiSearchSessionUseCase>() }
     }

@@ -14,8 +14,9 @@ import androidx.room.RoomDatabase
         DbMarathonPick::class,
         DbDailyChallenge::class,
         DbChallengeBadge::class,
+        DbAiSearchSession::class,
     ],
-    version = 4,
+    version = 5,
     exportSchema = false,
 )
 abstract class CineVerseDatabase : RoomDatabase() {
@@ -24,4 +25,5 @@ abstract class CineVerseDatabase : RoomDatabase() {
     abstract val duelDao: DuelDao
     abstract val marathonDao: MarathonDao
     abstract val challengeDao: ChallengeDao
+    abstract val aiSearchDao: AiSearchDao
 }

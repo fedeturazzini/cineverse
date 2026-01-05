@@ -1,6 +1,7 @@
 package com.ft.architectcoders.framework.di
 
 import android.location.Geocoder
+import com.ft.architectcoders.data.datasource.AiSearchLocalDataSource
 import com.ft.architectcoders.data.datasource.ChallengeLocalDataSource
 import com.ft.architectcoders.data.datasource.DuelLocalDataSource
 import com.ft.architectcoders.data.datasource.GeminiAiService
@@ -10,6 +11,7 @@ import com.ft.architectcoders.data.datasource.MovieLocalDataSource
 import com.ft.architectcoders.data.datasource.MovieRemoteDataSource
 import com.ft.architectcoders.data.datasource.ProfileLocalDataSource
 import com.ft.architectcoders.data.datasource.RegionDataSource
+import com.ft.architectcoders.framework.AiSearchLocalDataSourceImpl
 import com.ft.architectcoders.framework.ChallengeLocalDataSourceImpl
 import com.ft.architectcoders.framework.DuelLocalDataSourceImpl
 import com.ft.architectcoders.framework.LocationDataSourceImpl
@@ -18,7 +20,12 @@ import com.ft.architectcoders.framework.MovieRemoteDataSourceImpl
 import com.ft.architectcoders.framework.MovieRoomDataSource
 import com.ft.architectcoders.framework.ProfileLocalDataSourceImpl
 import com.ft.architectcoders.framework.RegionDataSourceImpl
+import com.ft.architectcoders.framework.remote.gemini.AiSearchPromptBuilder
+import com.ft.architectcoders.framework.remote.gemini.ChallengePromptBuilder
 import com.ft.architectcoders.framework.remote.gemini.GeminiAiServiceImpl
+import com.ft.architectcoders.framework.remote.gemini.MarathonPromptBuilder
+import com.ft.architectcoders.framework.remote.gemini.MoodPromptBuilder
+import kotlinx.serialization.json.Json
 import com.ft.architectcoders.framework.remote.tmdb.TmdbApiClient
 import com.ft.architectcoders.framework.remote.tmdb.TmdbService
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -46,8 +53,21 @@ val frameworkModule =
             Geocoder(androidApplication())
         }
 
+        single { Json { ignoreUnknownKeys = true } }
+
+        singleOf(::MoodPromptBuilder)
+        singleOf(::MarathonPromptBuilder)
+        singleOf(::ChallengePromptBuilder)
+        singleOf(::AiSearchPromptBuilder)
+
         single<GeminiAiService> {
-            GeminiAiServiceImpl(apiKey = get(GEMINI_API_KEY))
+            GeminiAiServiceImpl(
+                apiKey = get(GEMINI_API_KEY),
+                moodPromptBuilder = get(),
+                marathonPromptBuilder = get(),
+                challengePromptBuilder = get(),
+                aiSearchPromptBuilder = get(),
+            )
         }
 
         singleOf(::LocationDataSourceImpl) { bind<LocationDataSource>() }
@@ -58,6 +78,7 @@ val frameworkModule =
         singleOf(::DuelLocalDataSourceImpl) { bind<DuelLocalDataSource>() }
         singleOf(::MarathonLocalDataSourceImpl) { bind<MarathonLocalDataSource>() }
         singleOf(::ChallengeLocalDataSourceImpl) { bind<ChallengeLocalDataSource>() }
+        singleOf(::AiSearchLocalDataSourceImpl) { bind<AiSearchLocalDataSource>() }
     }
 
 val frameworkModules = listOf(databaseModule, frameworkModule)

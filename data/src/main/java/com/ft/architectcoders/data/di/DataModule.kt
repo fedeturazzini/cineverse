@@ -1,5 +1,7 @@
 package com.ft.architectcoders.data.di
 
+import com.ft.architectcoders.data.repository.aisearch.AiSearchRepository
+import com.ft.architectcoders.data.repository.aisearch.AiSearchRepositoryImpl
 import com.ft.architectcoders.data.repository.challenge.ChallengeRepository
 import com.ft.architectcoders.data.repository.challenge.ChallengeRepositoryImpl
 import com.ft.architectcoders.data.repository.duel.DuelRepository
@@ -33,4 +35,5 @@ val dataModule =
         singleOf(::MoodRepositoryImpl) { bind<MoodRepository>() }
         singleOf(::MarathonRepositoryImpl) { bind<MarathonRepository>() }
         singleOf(::ChallengeRepositoryImpl) { bind<ChallengeRepository>() }
+        singleOf(::AiSearchRepositoryImpl) { bind<AiSearchRepository>() }
     }

@@ -186,4 +186,16 @@
 
     <!-- Badges Section -->
     <string name="badges_title">Mis Badges</string>
+
+    <!-- AI Search Chat -->
+    <string name="ai_search_title">Búsqueda IA</string>
+    <string name="ai_search_initial_message">¿Qué necesitás hoy? Tenés solo 3 preguntas.</string>
+    <string name="ai_search_questions_counter">Preguntas: %1$d/3</string>
+    <string name="ai_search_out_of_scope">Solo puedo ayudarte a elegir películas. Decime qué tipo de peli querés ver.</string>
+    <string name="ai_search_send">Enviar</string>
+    <string name="ai_search_new_search">Nueva búsqueda</string>
+    <string name="ai_search_limit_reached">Llegaste al límite de preguntas</string>
+    <string name="ai_search_processing">Buscando películas…</string>
+    <string name="ai_search_results_title">Resultados</string>
+    <string name="ai_search_summary_title">Resumen de preferencias</string>
 </resources>

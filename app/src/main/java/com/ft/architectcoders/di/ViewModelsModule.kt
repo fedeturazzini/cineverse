@@ -1,5 +1,6 @@
 package com.ft.architectcoders.di
 
+import com.ft.architectcoders.ui.screens.aisearch.AiSearchChatViewModel
 import com.ft.architectcoders.ui.screens.challenge.DailyChallengeViewModel
 import com.ft.architectcoders.ui.screens.detail.MovieDetailViewModel
 import com.ft.architectcoders.ui.screens.duel.DuelViewModel
@@ -31,4 +32,6 @@ val viewModelModule =
         viewModelOf(::MarathonDetailViewModel)
 
         viewModelOf(::DailyChallengeViewModel)
+
+        viewModelOf(::AiSearchChatViewModel)
     }

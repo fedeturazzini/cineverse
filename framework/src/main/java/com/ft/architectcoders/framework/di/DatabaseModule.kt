@@ -2,6 +2,7 @@ package com.ft.architectcoders.framework.di
 
 import android.app.Application
 import androidx.room.Room
+import com.ft.architectcoders.framework.database.AiSearchDao
 import com.ft.architectcoders.framework.database.ChallengeDao
 import com.ft.architectcoders.framework.database.CineVerseDatabase
 import com.ft.architectcoders.framework.database.DuelDao
@@ -17,7 +18,7 @@ val databaseModule =
                 get<Application>(),
                 CineVerseDatabase::class.java,
                 "cineverse_database",
-            ).build()
+            ).fallbackToDestructiveMigration().build()
         }
 
         single<MoviesDao> {
@@ -38,5 +39,9 @@ val databaseModule =
 
         single<ChallengeDao> {
             get<CineVerseDatabase>().challengeDao
+        }
+
+        single<AiSearchDao> {
+            get<CineVerseDatabase>().aiSearchDao
         }
     }

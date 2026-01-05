@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.ft.architectcoders.ui.common.bottombar.GlassmorphicBottomBar
 import com.ft.architectcoders.ui.common.bottombar.bottomBarTabs
+import com.ft.architectcoders.ui.screens.aisearch.AiSearchChatScreen
 import com.ft.architectcoders.ui.screens.detail.MovieDetailScreen
 import com.ft.architectcoders.ui.screens.detail.MovieDetailViewModel
 import com.ft.architectcoders.ui.screens.duel.DuelScreen
@@ -58,6 +59,8 @@ sealed class NavScreen(val route: String) {
     }
 
     data object DailyChallenge : NavScreen("daily_challenge")
+
+    data object AiSearchChat : NavScreen("ai_search_chat")
 }
 
 enum class NavArgs(val key: String) {
@@ -168,7 +171,10 @@ fun Navigation() {
                             ForYouExperience.CHALLENGE_RECO -> {
                                 navController.navigate(NavScreen.DailyChallenge.route)
                             }
-                            else -> { /* Not implemented yet */ }
+                            ForYouExperience.CONVERSATIONAL_SEARCH -> {
+                                navController.navigate(NavScreen.AiSearchChat.route)
+                            }
+                            else -> { }
                         }
                     },
                 )
@@ -231,6 +237,15 @@ fun Navigation() {
 
             composable(NavScreen.DailyChallenge.route) {
                 DailyChallengeScreen(
+                    onBack = { navController.popBackStack() },
+                    onMovieClick = { movieId ->
+                        navController.navigate(NavScreen.Detail.createRoute(movieId))
+                    },
+                )
+            }
+
+            composable(NavScreen.AiSearchChat.route) {
+                AiSearchChatScreen(
                     onBack = { navController.popBackStack() },
                     onMovieClick = { movieId ->
                         navController.navigate(NavScreen.Detail.createRoute(movieId))

@@ -50,16 +50,16 @@ enum class ForYouExperience(
         icon = Icons.Filled.AutoAwesome,
         gradientColors = listOf(GalaxyPurple40, NebulaPurple),
     ),
-    CINEVERSO_60S(
-        titleRes = R.string.foryou_cineverso_title,
-        descriptionRes = R.string.foryou_cineverso_desc,
-        icon = Icons.Filled.Person,
-        gradientColors = listOf(IndigoDark80, SpaceNavy),
-    ),
     CONVERSATIONAL_SEARCH(
         titleRes = R.string.foryou_search_title,
         descriptionRes = R.string.foryou_search_desc,
         icon = Icons.Filled.Chat,
         gradientColors = listOf(StarBright, GalaxyPurple40),
+    ),
+    CINEVERSO_60S(
+        titleRes = R.string.foryou_cineverso_title,
+        descriptionRes = R.string.foryou_cineverso_desc,
+        icon = Icons.Filled.Person,
+        gradientColors = listOf(IndigoDark80, SpaceNavy),
     ),
 }

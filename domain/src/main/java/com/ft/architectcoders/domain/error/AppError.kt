@@ -45,6 +45,14 @@ sealed interface AppError {
         override val source: ErrorSource = ErrorSource.GEMINI_API
     }
 
+    data class QuotaExceeded(
+        override val message: String = "Se agotaron los tokens de IA",
+        override val cause: Throwable? = null,
+        val retryAfterSeconds: Int? = null,
+    ) : AppError {
+        override val source: ErrorSource = ErrorSource.GEMINI_API
+    }
+
     data class UnknownError(
         override val message: String = "Error desconocido",
         override val cause: Throwable? = null,
