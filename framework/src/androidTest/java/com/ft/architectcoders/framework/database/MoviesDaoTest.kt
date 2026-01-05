@@ -67,8 +67,8 @@ class MoviesDaoTest {
         val movie = moviesDao.findMovieById(2).first()
 
         // Then
-        assertEquals(2, movie.id)
-        assertEquals("Movie 2", movie.title)
+        assertEquals(2, movie?.id)
+        assertEquals("Movie 2", movie?.title)
     }
 
     @Test

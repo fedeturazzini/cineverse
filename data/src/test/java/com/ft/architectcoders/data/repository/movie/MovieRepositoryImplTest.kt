@@ -3,9 +3,7 @@ package com.ft.architectcoders.data.repository.movie
 import com.ft.architectcoders.data.datasource.MovieLocalDataSource
 import com.ft.architectcoders.data.datasource.MovieRemoteDataSource
 import com.ft.architectcoders.domain.Result
-import com.ft.architectcoders.domain.model.Cast
 import com.ft.architectcoders.domain.model.Movie
-import com.ft.architectcoders.domain.model.MovieVideo
 import com.ft.architectcoders.test.errorResult
 import com.ft.architectcoders.test.loadingResult
 import com.ft.architectcoders.test.sampleCast

@@ -27,10 +27,10 @@ class GeminiAiServiceImpl(private val apiKey: String) : GeminiAiService {
             apiKey = apiKey,
             generationConfig =
                 generationConfig {
-                    temperature = 0.7f
+                    temperature = 0.8f
                     topK = 40
                     topP = 0.95f
-                    maxOutputTokens = 50000
+                    maxOutputTokens = 500000
                 },
         )
 
