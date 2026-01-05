@@ -1,5 +1,7 @@
 package com.ft.architectcoders.data.di
 
+import com.ft.architectcoders.data.repository.challenge.ChallengeRepository
+import com.ft.architectcoders.data.repository.challenge.ChallengeRepositoryImpl
 import com.ft.architectcoders.data.repository.duel.DuelRepository
 import com.ft.architectcoders.data.repository.duel.DuelRepositoryImpl
 import com.ft.architectcoders.data.repository.gemini.GeminiRepository
@@ -30,4 +32,5 @@ val dataModule =
         singleOf(::TasteRepositoryImpl) { bind<TasteRepository>() }
         singleOf(::MoodRepositoryImpl) { bind<MoodRepository>() }
         singleOf(::MarathonRepositoryImpl) { bind<MarathonRepository>() }
+        singleOf(::ChallengeRepositoryImpl) { bind<ChallengeRepository>() }
     }

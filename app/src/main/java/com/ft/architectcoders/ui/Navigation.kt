@@ -21,6 +21,7 @@ import com.ft.architectcoders.ui.screens.duel.DuelScreen
 import com.ft.architectcoders.ui.screens.foryou.ForYouExperience
 import com.ft.architectcoders.ui.screens.foryou.ForYouScreen
 import com.ft.architectcoders.ui.screens.home.HomeScreen
+import com.ft.architectcoders.ui.screens.challenge.DailyChallengeScreen
 import com.ft.architectcoders.ui.screens.marathon.MarathonDetailScreen
 import com.ft.architectcoders.ui.screens.marathon.MarathonPickerScreen
 import com.ft.architectcoders.ui.screens.marathon.MarathonTodayScreen
@@ -55,6 +56,8 @@ sealed class NavScreen(val route: String) {
     data object MarathonDetail : NavScreen("marathon_detail/{${NavArgs.MarathonId.key}}") {
         fun createRoute(marathonId: Long) = "marathon_detail/$marathonId"
     }
+
+    data object DailyChallenge : NavScreen("daily_challenge")
 }
 
 enum class NavArgs(val key: String) {
@@ -162,6 +165,9 @@ fun Navigation() {
                             ForYouExperience.MARATHON -> {
                                 navController.navigate(NavScreen.MarathonPicker.route)
                             }
+                            ForYouExperience.CHALLENGE_RECO -> {
+                                navController.navigate(NavScreen.DailyChallenge.route)
+                            }
                             else -> { /* Not implemented yet */ }
                         }
                     },
@@ -216,6 +222,15 @@ fun Navigation() {
                 val marathonId = requireNotNull(backStackEntry.arguments?.getLong(NavArgs.MarathonId.key))
                 MarathonDetailScreen(
                     marathonId = marathonId,
+                    onBack = { navController.popBackStack() },
+                    onMovieClick = { movieId ->
+                        navController.navigate(NavScreen.Detail.createRoute(movieId))
+                    },
+                )
+            }
+
+            composable(NavScreen.DailyChallenge.route) {
+                DailyChallengeScreen(
                     onBack = { navController.popBackStack() },
                     onMovieClick = { movieId ->
                         navController.navigate(NavScreen.Detail.createRoute(movieId))

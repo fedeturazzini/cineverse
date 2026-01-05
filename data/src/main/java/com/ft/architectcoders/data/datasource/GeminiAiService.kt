@@ -40,4 +40,11 @@ interface GeminiAiService {
         topGenres: List<Int>,
         region: String,
     ): Result<MarathonAiResult>
+
+    suspend fun generateDailyChallenge(
+        date: String,
+        topGenres: List<Pair<Int, Int>>,
+        decadeHistogram: List<Pair<Int, Int>>,
+        favoriteMovieIds: List<Int>,
+    ): Result<ChallengeAiResult>
 }

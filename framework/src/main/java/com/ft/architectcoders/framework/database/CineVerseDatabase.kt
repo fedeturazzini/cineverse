@@ -12,8 +12,10 @@ import androidx.room.RoomDatabase
         DbTasteFingerprint::class,
         DbMarathon::class,
         DbMarathonPick::class,
+        DbDailyChallenge::class,
+        DbChallengeBadge::class,
     ],
-    version = 3,
+    version = 4,
     exportSchema = false,
 )
 abstract class CineVerseDatabase : RoomDatabase() {
@@ -21,4 +23,5 @@ abstract class CineVerseDatabase : RoomDatabase() {
     abstract val profileDao: ProfileDao
     abstract val duelDao: DuelDao
     abstract val marathonDao: MarathonDao
+    abstract val challengeDao: ChallengeDao
 }

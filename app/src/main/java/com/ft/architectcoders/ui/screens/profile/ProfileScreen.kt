@@ -33,6 +33,7 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.ft.architectcoders.R
+import com.ft.architectcoders.domain.model.ChallengeBadge
 import com.ft.architectcoders.domain.model.MarathonHistoryItem
 import com.ft.architectcoders.domain.model.Movie
 import com.ft.architectcoders.domain.model.TasteFingerprint
@@ -287,6 +288,11 @@ fun ProfileScreen(
                     // Taste Fingerprint Section
                     state.tasteFingerprint?.let { fingerprint ->
                         TasteFingerprintCard(fingerprint = fingerprint)
+                    }
+
+                    // Badges Section
+                    if (state.unlockedBadges.isNotEmpty()) {
+                        BadgesCard(badges = state.unlockedBadges)
                     }
 
                     // Marathon History Section
@@ -891,4 +897,82 @@ private fun MarathonHistoryRow(
 private fun formatMarathonDate(timestamp: Long): String {
     val sdf = java.text.SimpleDateFormat("dd MMM", java.util.Locale.getDefault())
     return sdf.format(java.util.Date(timestamp))
+}
+
+@Composable
+private fun BadgesCard(badges: List<ChallengeBadge>) {
+    ElevatedCard(
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            StarBright.copy(alpha = 0.1f),
+                            CinemaOrange.copy(alpha = 0.05f)
+                        )
+                    )
+                )
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Icon(
+                    Icons.Default.Star,
+                    contentDescription = null,
+                    tint = StarBright,
+                    modifier = Modifier.size(24.dp)
+                )
+                Text(
+                    text = stringResource(R.string.badges_title),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                badges.forEach { badge ->
+                    BadgeItem(badge = badge)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun BadgeItem(badge: ChallengeBadge) {
+    Surface(
+        shape = RoundedCornerShape(12.dp),
+        color = CinemaOrange.copy(alpha = 0.15f),
+        modifier = Modifier.padding(2.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            Text(
+                text = badge.emoji,
+                style = MaterialTheme.typography.titleMedium
+            )
+            Text(
+                text = badge.name,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
+    }
 }

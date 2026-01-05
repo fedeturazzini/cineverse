@@ -10,6 +10,14 @@ import com.ft.architectcoders.usecases.GetMovieVideosUseCase
 import com.ft.architectcoders.usecases.GetMovieVideosUseCaseImpl
 import com.ft.architectcoders.usecases.ToggleFavoriteMovieUseCase
 import com.ft.architectcoders.usecases.ToggleFavoriteMovieUseCaseImpl
+import com.ft.architectcoders.usecases.challenge.CompleteDailyChallengeUseCase
+import com.ft.architectcoders.usecases.challenge.CompleteDailyChallengeUseCaseImpl
+import com.ft.architectcoders.usecases.challenge.GetChallengeHistoryUseCase
+import com.ft.architectcoders.usecases.challenge.GetChallengeHistoryUseCaseImpl
+import com.ft.architectcoders.usecases.challenge.GetOrCreateDailyChallengeUseCase
+import com.ft.architectcoders.usecases.challenge.GetOrCreateDailyChallengeUseCaseImpl
+import com.ft.architectcoders.usecases.challenge.GetUnlockedBadgesUseCase
+import com.ft.architectcoders.usecases.challenge.GetUnlockedBadgesUseCaseImpl
 import com.ft.architectcoders.usecases.duel.CompleteDuelSessionUseCase
 import com.ft.architectcoders.usecases.duel.CompleteDuelSessionUseCaseImpl
 import com.ft.architectcoders.usecases.duel.GetDuelCandidatesUseCase
@@ -54,4 +62,8 @@ val useCasesModule =
         factoryOf(::SaveMarathonUseCaseImpl) { bind<SaveMarathonUseCase>() }
         factoryOf(::GetMarathonHistoryUseCaseImpl) { bind<GetMarathonHistoryUseCase>() }
         factoryOf(::GetMarathonByIdUseCaseImpl) { bind<GetMarathonByIdUseCase>() }
+        factoryOf(::GetOrCreateDailyChallengeUseCaseImpl) { bind<GetOrCreateDailyChallengeUseCase>() }
+        factoryOf(::CompleteDailyChallengeUseCaseImpl) { bind<CompleteDailyChallengeUseCase>() }
+        factoryOf(::GetChallengeHistoryUseCaseImpl) { bind<GetChallengeHistoryUseCase>() }
+        factoryOf(::GetUnlockedBadgesUseCaseImpl) { bind<GetUnlockedBadgesUseCase>() }
     }

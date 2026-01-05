@@ -101,7 +101,7 @@
     <string name="foryou_duel_title">Duelo de Pelis</string>
     <string name="foryou_duel_desc">Elige entre dos películas A/B</string>
     
-    <string name="foryou_challenge_title">Reco con Reto</string>
+    <string name="foryou_challenge_title">Reto del dia</string>
     <string name="foryou_challenge_desc">Recomendaciones con desafíos</string>
     
     <string name="foryou_cineverso_title">Cineverso 60s</string>
@@ -159,4 +159,31 @@
     <string name="marathon_empty">No encontramos películas para este tema</string>
     <string name="marathon_not_found">Maratón no encontrada</string>
     <string name="marathon_history_title">Mis Maratones</string>
+
+    <!-- Daily Challenge Screen -->
+    <string name="challenge_title">Reto del Día</string>
+    <string name="challenge_loading">Preparando tu reto…</string>
+    <string name="challenge_movies_title">¿Cuál cumple el reto?</string>
+    <string name="challenge_progress">Progreso</string>
+    <string name="challenge_reward">Recompensa</string>
+    <string name="challenge_completed_title">¡Reto Completado!</string>
+    <string name="challenge_badge_unlocked">Desbloqueaste un nuevo badge</string>
+    <string name="challenge_continue">Continuar</string>
+    <string name="challenge_error">Error al cargar el reto</string>
+    <string name="challenge_complete_button">Completar</string>
+    <string name="challenge_completed_header">¡Reto completado! 🎉</string>
+    <string name="challenge_come_back_tomorrow">Volvé mañana para un nuevo reto</string>
+    <string name="challenge_badge_earned">Badge desbloqueado</string>
+    <string name="challenge_next_available">Próximo reto en</string>
+    <string name="challenge_movie_watched">Película vista</string>
+    <string name="challenge_movies_completed_title">Tu elección del reto</string>
+    <string name="challenge_movies_failed_title">Resultado del reto</string>
+    <string name="challenge_failed_header">¡Ups! Fallaste el reto 😅</string>
+    <string name="challenge_failed_subtitle">Elegiste mal, mejor suerte mañana</string>
+    <string name="challenge_badge_missed">Badge perdido</string>
+    <string name="challenge_select_movie">Elegir esta película</string>
+    <string name="challenge_your_choice">Tu elección</string>
+
+    <!-- Badges Section -->
+    <string name="badges_title">Mis Badges</string>
 </resources>

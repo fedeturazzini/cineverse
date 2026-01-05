@@ -8,11 +8,13 @@ import com.ft.architectcoders.data.asResult
 import com.ft.architectcoders.data.repository.profile.ProfileRepository
 import com.ft.architectcoders.data.toResult
 import com.ft.architectcoders.domain.Result
+import com.ft.architectcoders.domain.model.ChallengeBadge
 import com.ft.architectcoders.domain.model.MarathonHistoryItem
 import com.ft.architectcoders.domain.model.Movie
 import com.ft.architectcoders.domain.model.TasteFingerprint
 import com.ft.architectcoders.ui.common.photo.FileStorageHelper
 import com.ft.architectcoders.usecases.FetchMoviesUseCase
+import com.ft.architectcoders.usecases.challenge.GetUnlockedBadgesUseCase
 import com.ft.architectcoders.usecases.duel.GetLastFingerprintUseCase
 import com.ft.architectcoders.usecases.marathon.GetMarathonHistoryUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -42,6 +44,7 @@ data class ProfileState(
     val selectedGenres: List<String> = emptyList(),
     val tasteFingerprint: TasteFingerprint? = null,
     val marathonHistory: List<MarathonHistoryItem> = emptyList(),
+    val unlockedBadges: List<ChallengeBadge> = emptyList(),
     val uiFlags: ProfileUiFlags = ProfileUiFlags()
 )
 
@@ -50,6 +53,7 @@ class ProfileViewModel(
     fetchMoviesUseCase: FetchMoviesUseCase,
     getLastFingerprintUseCase: GetLastFingerprintUseCase,
     getMarathonHistoryUseCase: GetMarathonHistoryUseCase,
+    getUnlockedBadgesUseCase: GetUnlockedBadgesUseCase,
 ) : ViewModel() {
     private val _uiFlags = MutableStateFlow(ProfileUiFlags(isLoading = true))
     private val _localName = MutableStateFlow<String?>(null)
@@ -66,10 +70,11 @@ class ProfileViewModel(
     private val combinedExtras = combine(
         getLastFingerprintUseCase(),
         getMarathonHistoryUseCase(),
+        getUnlockedBadgesUseCase(),
         _uiFlags,
         _localName
-    ) { fingerprint, marathonHistory, uiFlags, localName ->
-        ProfileExtras(fingerprint, marathonHistory, uiFlags, localName)
+    ) { fingerprint, marathonHistory, badges, uiFlags, localName ->
+        ProfileExtras(fingerprint, marathonHistory, badges, uiFlags, localName)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -86,6 +91,7 @@ class ProfileViewModel(
             favoriteMovies = favoriteMovies,
             tasteFingerprint = extras.fingerprint,
             marathonHistory = extras.marathonHistory,
+            unlockedBadges = extras.badges,
             uiFlags = extras.uiFlags
         )
     }
@@ -98,6 +104,7 @@ class ProfileViewModel(
     private data class ProfileExtras(
         val fingerprint: TasteFingerprint?,
         val marathonHistory: List<MarathonHistoryItem>,
+        val badges: List<ChallengeBadge>,
         val uiFlags: ProfileUiFlags,
         val localName: String?,
     )
